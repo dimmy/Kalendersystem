@@ -1,0 +1,16 @@
+
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Timestamp        Logging Entity           Source                   Destination              Seq No  Flag    Ack No  Start Payload            Checksum    Comment                                           
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+12:1:24.695      CLSocket::receive                                                                                                                       Receiving at:5555                                 
+12:1:36.232      CLSocket::coReceive                                                                                                                     State of socket is:
+Bound:true
+Closed: false
+Connected: true
+Local Port: 5555
+Remote Port:56404
+12:1:36.571      CLSocket::receive                                                                                                                       Finished receiving at:5555                        
+12:1:36.573      TestServer                                                                                                                              Message got through to server: Client: Hello Server! Are you there?
+12:1:36.574      CLSocket::receive                                                                                                                       Receiving at:5555                                 
+12:1:36.582      CLSocket::coAccept                                                                                                                      Fant gjenbrukbar innsocket                        
