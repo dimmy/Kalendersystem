@@ -10,7 +10,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
-public class Moteinnkaling extends JPanel{
+public class MeetingSummon extends JPanel{
 	
 	private JLabel name;
 	private JTextField nameField;
@@ -34,7 +34,7 @@ public class Moteinnkaling extends JPanel{
 	private JButton decline; 
 	
 	
-	public Moteinnkaling (){
+	public MeetingSummon (){
 	
 		name = new JLabel("Navn: ");
 		nameField = new JTextField("", 20);
@@ -137,7 +137,7 @@ public class Moteinnkaling extends JPanel{
 	
 	public static void main(String[] args) {
 		JFrame frame = new JFrame();
-		frame.add(new Moteinnkaling());
+		frame.add(new MeetingSummon());
 		frame.setVisible(true);
 		frame.pack();
 		
