@@ -71,6 +71,8 @@ public class LoginPanel extends JPanel {
 		c.gridx = 1;
 		add(passwordField, c);
 		
+		c.ipady = 0;
+		c.ipadx = 0;
 		c.gridy = 3;
 		add(logInButton, c);
 		
