@@ -106,6 +106,8 @@ public class AppointmentForm extends JPanel {
 		c.gridx = 1;
 		add(descriptionField, c);
 
+		c.ipadx = 0;
+		c.ipady = 0;
 		c.gridx = 0;
 		c.gridy = 6;
 		add(save, c);
