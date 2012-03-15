@@ -24,7 +24,7 @@ public class DeleteMeetingOption extends JPanel{
 		setLayout(new GridBagLayout());
 		setBorder(BorderFactory.createEmptyBorder(7, 7, 7, 7));
 		
-		text = new JOptionPane("Er du sikker du vil slette m√∏tet?", JOptionPane.INFORMATION_MESSAGE, JOptionPane.YES_NO_OPTION);
+		text = new JOptionPane("Er du sikker du vil slette møtet?", JOptionPane.INFORMATION_MESSAGE, JOptionPane.YES_NO_OPTION);
 		add(text);
 	
 	}
