@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -54,6 +55,7 @@ public class PlaceRoomChooserPanel extends JPanel{
 		c.gridx=0; c.gridy=1; c.ipadx=5;c.weightx=2;
 		add(placeInput, c);
 		
+		
 		// Button
 		roomButton = new JButton("Velg rom istedet");
 		roomButton.addActionListener(new ActionListener() {
@@ -63,6 +65,7 @@ public class PlaceRoomChooserPanel extends JPanel{
 			public void actionPerformed(ActionEvent arg0) {
 				placeInput.setEditable(false);
 				roomPanel.setVisible(true);
+				((JFrame) getParent().getParent()).pack();
 				
 			}
 		});
