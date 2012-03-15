@@ -7,6 +7,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
@@ -26,9 +27,11 @@ public class MeetingSummon extends JPanel{
 	
 	private JLabel description;
 	private JTextArea descriptionArea;
+	private JScrollPane descriptionScroll;
 	
 	private JLabel participants;
 	private JTextArea participantsArea;
+	private JScrollPane participantsScroll;
 	
 	private JButton accept;
 	private JButton decline; 
@@ -55,10 +58,16 @@ public class MeetingSummon extends JPanel{
 		description = new JLabel("Beskrivelse: ");
 		descriptionArea = new JTextArea(4, 20);
 		descriptionArea.setEditable(false);
+		descriptionArea.setWrapStyleWord(true);
+		descriptionArea.setLineWrap(true);
+		descriptionScroll = new JScrollPane(descriptionArea);
 		
 		participants = new JLabel("Deltagere: ");
 		participantsArea = new JTextArea(4, 20);
 		participantsArea.setEditable(false);
+		participantsArea.setWrapStyleWord(true);
+		participantsArea.setLineWrap(true);
+		participantsScroll = new JScrollPane(participantsArea);
 		
 		accept = new JButton("Godta");
 		decline = new JButton("Avslå"); 
@@ -74,7 +83,6 @@ public class MeetingSummon extends JPanel{
 		c.gridy = 0;
 		this.add(name, c);
 		
-
 		c.gridx = 0;
 		c.gridy = 1;
 		this.add(from, c);
@@ -117,11 +125,11 @@ public class MeetingSummon extends JPanel{
 		
 		c.gridx = 1;
 		c.gridy = 4;
-		this.add(descriptionArea, c);
+		this.add(descriptionScroll, c);
 		
 		c.gridx = 1;
 		c.gridy = 5;
-		this.add(participantsArea, c);
+		this.add(participantsScroll, c);
 		
 		c.gridx = 0;
 		c.gridy = 6;

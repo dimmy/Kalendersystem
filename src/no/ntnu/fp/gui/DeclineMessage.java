@@ -19,6 +19,7 @@ public class DeclineMessage extends JPanel{
 	private JTextArea descriptionArea;
 	private JScrollPane descriptionScroll;
 	
+	private JLabel time;
 	
 	private JLabel name;
 	private JTextField nameField;
@@ -35,14 +36,15 @@ public class DeclineMessage extends JPanel{
 		changeMeeting = new JButton();
 		
 		description = new JLabel("Beskrivelse: ");
-		descriptionArea = new JTextArea(4, 20);
+		descriptionArea = new JTextArea(4, 30);
 		descriptionArea.setWrapStyleWord(true);
 		descriptionArea.setLineWrap(true);
 		descriptionScroll = new JScrollPane(descriptionArea);
 		
+		time = new JLabel("Tid: ");
 		
 		name = new JLabel("Navn");
-		nameField = new JTextField("", 20);
+		nameField = new JTextField("", 30);
 		
 		from = new JLabel("Fra: ");
 		fromField = new JTextField("", 10);
@@ -69,7 +71,7 @@ public class DeclineMessage extends JPanel{
 		
 		c.gridx = 0;
 		c.gridy = 2;
-		this.add(from, c);
+		this.add(time, c);
 		
 		c.gridx = 0;
 		c.gridy = 3;
@@ -78,6 +80,7 @@ public class DeclineMessage extends JPanel{
 		c.ipadx = 0;
 		c.ipady = 0;
 		
+		c.gridwidth = 4;
 		c.gridx = 1;
 		c.gridy = 0;
 		this.add(descriptionScroll, c);
@@ -86,22 +89,26 @@ public class DeclineMessage extends JPanel{
 		c.gridy = 1;
 		this.add(nameField, c);
 		
+		c.gridwidth = 1;
 		c.gridx = 1;
+		c.gridy = 2;
+		this.add(from, c);
+		
+		c.gridx = 2;
 		c.gridy = 2;
 		this.add(fromField, c);
 		
-		c.gridx = 1;
-		c.gridy = 3;
+		c.gridx = 3;
+		c.gridy = 2;
+		this.add(to, c);
+		
+		c.gridx = 4;
+		c.gridy = 2;
 		this.add(toField, c);
 		
 		c.gridx = 0;
 		c.gridy = 4;
 		this.add(changeMeeting, c);
-		
-		
-		
-		
-		
 		
 		
 	}
