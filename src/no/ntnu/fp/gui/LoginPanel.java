@@ -5,7 +5,7 @@ import java.awt.*;
 import javax.swing.*;
 
 
-public class PasswordWindowGUI extends JPanel {
+public class LoginPanel extends JPanel {
 
 	private JLabel text;
 	private JLabel username;
@@ -23,7 +23,7 @@ public class PasswordWindowGUI extends JPanel {
 	private ImageIcon icon;
 	
 	
-	public PasswordWindowGUI() {
+	public LoginPanel() {
 		gbl = new GridBagLayout();
 		c = new GridBagConstraints();
 		setLayout(gbl);
@@ -71,6 +71,8 @@ public class PasswordWindowGUI extends JPanel {
 		c.gridx = 1;
 		add(passwordField, c);
 		
+		c.ipady = 0;
+		c.ipadx = 0;
 		c.gridy = 3;
 		add(logInButton, c);
 		
@@ -83,7 +85,7 @@ public class PasswordWindowGUI extends JPanel {
 	
 	public static void main(String[]args) {
 		JFrame frame = new JFrame("Log inn");
-		frame.setContentPane(new PasswordWindowGUI());
+		frame.setContentPane(new LoginPanel());
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.pack();
 		frame.setVisible(true);

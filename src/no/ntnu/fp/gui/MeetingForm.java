@@ -2,16 +2,23 @@ package no.ntnu.fp.gui;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.util.Date;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
-public class MeetingSummon extends JPanel{
+/**
+ * 
+ * @author Øyvind M
+ *
+ */
+public class MeetingForm extends JFrame{
+	
+	private JPanel panel;
 	
 	private JLabel name;
 	private JTextField nameField;
@@ -27,128 +34,133 @@ public class MeetingSummon extends JPanel{
 	
 	private JLabel description;
 	private JTextArea descriptionArea;
-	private JScrollPane descriptionScroll;
 	
 	private JLabel participants;
 	private JTextArea participantsArea;
-	private JScrollPane participantsScroll;
 	
-	private JButton accept;
-	private JButton decline; 
+	private JButton addParticipant;
 	
+	private JButton saveMeeting;
 	
-	public MeetingSummon (){
-	
+	public MeetingForm (){
+		
+		panel = new JPanel();
+		
 		name = new JLabel("Navn: ");
 		nameField = new JTextField("", 20);
-		nameField.setEditable(false);
 		
 		place = new JLabel("Sted: ");
 		placeField = new JTextField("", 20);
-		placeField.setEditable(false);
 		
 		from = new JLabel("Fra: ");
 		fromField = new JTextField("", 10);
-		fromField.setEditable(false);
 		
 		to = new JLabel("Til: ");
 		toField = new JTextField("", 10);
-		toField.setEditable(false);
 		
-		description = new JLabel("Beskrivelse: ");
+		description = new JLabel("Beskrivelse:");
 		descriptionArea = new JTextArea(4, 20);
-		descriptionArea.setEditable(false);
-		descriptionArea.setWrapStyleWord(true);
-		descriptionArea.setLineWrap(true);
-		descriptionScroll = new JScrollPane(descriptionArea);
 		
 		participants = new JLabel("Deltagere: ");
 		participantsArea = new JTextArea(4, 20);
-		participantsArea.setEditable(false);
-		participantsArea.setWrapStyleWord(true);
-		participantsArea.setLineWrap(true);
-		participantsScroll = new JScrollPane(participantsArea);
 		
-		accept = new JButton("Godta");
-		decline = new JButton("Avslå"); 
+		addParticipant = new JButton("Legg til deltagere");
 		
-		this.setLayout(new GridBagLayout());
+		saveMeeting = new JButton("Lagre");
+		
+		panel.setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
 		
 		c.anchor = GridBagConstraints.WEST;
 		c.ipadx = 10;
 		c.ipady = 10;
-		
 		c.gridx = 0;
 		c.gridy = 0;
-		this.add(name, c);
-		
-		c.gridx = 0;
-		c.gridy = 1;
-		this.add(from, c);
-		
-		c.gridx = 0;
-		c.gridy = 2;
-		this.add(from, c);
-		
-		c.gridx = 0;
-		c.gridy = 3;
-		this.add(to, c);
-		
-		c.gridx = 0;
-		c.gridy = 4;
-		this.add(description, c);
-		
-		c.gridx = 0;
-		c.gridy = 5;
-		this.add(participants, c);
-		
+		panel.add(name, c);
 		
 		c.ipadx = 0;
 		c.ipady = 0;
-		
 		c.gridx = 1;
 		c.gridy = 0;
-		this.add(nameField, c);
+		panel.add(nameField, c);
 		
+		c.ipadx = 10;
+		c.ipady = 10;
+		c.gridx = 0;
+		c.gridy = 1;
+		panel.add(place, c);
+		
+		c.ipadx = 0;
+		c.ipady = 0;
 		c.gridx = 1;
 		c.gridy = 1;
-		this.add(placeField, c);
+		panel.add(placeField, c);
 		
+		c.ipadx = 10;
+		c.ipady = 10;
+		c.gridx = 0;
+		c.gridy = 2;
+		panel.add(from, c);
+		
+		c.ipadx = 0;
+		c.ipady = 0;
 		c.gridx = 1;
 		c.gridy = 2;
-		this.add(toField, c);
+		panel.add(fromField, c);
 		
+		c.ipadx = 10;
+		c.ipady = 10;
+		c.gridx = 0;
+		c.gridy = 3;
+		panel.add(to, c);
+		
+		c.ipadx = 0;
+		c.ipady = 0;
 		c.gridx = 1;
 		c.gridy = 3;
-		this.add(fromField, c);
+		panel.add(toField, c);
 		
+		c.ipadx = 10;
+		c.ipady = 10;
+		c.gridx = 0;
+		c.gridy = 4;
+		panel.add(description, c);
+		
+		c.ipadx = 10;
+		c.ipady = 10;
 		c.gridx = 1;
 		c.gridy = 4;
-		this.add(descriptionScroll, c);
+		panel.add(descriptionArea, c);
 		
+		c.ipadx = 10;
+		c.ipady = 10;
+		c.gridx = 0;
+		c.gridy = 5;
+		panel.add(participants, c);
+		
+		c.ipadx = 10;
+		c.ipady = 10;
 		c.gridx = 1;
 		c.gridy = 5;
-		this.add(participantsScroll, c);
+		panel.add(participantsArea, c);
+		
 		
 		c.gridx = 0;
 		c.gridy = 6;
-		this.add(decline, c);
+		panel.add(addParticipant, c);
 		
 		c.gridx = 1;
 		c.gridy = 6;
-		this.add(accept, c);
+		panel.add(saveMeeting, c);
 		
+		this.add(panel);
 		
 		
 	}
-	
 	public static void main(String[] args) {
-		JFrame frame = new JFrame();
-		frame.add(new MeetingSummon());
-		frame.setVisible(true);
-		frame.pack();
-		
+		MeetingForm form = new MeetingForm();
+		form.pack();
+		form.setVisible(true);
 	}
 	
 	
