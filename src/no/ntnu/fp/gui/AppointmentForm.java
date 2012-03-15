@@ -29,9 +29,6 @@ public class AppointmentForm extends JPanel {
 	private GridBagLayout gbl;
 	private GridBagConstraints c;
 
-	// private ImageIcon saveIcon;
-	// private ImageIcon deleteIcon;
-
 	public AppointmentForm() {
 		gbl = new GridBagLayout();
 		c = new GridBagConstraints();
@@ -51,12 +48,9 @@ public class AppointmentForm extends JPanel {
 		timeFromField = new JTextField();
 		dateField = new JTextField();
 
-		// saveIcon = new ImageIcon("save.png");
-		// deleteIcon = new ImageIcon("delete.png");
 		save = new JButton("Lagre");
-		// save.setIcon(saveIcon);
 		delete = new JButton("Slett");
-		// delete.setIcon(deleteIcon);
+
 
 		nameField.setPreferredSize(new Dimension(200, 20));
 		placeField.setPreferredSize(new Dimension(200, 20));
