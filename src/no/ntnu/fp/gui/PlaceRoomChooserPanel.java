@@ -33,6 +33,8 @@ public class PlaceRoomChooserPanel extends JPanel{
 		JLabel roomLabel;
 		JButton roomCancelButton;
 	
+	JButton saveButton;
+	
 	public PlaceRoomChooserPanel()	
 	{
 		
@@ -65,7 +67,7 @@ public class PlaceRoomChooserPanel extends JPanel{
 			public void actionPerformed(ActionEvent arg0) {
 				placeInput.setEditable(false);
 				roomPanel.setVisible(true);
-				((JFrame) getParent().getParent()).pack();
+				
 				
 			}
 		});
@@ -121,7 +123,7 @@ public class PlaceRoomChooserPanel extends JPanel{
 			
 		
 		
-		
+		c.gridx=0; c.gridy=1; c.ipadx=5; c.weightx=3;
 		
 		
 		
