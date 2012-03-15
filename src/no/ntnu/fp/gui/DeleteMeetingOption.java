@@ -12,6 +12,7 @@ public class DeleteMeetingOption extends JPanel{
 	private JOptionPane text;
 	
 	public static void main (String []args){
+	//trying utf-8
 		JFrame deletemeeting = new JFrame("Slette møte?");
 		deletemeeting.setSize(260,140);
 		deletemeeting.getContentPane().add(new DeleteMeetingOption());
@@ -24,7 +25,7 @@ public class DeleteMeetingOption extends JPanel{
 		setLayout(new GridBagLayout());
 		setBorder(BorderFactory.createEmptyBorder(7, 7, 7, 7));
 		
-		text = new JOptionPane("Er du sikker du vil slette m�tet?", JOptionPane.INFORMATION_MESSAGE, JOptionPane.YES_NO_OPTION);
+		text = new JOptionPane("Er du sikker du vil slette møtet?", JOptionPane.INFORMATION_MESSAGE, JOptionPane.YES_NO_OPTION);
 		add(text);
 	
 	}
