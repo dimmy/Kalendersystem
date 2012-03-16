@@ -14,6 +14,8 @@ import javax.swing.JTextField;
 
 public class MeetingView extends JPanel{
 	
+	private JLabel nameLabel;
+	private JTextField nameField;
 	private JLabel placeLabel;
 	private JTextField placeField;
 	private JLabel timeLabel;
@@ -47,41 +49,55 @@ public class MeetingView extends JPanel{
 		setLayout(new GridBagLayout());
 		setBorder(BorderFactory.createEmptyBorder(7, 7, 7, 7));
 
+		//navn
+		nameLabel = new JLabel("Navn:");
+		c.gridwidth=1;
+		c.ipadx=10; c.ipady=10;
+		c.gridx=0; c.gridy=0;
+		c.anchor = GridBagConstraints.WEST;
+		add(nameLabel, c);
+		nameField = new JTextField();
+		nameField.setColumns(20);
+		c.gridwidth=4;
+		c.ipadx=0; c.ipady=0;
+		c.gridx=1; c.gridy=0;
+		add(nameField, c);
+		
 		//Sted
 		placeLabel = new JLabel("Sted:");
 		c.gridwidth=1;
 		c.ipadx=10; c.ipady=10;
-		c.gridx=0; c.gridy=0;
+		c.gridx=0; c.gridy=1;
 		c.anchor = GridBagConstraints.WEST;
 		add(placeLabel, c);
 		placeField = new JTextField();
 		placeField.setColumns(20);
 		c.gridwidth=4;
 		c.ipadx=0; c.ipady=0;
-		c.gridx=1; c.gridy=0;
+		c.gridx=1; c.gridy=1;
 		add(placeField, c);
 		
 		//Tid, fra-til
 		timeLabel = new JLabel("Tid:");
 		c.gridwidth=1;
 		c.ipadx=10; c.ipady=10;
-		c.gridx=0; c.gridy=1;
+		c.gridx=0; c.gridy=2;
 		c.anchor = GridBagConstraints.WEST;
 		add(timeLabel, c);
 		romLabel = new JLabel("Fra:");
 		c.gridwidth=1;
 		c.ipadx=10; c.ipady=10;
-		c.gridx=1; c.gridy=1;
+		c.gridx=1; c.gridy=2;
 		add(romLabel, c);
 		timeFromField = new JTextField();
 		timeFromField.setColumns(6);
 		c.gridwidth=1;
 		c.ipadx=0; c.ipady=0;
-		c.gridx=2; c.gridy=1;
+		c.gridx=2; c.gridy=2;
 		add(timeFromField, c);
 		
 		toLabel = new JLabel("Til: ");
-		c.gridx=3; c.gridy=1;
+		c.gridx=3; c.gridy=2;
 		c.ipadx=10; c.ipady=10;
 		c.gridwidth=1;
 		add(toLabel, c);
@@ -89,7 +105,7 @@ public class MeetingView extends JPanel{
 		timeToField.setColumns(6);
 		c.gridwidth=1;
 		c.ipadx=0; c.ipady=0;
-		c.gridx=4; c.gridy=1;
+		c.gridx=4; c.gridy=2;
 		add(timeToField, c);
 		
 		
@@ -97,21 +113,21 @@ public class MeetingView extends JPanel{
 		dateLabel = new JLabel("Dato:");
 		c.gridwidth=1;
 		c.ipadx=10; c.ipady=10;
-		c.gridx=0; c.gridy=2;
+		c.gridx=0; c.gridy=3;
 		c.anchor = GridBagConstraints.WEST;
 		add(dateLabel, c);
 		dateField = new JTextField();
 		dateField.setColumns(6);
 		c.gridwidth=2;
 		c.ipadx=0; c.ipady=0;
-		c.gridx=1; c.gridy=2;
+		c.gridx=1; c.gridy=3;
 		add(dateField, c);
 		
 		//Beskrivelse
 		descriptionLabel = new JLabel("Beskrivelse: ");
 		c.gridwidth=1;
 		c.ipadx=10; c.ipady=10;
-		c.gridx=0; c.gridy=3;
+		c.gridx=0; c.gridy=4;
 		c.anchor = GridBagConstraints.WEST;
 		add(descriptionLabel, c);
 		descriptionField = new JTextArea();
@@ -120,9 +136,8 @@ public class MeetingView extends JPanel{
 		descriptionField.setWrapStyleWord(true);
 		descriptionField.setLineWrap(true);
 		JScrollPane beskrivelsescroll = new JScrollPane(descriptionField);
-		
 		c.gridwidth=4;
-		c.gridx=1; c.gridy=3;
+		c.gridx=1; c.gridy=4;
 		c.anchor = GridBagConstraints.WEST;
 		add(beskrivelsescroll, c);
 
@@ -130,7 +145,7 @@ public class MeetingView extends JPanel{
 		participantLabel = new JLabel("Deltagere:");
 		c.gridwidth=1;
 		c.ipadx=10; c.ipady=10;
-		c.gridx=0; c.gridy=4;
+		c.gridx=0; c.gridy=5;
 		c.anchor = GridBagConstraints.WEST;
 		add(participantLabel, c);
 		participantField = new JTextArea();
@@ -141,24 +156,24 @@ public class MeetingView extends JPanel{
 		JScrollPane deltagerscroll = new JScrollPane(participantField);
 		
 		c.gridwidth=4;
-		c.gridx=1; c.gridy=4;
+		c.gridx=1; c.gridy=5;
 		c.anchor = GridBagConstraints.WEST;
 		add(deltagerscroll, c);
 		
 		
 		//Endre/Lagre
 		changeSave = new JButton("Endre/Lagre");
-		c.gridx=0; c.gridy=5;
+		c.gridx=0; c.gridy=6;
 		c.gridwidth=2;
 		add(changeSave, c);
 		//Legge Til/Slette deltagere
 		addDelete = new JButton("Deltagere");
-		c.gridx=2; c.gridy=5;
+		c.gridx=2; c.gridy=6;
 		c.gridwidth=2;
 		add(addDelete, c);
 		cancelMeeting = new JButton("Avlys");
 		c.gridwidth=2;
-		c.gridx=4; c.gridy=5;
+		c.gridx=4; c.gridy=6;
 		add(cancelMeeting, c);
 		
 	}
