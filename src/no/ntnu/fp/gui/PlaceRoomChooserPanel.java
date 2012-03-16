@@ -18,6 +18,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
+import javax.swing.border.EmptyBorder;
 
 public class PlaceRoomChooserPanel extends JPanel{
 
@@ -40,6 +41,7 @@ public class PlaceRoomChooserPanel extends JPanel{
 	
 	public PlaceRoomChooserPanel()	
 	{
+		this.setBorder(new EmptyBorder(10, 10, 10, 10) );
 		
 		// layout and constraints
 		
@@ -94,7 +96,7 @@ public class PlaceRoomChooserPanel extends JPanel{
 		GridBagConstraints roomC = new GridBagConstraints();
 		roomPanel.setLayout(roomLayout);
 		roomPanel.setVisible(false);
-		roomPanel.setBackground(new Color(0,0,0,64));
+		roomPanel.setBackground(new Color(0,0,0,21));
 		// add the panel to the application 
 		c.gridx=0; c.gridy=1; c.ipadx=10; c.weightx=4; c.gridwidth=3; c.fill = GridBagConstraints.BOTH;
 		add(roomPanel, c);
@@ -102,14 +104,14 @@ public class PlaceRoomChooserPanel extends JPanel{
 			// Label in the RoomPanel
 			roomLabel = new JLabel("Velg et rom");
 			
-			roomC.gridx=0; roomC.gridy=0; roomC.ipadx=5;
+			roomC.gridx=0; roomC.gridy=0; roomC.ipadx=5; roomC.fill = GridBagConstraints.BOTH;
 			roomPanel.add(roomLabel, roomC);
 			
 			// List in the RoomPanel
 			roomList = new JList();
 			roomScrollPane = new JScrollPane(roomList);
 			
-			roomC.gridx=0; roomC.gridy=1; roomC.ipadx=5;
+			roomC.gridx=0; roomC.gridy=1; roomC.ipadx=5;roomC.fill = GridBagConstraints.BOTH;
 			roomPanel.add(roomScrollPane, roomC);
 			
 			// List in the RoomPanel
