@@ -16,6 +16,7 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
@@ -40,7 +41,7 @@ public class ChooseParticipantPanel extends JPanel{
 	
 	public ChooseParticipantPanel(){
 		
-		
+		this.setBorder(new EmptyBorder(10,10,10,10));
 		
 		listModelParticipant = new DefaultListModel();
 		participantList = new JList(listModelParticipant);
@@ -50,8 +51,6 @@ public class ChooseParticipantPanel extends JPanel{
 		
 		//Testing
 		listModelParticipant.addElement("Per");
-		
-		
 		
 		//
 		
@@ -95,7 +94,7 @@ public class ChooseParticipantPanel extends JPanel{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				System.exit(0);
+				getParent().getParent().getParent().getParent().setVisible(false);
 			}
 		});
 				
