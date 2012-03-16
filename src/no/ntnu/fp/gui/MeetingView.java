@@ -18,6 +18,7 @@ public class MeetingView extends JPanel{
 	private JTextField nameField;
 	private JLabel placeLabel;
 	private JTextField placeField;
+	private JButton room;
 	private JLabel timeLabel;
 	private JLabel romLabel;
 	private JLabel toLabel;
@@ -75,11 +76,17 @@ public class MeetingView extends JPanel{
 		c.anchor = GridBagConstraints.WEST;
 		add(placeLabel, c);
 		placeField = new JTextField();
-		placeField.setColumns(20);
+		placeField.setColumns(10);
 		c.gridwidth=4;
 		c.ipadx=0; c.ipady=0;
 		c.gridx=1; c.gridy=1;
 		add(placeField, c);
+		//room
+		room = new JButton("Room");
+		c.gridwidth=2;
+		c.ipadx=0; c.ipady=0;
+		c.gridx=4; c.gridy=1;
+		add(room, c);
 		
 		//Tid, fra-til
 		timeLabel = new JLabel("Tid:");
