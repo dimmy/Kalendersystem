@@ -3,8 +3,13 @@ package no.ntnu.fp.gui;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Arrays;
 
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -17,47 +22,91 @@ import javax.swing.event.ListSelectionListener;
 public class ChooseParticipantPanel extends JPanel{
 	
 	private JList participantList;
-	private JScrollPane participantListScroll;
 	private JList employeeList;
+	
+	private JScrollPane participantListScroll;
 	private JScrollPane employeeListScroll;
+	
 	private JLabel participants;
 	private JLabel employee;
+	
 	private JButton addParticipant;
 	private JButton deleteParticipant;
+	private JButton okButton;
+	
+	private DefaultListModel listModelParticipant;
+	private DefaultListModel listModelEmployee;
+	
 	
 	public ChooseParticipantPanel(){
 		
-		String[] navn = new String[10];
-		navn[0] = "Per Knutsen";
-		navn[1] = "Knut Persen";
 		
-		participantList = new JList(navn);
+		
+		listModelParticipant = new DefaultListModel();
+		participantList = new JList(listModelParticipant);
 		participantListScroll = new JScrollPane(participantList);
 		participants = new JLabel("Deltagere: ");
 		participantListScroll.setPreferredSize(new Dimension(150, 200));
-		participantList.addListSelectionListener(new ListSelectionListener() {
-			
-			@Override
-			public void valueChanged(ListSelectionEvent arg0) {
-				// TODO Auto-generated method stub
-				
-			}
-		});
 		
-		employeeList = new JList();
+		//Testing
+		listModelParticipant.addElement("Per");
+		
+		
+		
+		//
+		
+		listModelEmployee = new DefaultListModel();
+		employeeList = new JList(listModelEmployee);
 		employeeListScroll = new JScrollPane(employeeList);
 		employee = new JLabel("Ansatt:");
 		employeeListScroll.setPreferredSize(new Dimension(150, 200));
 		
 		addParticipant = new JButton("Legg til deltager");
+		
+		addParticipant.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				if(participantList.getSelectedValue() != null){
+					Object temp = participantList.getSelectedValue();
+					listModelParticipant.removeElement(temp);
+					listModelEmployee.addElement(temp);
+				}
+				
+			}
+		});
+		
 		deleteParticipant = new JButton("Slett deltager");
+		deleteParticipant.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				if(employeeList.getSelectedValue() != null){
+					Object temp = employeeList.getSelectedValue();
+					listModelEmployee.removeElement(temp);
+					listModelParticipant.addElement(temp);
+				}
+				
+			}
+		});
+		
+		okButton = new JButton("Ok");
+		okButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.exit(0);
+			}
+		});
+				
 		
 		this.setLayout(new GridBagLayout());
 		GridBagConstraints participantC = new GridBagConstraints();
 		
+		
 		participantC.gridx = 0;
 		participantC.gridy = 0;
-		this.add(participants, participantC);
+		this.add(employee, participantC);
 		
 		participantC.gridx = 0;
 		participantC.gridy = 1;
@@ -65,11 +114,13 @@ public class ChooseParticipantPanel extends JPanel{
 		
 		participantC.gridx = 1;
 		participantC.gridy = 0;
-		this.add(employee, participantC);
+		this.add(participants, participantC);
 		
 		participantC.gridx = 1;
 		participantC.gridy = 1;
 		this.add(employeeListScroll, participantC);
+		
+		participantC.anchor = GridBagConstraints.WEST;
 		
 		participantC.gridx = 0;
 		participantC.gridy = 2;
@@ -79,6 +130,12 @@ public class ChooseParticipantPanel extends JPanel{
 		participantC.gridy = 2;
 		this.add(deleteParticipant, participantC);
 		
+		participantC.anchor = GridBagConstraints.EAST;
+		
+		participantC.insets = new Insets(10, 10, 0, 0);
+		participantC.gridx = 1;
+		participantC.gridy = 3;
+		this.add(okButton, participantC);
 		
 		
 	}
