@@ -1,7 +1,9 @@
 package no.ntnu.fp.gui;
 
 import java.awt.Color;
+import java.awt.ComponentOrientation;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Window;
@@ -15,6 +17,7 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 
 public class PlaceRoomChooserPanel extends JPanel{
 
@@ -39,8 +42,10 @@ public class PlaceRoomChooserPanel extends JPanel{
 	{
 		
 		// layout and constraints
+		
 		GridBagLayout layout = new GridBagLayout();
 		GridBagConstraints c = new GridBagConstraints();
+		this.setLayout(layout);
 		
 		/**
 		 * The label and input box for the spesific place, + the button for choosing a room instead.
@@ -48,14 +53,15 @@ public class PlaceRoomChooserPanel extends JPanel{
 		
 		// Label
 		placeLabel = new JLabel("Sted:");
-		c.gridx=0; c.gridy=0; c.ipadx=5;c.weightx=1;
+		c.gridx=0; c.gridy=0; c.ipadx=10; c.weightx=1;
 		add(placeLabel, c);
 		
 		// Input
 		placeInput = new JTextField(15);
 		
-		c.gridx=0; c.gridy=1; c.ipadx=5;c.weightx=2;
+		c.gridx=1; c.gridy=0; c.ipadx=10; c.weightx=2;
 		add(placeInput, c);
+		
 		
 		
 		// Button
@@ -67,12 +73,13 @@ public class PlaceRoomChooserPanel extends JPanel{
 			public void actionPerformed(ActionEvent arg0) {
 				placeInput.setEditable(false);
 				roomPanel.setVisible(true);
+				((JFrame)getParent().getParent().getParent().getParent()).pack();
 				
 				
 			}
 		});
 		
-		c.gridx=0; c.gridy=2; c.ipadx=5; c.weightx=1;
+		c.gridx=2; c.gridy=0; c.ipadx=10; c.weightx=1;
 		add(roomButton, c);
 		
 		
@@ -88,9 +95,8 @@ public class PlaceRoomChooserPanel extends JPanel{
 		roomPanel.setLayout(roomLayout);
 		roomPanel.setVisible(false);
 		roomPanel.setBackground(new Color(0,0,0,64));
-		this.setSize(new Dimension(this.getWidth(), (this.getHeight()+250)));
 		// add the panel to the application 
-		c.gridx=0; c.gridy=1; c.ipadx=5; c.weightx=3;
+		c.gridx=0; c.gridy=1; c.ipadx=10; c.weightx=4; c.gridwidth=3; c.fill = GridBagConstraints.BOTH;
 		add(roomPanel, c);
 		
 			// Label in the RoomPanel
@@ -114,7 +120,7 @@ public class PlaceRoomChooserPanel extends JPanel{
 				public void actionPerformed(ActionEvent arg0) {
 					roomPanel.setVisible(false);
 					placeInput.setEditable(true);
-					
+					((JFrame)getParent().getParent().getParent().getParent()).pack();
 				}
 			});
 						
@@ -123,7 +129,6 @@ public class PlaceRoomChooserPanel extends JPanel{
 			
 		
 		
-		c.gridx=0; c.gridy=1; c.ipadx=5; c.weightx=3;
 		
 		
 		
