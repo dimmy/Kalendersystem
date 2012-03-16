@@ -43,6 +43,10 @@ public class MeetingView extends JPanel{
 		appointmentview.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		appointmentview.setVisible(true);
 	}
+	
+	public String toString(){
+		return "MeetingView";
+	}
 	public MeetingView(){
 		
 		GridBagConstraints c = new GridBagConstraints();
