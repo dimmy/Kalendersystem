@@ -10,16 +10,27 @@ public class Room {
 	private int capacity;
 	private ArrayList<RoomReservation> reservations;
 	
-	public Room(){
-		
+	public Room(String roomID, String description, int capacity){
+		this.roomID = roomID;
+		this.description = description;
+		this.capacity = capacity;
 	}
 
-	public void unReserve(){
+	public void unReserve(int id)
+	{
+		for(RoomReservation r : reservations)
+		{
+			if(r.id = id)
+			{
+				reservations.remove(r);
+			}
+		}
 		
 	}
 	
-	public void reserve(Date from, Date to){
-		
+	public void reserve(Date from, Date to)
+	{
+		reservations.add(new RoomReservation(from, to));
 	}
 
 }
