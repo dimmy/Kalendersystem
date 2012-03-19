@@ -2,6 +2,7 @@ package no.ntnu.fp.gui;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -12,7 +13,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
-public class MeetingView extends JPanel{
+public class MeetingView extends JFrame{
 	
 	private JLabel nameLabel;
 	private JTextField nameField;
@@ -36,13 +37,7 @@ public class MeetingView extends JPanel{
 	
 	
 	public static void main (String []args){
-		JFrame appointmentview = new JFrame("Personalmøte");
-		appointmentview.setSize(350,350);
-//		appointmentview.pack();
-		appointmentview.getContentPane().add(new MeetingView());
-		appointmentview.setLocationRelativeTo(null);
-		appointmentview.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		appointmentview.setVisible(true);
+		MeetingView mmetingView = new MeetingView();
 	}
 	
 	public String toString(){
@@ -50,9 +45,10 @@ public class MeetingView extends JPanel{
 	}
 	public MeetingView(){
 		
+		JPanel panel = new JPanel();
 		GridBagConstraints c = new GridBagConstraints();
-		setLayout(new GridBagLayout());
-		setBorder(BorderFactory.createEmptyBorder(7, 7, 7, 7));
+		panel.setLayout(new GridBagLayout());
+		panel.setBorder(BorderFactory.createEmptyBorder(7, 7, 7, 7));
 
 		//navn
 		nameLabel = new JLabel("Navn:");
@@ -60,13 +56,13 @@ public class MeetingView extends JPanel{
 		c.ipadx=10; c.ipady=10;
 		c.gridx=0; c.gridy=0;
 		c.anchor = GridBagConstraints.WEST;
-		add(nameLabel, c);
+		panel.add(nameLabel, c);
 		nameField = new JTextField();
 		nameField.setColumns(20);
 		c.gridwidth=4;
 		c.ipadx=0; c.ipady=0;
 		c.gridx=1; c.gridy=0;
-		add(nameField, c);
+		panel.add(nameField, c);
 		
 		//Sted
 		placeLabel = new JLabel("Sted:");
@@ -74,19 +70,19 @@ public class MeetingView extends JPanel{
 		c.ipadx=10; c.ipady=10;
 		c.gridx=0; c.gridy=1;
 		c.anchor = GridBagConstraints.WEST;
-		add(placeLabel, c);
+		panel.add(placeLabel, c);
 		placeField = new JTextField();
 		placeField.setColumns(10);
 		c.gridwidth=4;
 		c.ipadx=0; c.ipady=0;
 		c.gridx=1; c.gridy=1;
-		add(placeField, c);
+		panel.add(placeField, c);
 		//room
 		room = new JButton("Room");
 		c.gridwidth=2;
 		c.ipadx=0; c.ipady=0;
 		c.gridx=4; c.gridy=1;
-		add(room, c);
+		panel.add(room, c);
 		
 		//Tid, fra-til
 		timeLabel = new JLabel("Tid:");
@@ -94,30 +90,30 @@ public class MeetingView extends JPanel{
 		c.ipadx=10; c.ipady=10;
 		c.gridx=0; c.gridy=2;
 		c.anchor = GridBagConstraints.WEST;
-		add(timeLabel, c);
+		panel.add(timeLabel, c);
 		romLabel = new JLabel("Fra:");
 		c.gridwidth=1;
 		c.ipadx=10; c.ipady=10;
 		c.gridx=1; c.gridy=2;
-		add(romLabel, c);
+		panel.add(romLabel, c);
 		timeFromField = new JTextField();
 		timeFromField.setColumns(6);
 		c.gridwidth=1;
 		c.ipadx=0; c.ipady=0;
 		c.gridx=2; c.gridy=2;
-		add(timeFromField, c);
+		panel.add(timeFromField, c);
 		
 		toLabel = new JLabel("Til: ");
 		c.gridx=3; c.gridy=2;
 		c.ipadx=10; c.ipady=10;
 		c.gridwidth=1;
-		add(toLabel, c);
+		panel.add(toLabel, c);
 		timeToField = new JTextField();
 		timeToField.setColumns(6);
 		c.gridwidth=1;
 		c.ipadx=0; c.ipady=0;
 		c.gridx=4; c.gridy=2;
-		add(timeToField, c);
+		panel.add(timeToField, c);
 		
 		
 		//Dato
@@ -126,13 +122,13 @@ public class MeetingView extends JPanel{
 		c.ipadx=10; c.ipady=10;
 		c.gridx=0; c.gridy=3;
 		c.anchor = GridBagConstraints.WEST;
-		add(dateLabel, c);
+		panel.add(dateLabel, c);
 		dateField = new JTextField();
 		dateField.setColumns(6);
 		c.gridwidth=2;
 		c.ipadx=0; c.ipady=0;
 		c.gridx=1; c.gridy=3;
-		add(dateField, c);
+		panel.add(dateField, c);
 		
 		//Beskrivelse
 		descriptionLabel = new JLabel("Beskrivelse: ");
@@ -140,7 +136,7 @@ public class MeetingView extends JPanel{
 		c.ipadx=10; c.ipady=10;
 		c.gridx=0; c.gridy=4;
 		c.anchor = GridBagConstraints.WEST;
-		add(descriptionLabel, c);
+		panel.add(descriptionLabel, c);
 		descriptionField = new JTextArea();
 		descriptionField.setRows(3);
 		descriptionField.setColumns(20);
@@ -150,7 +146,7 @@ public class MeetingView extends JPanel{
 		c.gridwidth=4;
 		c.gridx=1; c.gridy=4;
 		c.anchor = GridBagConstraints.WEST;
-		add(beskrivelsescroll, c);
+		panel.add(beskrivelsescroll, c);
 
 		//Deltagere
 		participantLabel = new JLabel("Deltagere:");
@@ -158,7 +154,7 @@ public class MeetingView extends JPanel{
 		c.ipadx=10; c.ipady=10;
 		c.gridx=0; c.gridy=5;
 		c.anchor = GridBagConstraints.WEST;
-		add(participantLabel, c);
+		panel.add(participantLabel, c);
 		participantField = new JTextArea();
 		participantField.setRows(3);
 		participantField.setColumns(20);
@@ -169,23 +165,26 @@ public class MeetingView extends JPanel{
 		c.gridwidth=4;
 		c.gridx=1; c.gridy=5;
 		c.anchor = GridBagConstraints.WEST;
-		add(deltagerscroll, c);
+		panel.add(deltagerscroll, c);
 		
 		
 		//Endre/Lagre
 		changeSave = new JButton("Endre/Lagre");
 		c.gridx=0; c.gridy=6;
 		c.gridwidth=2;
-		add(changeSave, c);
+		panel.add(changeSave, c);
 		//Legge Til/Slette deltagere
 		addDelete = new JButton("Deltagere");
 		c.gridx=2; c.gridy=6;
 		c.gridwidth=2;
-		add(addDelete, c);
+		panel.add(addDelete, c);
 		cancelMeeting = new JButton("Avlys");
 		c.gridwidth=2;
 		c.gridx=4; c.gridy=6;
-		add(cancelMeeting, c);
+		panel.add(cancelMeeting, c);
 		
+		add(panel);
+		setVisible(true);
+		pack();
 	}
 }
