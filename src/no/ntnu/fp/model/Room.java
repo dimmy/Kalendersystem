@@ -20,7 +20,7 @@ public class Room {
 	{
 		for(RoomReservation r : reservations)
 		{
-			if(r.id = id)
+			if(r.getId() == id)
 			{
 				reservations.remove(r);
 			}
@@ -28,9 +28,9 @@ public class Room {
 		
 	}
 	
-	public void reserve(Date from, Date to)
+	public void reserve(Date from, Date to, Event event)
 	{
-		reservations.add(new RoomReservation(from, to));
+		reservations.add(new RoomReservation(from, to, event));
 	}
 
 }
