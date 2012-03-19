@@ -18,6 +18,15 @@ public class RoomReservation {
 		this.id = id;
 	}
 	
+	public RoomReservation(Date fromTime, Date toTime, Event event) {
+		this.timeFrom = fromTime;
+		this.timeTo = toTime;
+		this.event = event;
+		this.id = getNextId();
+	}
+	
+	
+	
 	public int getNextId(){
 		//Her må vi koble til database og finne neste mulige id
 		return 0;
@@ -45,5 +54,11 @@ public class RoomReservation {
 	public void setToTime(Date to) {
 		this.timeTo = to;
 	}
+	
+	//Getter id
+	public int getId() {
+		return id;
+	}
+	
 	
 }
