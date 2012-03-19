@@ -1,4 +1,4 @@
-package no.ntnu.fp.gui;
+package no.ntnu.fp.gui.cal;
 
 import java.awt.Color;
 
@@ -26,7 +26,7 @@ public class CalendarView extends JPanel {
 
 		btnPrevWeek.setIcon(new ImageIcon("Icons/leftarrow.png"));
 		btnNextWeek.setIcon(new ImageIcon("Icons/rightarrow.png"));
-		
+
 		SpringLayout spring = new SpringLayout();
 		setLayout(spring);
 
@@ -49,13 +49,25 @@ public class CalendarView extends JPanel {
 		spring.putConstraint(SpringLayout.SOUTH, innerCalendarView, 0,
 				SpringLayout.SOUTH, this);
 
-		Spring middle = Spring.scale(spring.getConstraints(innerCalendarView).getHeight(),
-				0.5f);
+		Spring middle = Spring.scale(spring.getConstraints(innerCalendarView)
+				.getHeight(), 0.5f);
 		Spring halfButton = Spring.scale(spring.getConstraints(btnPrevWeek)
 				.getHeight(), 0.5f);
 		Spring btnVertPos = Spring.sum(middle, Spring.minus(halfButton));
 		spring.getConstraints(btnPrevWeek).setY(btnVertPos);
 		spring.getConstraints(btnNextWeek).setY(btnVertPos);
+
+		// Inner calendar view
+
+		innerCalendarView.setLayout(new BoxLayout(innerCalendarView,
+				BoxLayout.X_AXIS));
+
+		innerCalendarView.add(new WeekdayColoumn("Mandag"));
+		innerCalendarView.add(new WeekdayColoumn("Tirsdag"));
+		innerCalendarView.add(new WeekdayColoumn("Onsdag"));
+		innerCalendarView.add(new WeekdayColoumn("Torsdag"));
+		innerCalendarView.add(new WeekdayColoumn("Fredag"));
+
 	}
 
 	public static void main(String[] args) {
