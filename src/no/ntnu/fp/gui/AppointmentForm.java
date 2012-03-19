@@ -8,7 +8,7 @@ import java.awt.GridBagLayout;
 
 import javax.swing.*;
 
-public class AppointmentForm extends JPanel {
+public class AppointmentForm extends JFrame {
 
 	private JLabel name;
 	private JLabel place;
@@ -30,10 +30,14 @@ public class AppointmentForm extends JPanel {
 	private GridBagLayout gbl;
 	private GridBagConstraints c;
 
+	private JPanel panel;
+	
 	public AppointmentForm() {
+		panel = new JPanel();
+		
 		gbl = new GridBagLayout();
 		c = new GridBagConstraints();
-		setLayout(gbl);
+		panel.setLayout(gbl);
 
 		name = new JLabel("Navn:");
 		place = new JLabel("Sted:");
@@ -69,57 +73,58 @@ public class AppointmentForm extends JPanel {
 		c.gridx = 0;
 		c.gridy = 0;
 
-		add(name, c);
+		panel.add(name, c);
 		c.gridx = 1;
-		add(nameField, c);
+		panel.add(nameField, c);
 
 		c.gridx = 0;
 		c.gridy = 1;
-		add(place, c);
+		panel.add(place, c);
 		c.gridx = 1;
-		add(placeField, c);
+		panel.add(placeField, c);
 
 		c.gridx = 0;
 		c.gridy = 2;
-		add(timeFrom, c);
+		panel.add(timeFrom, c);
 		c.gridx = 1;
-		add(timeFromField, c);
+		panel.add(timeFromField, c);
 
 		c.gridx = 0;
 		c.gridy = 3;
-		add(timeTo, c);
+		panel.add(timeTo, c);
 		c.gridx = 1;
-		add(timeToField, c);
+		panel.add(timeToField, c);
 
 		c.gridx = 0;
 		c.gridy = 4;
-		add(date, c);
+		panel.add(date, c);
 		c.gridx = 1;
-		add(dateField, c);
+		panel.add(dateField, c);
 
 		c.gridx = 0;
 		c.gridy = 5;
-		add(description, c);
+		panel.add(description, c);
 		c.gridx = 1;
-		add(descriptionField, c);
+		panel.add(descriptionField, c);
 
 		c.ipadx = 0;
 		c.ipady = 0;
 
 		c.gridx = 0;
 		c.gridy = 6;
-		add(save, c);
+		panel.add(save, c);
 		c.gridx = 1;
-		add(delete, c);
+		panel.add(delete, c);
+		
+		add(panel);
+		setVisible(true);
+		pack();
 
 	}
 
 	public static void main(String[] args) {
-		JFrame frame = new JFrame("Min Avtale");
-		frame.setContentPane(new AppointmentForm());
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.pack();
-		frame.setVisible(true);
+		AppointmentForm appoitmentForm = new AppointmentForm();
+		
 
 	}
 
