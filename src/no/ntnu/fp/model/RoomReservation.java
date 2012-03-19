@@ -2,6 +2,12 @@ package no.ntnu.fp.model;
 
 import java.util.Date;
 
+/**
+ * 
+ * @author Myklatun
+ *
+ */
+
 public class RoomReservation {
 	
 	private int id;
