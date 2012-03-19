@@ -8,6 +8,8 @@ import java.awt.GridBagLayout;
 
 import javax.swing.*;
 
+import no.ntnu.fp.gui.cal.CalendarView;
+
 /**
  * Panel for main overview window
  * 
