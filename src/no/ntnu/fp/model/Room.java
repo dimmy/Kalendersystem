@@ -3,6 +3,12 @@ package no.ntnu.fp.model;
 import java.util.ArrayList;
 import java.util.Date;
 
+/*
+ * @author: Fredrik
+ * @author: ¯yvind
+ * 
+ */
+
 public class Room {
 	
 	private String roomID;
