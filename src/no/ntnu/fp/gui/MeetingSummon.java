@@ -11,7 +11,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
-public class MeetingSummon extends JFrame{
+public class MeetingSummon extends JPanel{
 	
 	private JLabel name;
 	private JTextField nameField;
@@ -36,12 +36,9 @@ public class MeetingSummon extends JFrame{
 	private JButton accept;
 	private JButton decline; 
 	
-	private JPanel panel;
 	
 	public MeetingSummon (){
 	
-		panel = new JPanel();
-		
 		name = new JLabel("Navn: ");
 		nameField = new JTextField("", 20);
 		nameField.setEditable(false);
@@ -75,7 +72,7 @@ public class MeetingSummon extends JFrame{
 		accept = new JButton("Godta");
 		decline = new JButton("Avslå"); 
 		
-		panel.setLayout(new GridBagLayout());
+		this.setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
 		
 		c.anchor = GridBagConstraints.WEST;
@@ -84,72 +81,74 @@ public class MeetingSummon extends JFrame{
 		
 		c.gridx = 0;
 		c.gridy = 0;
-		panel.add(name, c);
+		this.add(name, c);
 		
 		c.gridx = 0;
 		c.gridy = 1;
-		panel.add(from, c);
+		this.add(from, c);
 		
 		c.gridx = 0;
 		c.gridy = 2;
-		panel.add(from, c);
+		this.add(from, c);
 		
 		c.gridx = 0;
 		c.gridy = 3;
-		panel.add(to, c);
+		this.add(to, c);
 		
 		c.gridx = 0;
 		c.gridy = 4;
-		panel.add(description, c);
+		this.add(description, c);
 		
 		c.gridx = 0;
 		c.gridy = 5;
-		panel.add(participants, c);
+		this.add(participants, c);
+		
 		
 		c.ipadx = 0;
 		c.ipady = 0;
 		
 		c.gridx = 1;
 		c.gridy = 0;
-		panel.add(nameField, c);
+		this.add(nameField, c);
 		
 		c.gridx = 1;
 		c.gridy = 1;
-		panel.add(placeField, c);
+		this.add(placeField, c);
 		
 		c.gridx = 1;
 		c.gridy = 2;
-		panel.add(toField, c);
+		this.add(toField, c);
 		
 		c.gridx = 1;
 		c.gridy = 3;
-		panel.add(fromField, c);
+		this.add(fromField, c);
 		
 		c.gridx = 1;
 		c.gridy = 4;
-		panel.add(descriptionScroll, c);
+		this.add(descriptionScroll, c);
 		
 		c.gridx = 1;
 		c.gridy = 5;
-		panel.add(participantsScroll, c);
+		this.add(participantsScroll, c);
 		
 		c.gridx = 0;
 		c.gridy = 6;
-		panel.add(decline, c);
+		this.add(decline, c);
 		
 		c.gridx = 1;
 		c.gridy = 6;
-		panel.add(accept, c);
+		this.add(accept, c);
 		
-		add(panel);
-		setVisible(true);
-		pack();
 		
 		
 	}
 	
 	public static void main(String[] args) {
-		MeetingSummon meetingSummon = new MeetingSummon();
+		JFrame frame = new JFrame();
+		frame.add(new MeetingSummon());
+		frame.setVisible(true);
+		frame.pack();
+		
 	}
 	
 	

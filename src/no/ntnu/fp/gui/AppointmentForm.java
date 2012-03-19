@@ -8,7 +8,7 @@ import java.awt.GridBagLayout;
 
 import javax.swing.*;
 
-public class AppointmentForm extends JFrame {
+public class AppointmentForm extends JPanel {
 
 	private JLabel name;
 	private JLabel place;
@@ -30,14 +30,12 @@ public class AppointmentForm extends JFrame {
 	private GridBagLayout gbl;
 	private GridBagConstraints c;
 
-	private JPanel panel;
 	
 	public AppointmentForm() {
-		panel = new JPanel();
 		
 		gbl = new GridBagLayout();
 		c = new GridBagConstraints();
-		panel.setLayout(gbl);
+		setLayout(gbl);
 
 		name = new JLabel("Navn:");
 		place = new JLabel("Sted:");
@@ -73,57 +71,53 @@ public class AppointmentForm extends JFrame {
 		c.gridx = 0;
 		c.gridy = 0;
 
-		panel.add(name, c);
+		add(name, c);
 		c.gridx = 1;
-		panel.add(nameField, c);
+		add(nameField, c);
 
 		c.gridx = 0;
 		c.gridy = 1;
-		panel.add(place, c);
+		add(place, c);
 		c.gridx = 1;
-		panel.add(placeField, c);
+		add(placeField, c);
 
 		c.gridx = 0;
 		c.gridy = 2;
-		panel.add(timeFrom, c);
+		add(timeFrom, c);
 		c.gridx = 1;
-		panel.add(timeFromField, c);
+		add(timeFromField, c);
 
 		c.gridx = 0;
 		c.gridy = 3;
-		panel.add(timeTo, c);
+		add(timeTo, c);
 		c.gridx = 1;
-		panel.add(timeToField, c);
+		add(timeToField, c);
 
 		c.gridx = 0;
 		c.gridy = 4;
-		panel.add(date, c);
+		add(date, c);
 		c.gridx = 1;
-		panel.add(dateField, c);
+		add(dateField, c);
 
 		c.gridx = 0;
 		c.gridy = 5;
-		panel.add(description, c);
+		add(description, c);
 		c.gridx = 1;
-		panel.add(descriptionField, c);
+		add(descriptionField, c);
 
 		c.ipadx = 0;
 		c.ipady = 0;
 
 		c.gridx = 0;
 		c.gridy = 6;
-		panel.add(save, c);
+		add(save, c);
 		c.gridx = 1;
-		panel.add(delete, c);
+		add(delete, c);
 		
-		add(panel);
-		setVisible(true);
-		pack();
 
 	}
 
 	public static void main(String[] args) {
-		AppointmentForm appoitmentForm = new AppointmentForm();
 		
 
 	}

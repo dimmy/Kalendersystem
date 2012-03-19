@@ -20,9 +20,7 @@ import javax.swing.JTextField;
  * @author Øyvind M
  *
  */
-public class MeetingForm extends JFrame{
-	
-	private JPanel panel;
+public class MeetingForm extends JPanel{
 	
 	private JLabel name;
 	private JTextField nameField;
@@ -54,8 +52,6 @@ public class MeetingForm extends JFrame{
 	private JButton roomButton;
 	
 	public MeetingForm (){
-		
-		panel = new JPanel();
 		
 		name = new JLabel("Navn: ");
 		nameField = new JTextField("", 20);
@@ -112,7 +108,7 @@ public class MeetingForm extends JFrame{
 		});
 		
 		
-		panel.setLayout(new GridBagLayout());
+		setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
 		
 		c.anchor = GridBagConstraints.WEST;
@@ -121,97 +117,95 @@ public class MeetingForm extends JFrame{
 		c.ipady = 10;
 		c.gridx = 0;
 		c.gridy = 0;
-		panel.add(name, c);
+		add(name, c);
 		
 		c.gridwidth = 1;
 		c.gridx = 0;
 		c.gridy = 1;
-		panel.add(place, c);
+		add(place, c);
 		
 		c.gridwidth = 1;
 		c.gridx = 0;
 		c.gridy = 2;
-		panel.add(time, c);
+		add(time, c);
 		
 		c.gridwidth = 1;
 		c.gridx = 1;
 		c.gridy = 2;
-		panel.add(from, c);
+		add(from, c);
 		
 		c.gridwidth = 1;
 		c.gridx = 3;
 		c.gridy = 2;
-		panel.add(to, c);
+		add(to, c);
 		
 		c.gridwidth = 1;
 		c.gridx = 0;
 		c.gridy = 3;
-		panel.add(date, c);
+		add(date, c);
 		
 		c.gridwidth = 1;
 		c.ipadx = 0;
 		c.ipady = 0;
 		c.gridx = 0;
 		c.gridy = 4;
-		panel.add(description, c);
+		add(description, c);
 		
 		c.gridwidth = 4;
 		c.gridx = 1;
 		c.gridy = 4;
-		panel.add(descriptionScroll, c);
+		add(descriptionScroll, c);
 		
 		c.gridwidth = 1;
 		c.gridx = 0;
 		c.gridy = 5;
-		panel.add(participants, c);
+		add(participants, c);
 		
 		c.gridwidth = 4;
 		c.gridx = 1;
 		c.gridy = 5;
-		panel.add(participantScroll, c);
+		add(participantScroll, c);
 		
 		c.gridwidth = 4;
 		c.gridx = 1;
 		c.gridy = 0;
-		panel.add(nameField, c);
+		add(nameField, c);
 		
 		c.gridwidth = 4;
 		c.gridx = 1;
 		c.gridy = 1;
-		panel.add(placeField, c);
+		add(placeField, c);
 		
 		c.gridwidth = 3;
 		c.gridx = 5;
 		c.gridy = 1;
-		panel.add(roomButton, c);
+		add(roomButton, c);
 		
 		
 		c.gridwidth = 1;
 		c.gridx = 2;
 		c.gridy = 2;
-		panel.add(fromField, c);
+		add(fromField, c);
 		
 		c.gridwidth = 1;
 		c.gridx = 4;
 		c.gridy = 2;
-		panel.add(toField, c);
+		add(toField, c);
 		
 		c.gridwidth = 4;
 		c.gridx = 1;
 		c.gridy = 3;
-		panel.add(dateField, c);
+		add(dateField, c);
 		
 		c.gridwidth = 2;
 		c.gridx = 0;
 		c.gridy = 6;
-		panel.add(addParticipant, c);
+		add(addParticipant, c);
 		
 		c.gridwidth = 2;
 		c.gridx = 2;
 		c.gridy = 6;
-		panel.add(saveMeeting, c);
-		
-		this.add(panel);
+		add(saveMeeting, c);
 		
 		
 	}
