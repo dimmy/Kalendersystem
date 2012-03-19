@@ -211,8 +211,6 @@ public class MeetingForm extends JPanel{
 	}
 	public static void main(String[] args) {
 		MeetingForm form = new MeetingForm();
-		form.pack();
-		form.setVisible(true);
 	}
 	
 	
