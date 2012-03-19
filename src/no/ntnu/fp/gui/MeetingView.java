@@ -34,6 +34,7 @@ public class MeetingView extends JFrame{
 	private JButton changeSave;
 	private JButton addDelete;
 	private JButton cancelMeeting;
+	private JPanel panel;
 	
 	
 	public static void main (String []args){
@@ -45,7 +46,7 @@ public class MeetingView extends JFrame{
 	}
 	public MeetingView(){
 		
-		JPanel panel = new JPanel();
+		panel = new JPanel();
 		GridBagConstraints c = new GridBagConstraints();
 		panel.setLayout(new GridBagLayout());
 		panel.setBorder(BorderFactory.createEmptyBorder(7, 7, 7, 7));

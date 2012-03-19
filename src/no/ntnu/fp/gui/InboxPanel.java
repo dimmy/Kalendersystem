@@ -40,7 +40,7 @@ public class InboxPanel extends JPanel{
 		
 		leftPanel = new JPanel();
 		rigthPanel = new JPanel();
-		rigthPanel.setBorder(BorderFactory.createBevelBorder(1, Color.BLACK, Color.BLACK));
+		//rigthPanel.setBorder(BorderFactory.createBevelBorder(1, Color.BLACK, Color.BLACK));
 		
 		messageModel = new DefaultListModel();
 		messages = new JList(messageModel);

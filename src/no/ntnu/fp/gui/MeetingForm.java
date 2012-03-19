@@ -95,10 +95,6 @@ public class MeetingForm extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				ChooseParticipantPanel participantChooser = new ChooseParticipantPanel();
-				JFrame frame = new JFrame();
-				frame.add(participantChooser);
-				frame.pack();
-				frame.setVisible(true);
 			}
 		});
 		
@@ -112,10 +108,6 @@ public class MeetingForm extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				PlaceRoomChooserPanel roomChooser = new PlaceRoomChooserPanel();
-				JFrame frame = new JFrame();
-				frame.add(roomChooser);
-				frame.pack();
-				frame.setVisible(true);
 			}
 		});
 		
