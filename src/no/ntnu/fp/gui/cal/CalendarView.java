@@ -1,15 +1,22 @@
 package no.ntnu.fp.gui.cal;
 
+import no.ntnu.fp.model.Event;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.ScrollPane;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.swing.*;
 import javax.swing.SpringLayout.Constraints;
+
+import no.ntnu.fp.model.Event;
 
 /**
  * Panel for displaying a 7 day week calendar
@@ -35,6 +42,8 @@ public class CalendarView extends JPanel {
 	public final static int HOUR_HEIGHT = 64;
 	public final static int FIRST_HOUR = 8;
 	public final static int LAST_HOUR = 24;
+	
+	private final static DateFormat dateFormat = DateFormat.getInstance();
 
 	public CalendarView() {
 		// Placeholder
@@ -112,8 +121,19 @@ public class CalendarView extends JPanel {
 		// add some example events
 
 		eventPanels = new ArrayList<EventPanel>();
+		
+		Event testEv = new Event();
+		
+		testEv.setEventdescription("Avtale");
+		testEv.setStartTime("08:00");
+		testEv.setEndTime("10:30");
+		try {
+			testEv.setDate(dateFormat.parse("2012-03-26"));
+		} catch (ParseException e) {
+			testEv.setDate(new Date());
+		}
 
-		EventPanel ep = new EventPanel("Etc");
+		EventPanel ep = new EventPanel(testEv);
 		addEventPanel(ep);
 
 		ep = new EventPanel("Møte");

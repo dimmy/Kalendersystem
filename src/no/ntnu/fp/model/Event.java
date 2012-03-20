@@ -2,9 +2,6 @@ package no.ntnu.fp.model;
 
 import java.util.Date;
 
-import no.ntnu.fp.gui.AppointmentForm;
-import no.ntnu.fp.gui.MeetingForm;
-
 /**
  * 
  * @author Myklatun
@@ -12,6 +9,11 @@ import no.ntnu.fp.gui.MeetingForm;
  */
 
 public class Event {
+	
+	public enum Type {
+		
+		appointment, meeting;
+	}
 
 	private int eventID;
 	private String eventdescription;
@@ -24,11 +26,7 @@ public class Event {
 	private String status;
 	private Person eventowner;
 	
-	public Event(MeetingForm form){
-		
-	}
-	
-	public Event(AppointmentForm form){
+	public Event(){
 		type = Type.appointment;
 	}
 	
