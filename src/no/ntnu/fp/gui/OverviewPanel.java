@@ -92,8 +92,10 @@ public class OverviewPanel extends JPanel {
 
 		// Title
 
-		lblWeekDisplay = new JLabel("<html><h1>Uke ?</h1></html>", SwingConstants.CENTER);
-		lblLoginInfo = new JLabel("<html>Logget inn som: brukernavn</html>", SwingConstants.RIGHT);
+		lblWeekDisplay = new JLabel("<html><h1>Uke ?</h1></html>",
+				SwingConstants.CENTER);
+		lblLoginInfo = new JLabel("<html>Logget inn som: brukernavn</html>",
+				SwingConstants.RIGHT);
 
 		panTitle = new JPanel();
 		panTitle.setLayout(new BoxLayout(panTitle, BoxLayout.Y_AXIS));
@@ -155,6 +157,6 @@ public class OverviewPanel extends JPanel {
 		frame.setVisible(true);
 		frame.pack();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setSize(400, 300);
+		frame.setSize(800, 600);
 	}
 }
