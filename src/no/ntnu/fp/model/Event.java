@@ -12,7 +12,7 @@ import no.ntnu.fp.gui.MeetingForm;
  */
 
 public class Event {
-	
+
 	private int eventID;
 	private String eventdescription;
 	private Date date;
@@ -43,13 +43,76 @@ public class Event {
 	public void addPerson(){
 		
 	}
-	
-	public void setRoom(RoomReservation room){
-		this.room = room;
-	}
-	
-	public void setPlace(String place){
-		this.place = place;
+
+	public int getEventID() {
+		return eventID;
 	}
 
+	public void setEventID(int eventID) {
+		this.eventID = eventID;
+	}
+
+	public String getEventdescription() {
+		return eventdescription;
+	}
+
+	public void setEventdescription(String eventdescription) {
+		this.eventdescription = eventdescription;
+	}
+
+	public Date getDate() {
+		return date;
+	}
+
+	public void setDate(Date date) {
+		this.date = date;
+	}
+
+	public String getStartTime() {
+		return startTime;
+	}
+
+	public void setStartTime(String startTime) {
+		this.startTime = startTime;
+	}
+
+	public String getEndTime() {
+		return endTime;
+	}
+
+	public void setEndTime(String endTime) {
+		this.endTime = endTime;
+	}
+
+	public Type getType() {
+		return type;
+	}
+
+	public void setType(Type type) {
+		this.type = type;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public Person getEventowner() {
+		return eventowner;
+	}
+
+	public void setEventowner(Person eventowner) {
+		this.eventowner = eventowner;
+	}
+
+	public String getPlace() {
+		return place;
+	}
+
+	public RoomReservation getRoom() {
+		return room;
+	}
 }
