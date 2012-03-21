@@ -16,7 +16,7 @@ class DatabaseConnection {
 		Class.forName(mysqlDriver);
 		Properties props = new Properties();
 		props.setProperty("user", "heddano_fp43");
-		props.setProperty("password", "heddano_fp43");
+		props.setProperty("password", "fp43");
 		conn = DriverManager.getConnection(url, props);
 	}
 
