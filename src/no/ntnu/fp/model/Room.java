@@ -12,6 +12,7 @@ import java.util.Date;
 
 public class Room {
 	
+	private int id;
 	private String roomID;
 	private String description;
 	private int capacity;
@@ -35,9 +36,26 @@ public class Room {
 		
 	}
 	
-	public void reserve(Date from, Date to, Event event)
+	
+	
+	/**
+	 * Reserves the Room for a date and a period for a event. Checks if the date and start time is avalible
+	 * @param  date  It's the date and time for when the room is going to be reserved
+	 * @param  forHowLong It's an int for how many minuts the room is going to be reserved
+	 * @param  event It's the event the room is going to reserved for.
+	 */
+	public void reserve(Date date, int forHowLong, Event event)
 	{
-		reservations.add(new RoomReservation(from, to, event));
+		reservations.add(new RoomReservation(date, forHowLong, event));
 	}
+	
+	public String getRoomID() {
+		return roomID;
+	}
+
+	public int getCapacity() {
+		return capacity;
+	}
+
 
 }
