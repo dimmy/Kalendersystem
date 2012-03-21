@@ -22,7 +22,7 @@ public class Event {
 	private String place;
 	private RoomReservation room;
 	private String status;
-	private Person eventowner;
+	private User eventowner;
 	
 	public Event(MeetingForm form){
 		

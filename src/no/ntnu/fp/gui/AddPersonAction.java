@@ -7,10 +7,10 @@ import javax.swing.Action;
 import javax.swing.KeyStroke;
 
 import no.ntnu.fp.model.Project;
-import no.ntnu.fp.model.Person;
+import no.ntnu.fp.model.User;
 
 /**
- * Implements the command for adding new {@link no.ntnu.fp.model.Person} objects.
+ * Implements the command for adding new {@link no.ntnu.fp.model.User} objects.
  * 
  * @author Thomas &Oslash;sterlie
  *
@@ -44,7 +44,7 @@ public class AddPersonAction extends AbstractAction {
 	public void actionPerformed(ActionEvent event) {
 		PersonListModel plm = projectPanel.getModel();
 		Project project = plm.getProject();
-		project.addPerson(new Person());
+		project.addPerson(new User());
 	}
 	
 }
