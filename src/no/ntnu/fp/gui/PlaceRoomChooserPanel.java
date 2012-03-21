@@ -12,6 +12,7 @@ import javax.swing.event.DocumentListener;
 import javax.swing.event.ListDataListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+
 import no.ntnu.fp.model.Room;
 
 /*
@@ -29,6 +30,8 @@ public class PlaceRoomChooserPanel extends JPanel
 	JTextField placeInput;
 	JRadioButton room;
 	JComboBox roomInput;
+	
+	DefaultComboBoxModel defModel;
 	
 	ButtonGroup buttonGroup;
 	
@@ -112,7 +115,7 @@ public class PlaceRoomChooserPanel extends JPanel
 		
 		// ------------------------------------------------------------------------------------
 		
-		// Room List
+		// Room List FOR DEBUGING
 		ArrayList<Room> roomList = new ArrayList<Room>();
 		Room r = new Room("Rom 23", "Med prosjektor", 30);
 		roomList.add(r);
@@ -124,10 +127,10 @@ public class PlaceRoomChooserPanel extends JPanel
 		roomList.add(r);
 		r = new Room("Rom gul", "Gule vegger", 15);
 		roomList.add(r);
-		
+		// END FOR DEBUGING
 		
 		// ComboBox
-		DefaultComboBoxModel defModel = new DefaultComboBoxModel();
+		defModel = new DefaultComboBoxModel();
 		for(Room room : roomList){
 			defModel.addElement(room);
 		}
@@ -137,6 +140,7 @@ public class PlaceRoomChooserPanel extends JPanel
 			@Override
 			public void actionPerformed(ActionEvent e) { firePlaceRoomSelectEvent(); }
 		});
+		roomInput.setRenderer(new PlaceRoomChooserListRenderer());
 		
 		// constrains
 		c.gridx=1; c.gridy=1; c.ipadx=10; c.ipady=10; c.weightx=1; c.gridwidth=1; c.fill = GridBagConstraints.BOTH;
@@ -186,6 +190,11 @@ public class PlaceRoomChooserPanel extends JPanel
 			listener.selectPlaceOrRoom(e);
 		}
 
+	}
+	
+	public void setDefaultComboBoxModel(DefaultComboBoxModel that)
+	{
+		this.defModel = that;
 	}
 	
 }
