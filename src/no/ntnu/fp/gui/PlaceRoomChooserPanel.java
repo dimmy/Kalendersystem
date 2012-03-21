@@ -12,6 +12,7 @@ import javax.swing.event.DocumentListener;
 import javax.swing.event.ListDataListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+
 import no.ntnu.fp.model.Room;
 
 /*
@@ -30,6 +31,8 @@ public class PlaceRoomChooserPanel extends JPanel
 	JRadioButton room;
 	JComboBox roomInput;
 	
+	DefaultComboBoxModel defModel;
+	
 	ButtonGroup buttonGroup;
 	
 	
@@ -38,8 +41,6 @@ public class PlaceRoomChooserPanel extends JPanel
 	{
 		// init of list with the events
 		selectPlaceRoomListener = new ArrayList<PlaceRoomListener>();
-		
-		setBorder(new EmptyBorder(10, 10, 10, 10) );
 		
 		// layout and constraints
 		GridBagLayout layout = new GridBagLayout();
@@ -63,7 +64,7 @@ public class PlaceRoomChooserPanel extends JPanel
 		});
 		
 		// constrains
-		c.gridx=0; c.gridy=0; c.ipadx=1; c.ipady=10; c.weightx=1; c.gridwidth=1; c.fill = GridBagConstraints.NONE;
+		c.gridx=0; c.gridy=0; c.ipadx=0; c.ipady=0; c.weightx=1; c.gridwidth=1; c.fill = GridBagConstraints.NONE;
 		c.anchor = GridBagConstraints.WEST;
 		add(place, c);
 		
@@ -83,7 +84,7 @@ public class PlaceRoomChooserPanel extends JPanel
 		});
 		
 		// constrains
-		c.gridx=0; c.gridy=1; c.ipadx=1; c.ipady=10; c.weightx=1; c.gridwidth=1; c.fill = GridBagConstraints.NONE;
+		c.gridx=0; c.gridy=1; c.ipadx=0; c.ipady=0; c.weightx=1; c.gridwidth=1; c.fill = GridBagConstraints.NONE;
 		c.anchor = GridBagConstraints.WEST;
 		add(room, c);
 		
@@ -106,13 +107,13 @@ public class PlaceRoomChooserPanel extends JPanel
 		});
 		
 		// constrains
-		c.gridx=1; c.gridy=0; c.ipadx=1; c.ipady=1; c.weightx=1; c.gridwidth=1; c.fill = GridBagConstraints.BOTH;
+		c.gridx=1; c.gridy=0; c.ipadx=0; c.ipady=0; c.weightx=1; c.gridwidth=1; c.fill = GridBagConstraints.BOTH;
 		c.anchor = GridBagConstraints.WEST;
 		add(placeInput, c);
 		
 		// ------------------------------------------------------------------------------------
 		
-		// Room List
+		// Room List FOR DEBUGING
 		ArrayList<Room> roomList = new ArrayList<Room>();
 		Room r = new Room("Rom 23", "Med prosjektor", 30);
 		roomList.add(r);
@@ -124,10 +125,10 @@ public class PlaceRoomChooserPanel extends JPanel
 		roomList.add(r);
 		r = new Room("Rom gul", "Gule vegger", 15);
 		roomList.add(r);
-		
+		// END FOR DEBUGING
 		
 		// ComboBox
-		DefaultComboBoxModel defModel = new DefaultComboBoxModel();
+		defModel = new DefaultComboBoxModel();
 		for(Room room : roomList){
 			defModel.addElement(room);
 		}
@@ -137,9 +138,10 @@ public class PlaceRoomChooserPanel extends JPanel
 			@Override
 			public void actionPerformed(ActionEvent e) { firePlaceRoomSelectEvent(); }
 		});
+		roomInput.setRenderer(new PlaceRoomChooserListRenderer());
 		
 		// constrains
-		c.gridx=1; c.gridy=1; c.ipadx=10; c.ipady=10; c.weightx=1; c.gridwidth=1; c.fill = GridBagConstraints.BOTH;
+		c.gridx=1; c.gridy=1; c.ipadx=0; c.ipady=0; c.weightx=1; c.gridwidth=1; c.fill = GridBagConstraints.BOTH;
 		c.anchor = GridBagConstraints.WEST;
 		add(roomInput, c);
 		
@@ -186,6 +188,11 @@ public class PlaceRoomChooserPanel extends JPanel
 			listener.selectPlaceOrRoom(e);
 		}
 
+	}
+	
+	public void setDefaultComboBoxModel(DefaultComboBoxModel that)
+	{
+		this.defModel = that;
 	}
 	
 }

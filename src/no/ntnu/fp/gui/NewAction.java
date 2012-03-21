@@ -12,7 +12,7 @@ import javax.swing.AbstractAction;
 import javax.swing.Icon;
 
 import no.ntnu.fp.model.Project;
-import no.ntnu.fp.model.Person;
+import no.ntnu.fp.model.User;
 
 /**
  * Implements the action for creating a new group of persons.
@@ -45,7 +45,7 @@ public class NewAction extends AbstractAction {
 	 */
 	public void actionPerformed(ActionEvent arg0) {
 		Project project = new Project();
-		project.addPerson(new Person());
+		project.addPerson(new User());
 		projectPanel.setModel(new PersonListModel(project, null));
 	}
 

@@ -31,7 +31,7 @@ public class XmlSerializer {
 		
 		Iterator it = aProject.iterator();
 		while (it.hasNext()) {
-			Person aPerson = (Person)it.next();
+			User aPerson = (User)it.next();
 			Element element = personToXml(aPerson);
 			root.appendChild(element);
 		}
@@ -52,13 +52,13 @@ public class XmlSerializer {
 		return aProject;
 	}
 
-    public Person toPerson(String xml) throws java.io.IOException, java.text.ParseException, nu.xom.ParsingException {
+    public User toPerson(String xml) throws java.io.IOException, java.text.ParseException, nu.xom.ParsingException {
 	nu.xom.Builder parser = new nu.xom.Builder(false);
 	nu.xom.Document doc = parser.build(xml, "");
 	return assemblePerson(doc.getRootElement());
     }
 	
-	private Element personToXml(Person aPerson) {
+	private Element personToXml(User aPerson) {
 		DateFormat format = DateFormat.getDateInstance(DateFormat.MEDIUM, java.util.Locale.US);
 		Element element = new Element("person");
 		Element name = new Element("name");
@@ -73,7 +73,7 @@ public class XmlSerializer {
 		return element;
 	}
 	
-	private Person assemblePerson(Element personElement) throws ParseException {
+	private User assemblePerson(Element personElement) throws ParseException {
 		String name = null, email = null;
 		Date date = null;
 		Element element = personElement.getFirstChildElement("name");
@@ -88,7 +88,7 @@ public class XmlSerializer {
 		if (element != null) {
 			date = parseDate(element.getValue());
 		}
-		return new Person(name, email, date);
+		return new User(name, email, date);
 	}
 	
 	/**

@@ -7,7 +7,7 @@ import java.net.URL;
 
 import javax.swing.AbstractListModel;
 
-import no.ntnu.fp.model.Person;
+import no.ntnu.fp.model.User;
 import no.ntnu.fp.model.Project;
 
 /**
@@ -95,7 +95,7 @@ class PersonListModel extends AbstractListModel implements PropertyChangeListene
      */
     public Object getElementAt(int i) {
       try {
-        return (project == null ? null : (Person)project.getPerson(i));
+        return (project == null ? null : (User)project.getPerson(i));
       } catch (java.lang.IndexOutOfBoundsException e) { //handling of empty models
 	return null;
       }
@@ -110,28 +110,28 @@ class PersonListModel extends AbstractListModel implements PropertyChangeListene
      */
      public void propertyChange(PropertyChangeEvent event) {
         Object source = event.getSource();
-        Person person = null;
+        User person = null;
    
         int index;
-        if ((source instanceof Project) && (event.getNewValue() instanceof Person)) {
-        		person = (Person)event.getNewValue();
+        if ((source instanceof Project) && (event.getNewValue() instanceof User)) {
+        		person = (User)event.getNewValue();
         		index = project.indexOf(person);
         } else if ((source instanceof Project) && (event.getNewValue() instanceof Integer)) {
-        		person = (Person)event.getOldValue();
+        		person = (User)event.getOldValue();
         		Integer i = (Integer)event.getNewValue();
         		index = i.intValue();
-        } else if (source instanceof Person) { 
-        		person = (Person)source;
+        } else if (source instanceof User) { 
+        		person = (User)source;
         		index = project.indexOf(person);
         } else {
         	    return;
         }
 
-        if ((source instanceof Project) && (event.getNewValue() instanceof Person))
+        if ((source instanceof Project) && (event.getNewValue() instanceof User))
         		fireIntervalAdded(project, index, index);
         else if ((source instanceof Project) && (event.getNewValue() instanceof Integer))
         		fireIntervalRemoved(project, index, index);
-        else if (source instanceof Person)
+        else if (source instanceof User)
         		fireContentsChanged(project, index, index);
     }
      
