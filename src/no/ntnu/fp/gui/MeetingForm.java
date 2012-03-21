@@ -90,7 +90,11 @@ public class MeetingForm extends JPanel{
 			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				ChooseParticipantPanel participantChooser = new ChooseParticipantPanel();
+				JFrame addparticipantframe = new JFrame();
+				addparticipantframe.add(new ChooseParticipantPanel());
+				addparticipantframe.setVisible(true);
+				addparticipantframe.pack();
+				
 			}
 		});
 		
@@ -210,7 +214,11 @@ public class MeetingForm extends JPanel{
 		
 	}
 	public static void main(String[] args) {
-		MeetingForm form = new MeetingForm();
+		JFrame frame = new JFrame();
+		frame.add(new MeetingForm());
+		frame.setVisible(true);
+		frame.pack();
+		
 	}
 	
 	
