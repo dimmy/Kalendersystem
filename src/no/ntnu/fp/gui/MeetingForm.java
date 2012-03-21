@@ -14,6 +14,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.border.EmptyBorder;
 
 /**
  * 
@@ -25,8 +26,7 @@ public class MeetingForm extends JPanel{
 	private JLabel name;
 	private JTextField nameField;
 	
-	private JLabel place;
-	private JTextField placeField;
+	private JPanel place;
 	
 	private JLabel time;
 	
@@ -49,17 +49,17 @@ public class MeetingForm extends JPanel{
 	
 	private JButton addParticipant;
 	private JButton saveMeeting;
-	private JButton roomButton;
 	
 	public MeetingForm (){
+		
+		setBorder(new EmptyBorder(10, 10, 10, 10) );
 		
 		name = new JLabel("Navn: ");
 		nameField = new JTextField("", 20);
 		
-		place = new JLabel("Sted: ");
-		placeField = new JTextField("", 20);
+		place = new PlaceRoomChooserPanel();
 		
-		time = new JLabel("Tid:");
+		time = new JLabel("Tid: ");
 		
 		from = new JLabel("Fra: ");
 		fromField = new JTextField("", 6);
@@ -102,113 +102,135 @@ public class MeetingForm extends JPanel{
 		saveMeeting = new JButton("Lagre");
 		
 		
-		roomButton = new JButton("Room");
-		roomButton.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				PlaceRoomChooserPanel roomChooser = new PlaceRoomChooserPanel();
-			}
-		});
-		
-		
 		setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
 		
+		
 		c.anchor = GridBagConstraints.WEST;
 		c.gridwidth = 1;
+		c.ipadx = 0;
+		c.ipady = 0;
+		c.gridx = 0;
+		c.gridy = 0;
+		c.fill = GridBagConstraints.HORIZONTAL;
+		add(name, c);
+		
+		c.gridwidth = 5;
 		c.ipadx = 10;
 		c.ipady = 10;
 		c.gridx = 0;
-		c.gridy = 0;
-		add(name, c);
-		
-		c.gridwidth = 1;
-		c.gridx = 0;
 		c.gridy = 1;
+		c.fill = GridBagConstraints.HORIZONTAL;
 		add(place, c);
-		
-		c.gridwidth = 1;
-		c.gridx = 0;
-		c.gridy = 2;
-		add(time, c);
-		
-		c.gridwidth = 1;
-		c.gridx = 1;
-		c.gridy = 2;
-		add(from, c);
-		
-		c.gridwidth = 1;
-		c.gridx = 3;
-		c.gridy = 2;
-		add(to, c);
-		
-		c.gridwidth = 1;
-		c.gridx = 0;
-		c.gridy = 3;
-		add(date, c);
 		
 		c.gridwidth = 1;
 		c.ipadx = 0;
 		c.ipady = 0;
 		c.gridx = 0;
+		c.gridy = 2;
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.anchor = GridBagConstraints.WEST;
+		add(time, c);
+		
+		c.gridwidth = 1;
+		c.ipadx = 0;
+		c.ipady = 0;
+		c.gridx = 1;
+		c.gridy = 2;
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.anchor = GridBagConstraints.WEST;
+		add(from, c);
+		
+		c.gridwidth = 1;
+		c.ipadx = 0;
+		c.ipady = 0;
+		c.gridx = 3;
+		c.gridy = 2;
+		add(to, c);
+		
+		c.gridwidth = 1;
+		c.ipadx = 0;
+		c.ipady = 20;
+		c.gridx = 0;
+		c.gridy = 3;
+		add(date, c);
+		
+		c.gridwidth = 1;
+		c.ipadx = 10;
+		c.ipady = 10;
+		c.gridx = 0;
 		c.gridy = 4;
 		add(description, c);
 		
 		c.gridwidth = 4;
+		c.ipadx = 0;
+		c.ipady = 0;
 		c.gridx = 1;
 		c.gridy = 4;
 		add(descriptionScroll, c);
 		
 		c.gridwidth = 1;
+		c.ipadx = 35;
+		c.ipady = 100;
 		c.gridx = 0;
 		c.gridy = 5;
 		add(participants, c);
 		
 		c.gridwidth = 4;
+		c.ipadx = 10;
+		c.ipady = 0;
 		c.gridx = 1;
 		c.gridy = 5;
 		add(participantScroll, c);
 		
 		c.gridwidth = 4;
+		c.ipadx = 0;
+		c.ipady = 0;
 		c.gridx = 1;
 		c.gridy = 0;
-		add(nameField, c);
-		
-		c.gridwidth = 4;
-		c.gridx = 1;
-		c.gridy = 1;
-		add(placeField, c);
-		
-		c.gridwidth = 3;
-		c.gridx = 5;
-		c.gridy = 1;
-		add(roomButton, c);
-		
+		add(nameField, c);		
 		
 		c.gridwidth = 1;
+		c.ipadx = 0;
+		c.ipady = 0;
 		c.gridx = 2;
 		c.gridy = 2;
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.anchor = GridBagConstraints.WEST;
 		add(fromField, c);
 		
 		c.gridwidth = 1;
+		c.ipadx = 0;
+		c.ipady = 0;
 		c.gridx = 4;
 		c.gridy = 2;
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.anchor = GridBagConstraints.WEST;
 		add(toField, c);
 		
 		c.gridwidth = 4;
+		c.ipadx = 0;
+		c.ipady = 0;
 		c.gridx = 1;
 		c.gridy = 3;
 		add(dateField, c);
 		
 		c.gridwidth = 2;
-		c.gridx = 0;
-		c.gridy = 6;
-		add(addParticipant, c);
-		
-		c.gridwidth = 2;
+		c.ipadx = 0;
+		c.ipady = 0;
 		c.gridx = 2;
 		c.gridy = 6;
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.anchor = GridBagConstraints.EAST;
+		add(addParticipant, c);
+		
+		c.gridwidth = 1;
+		c.ipadx = 0;
+		c.ipady = 0;
+		c.gridx = 4;
+		c.gridy = 6;
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.anchor = GridBagConstraints.EAST;
 		add(saveMeeting, c);
 		
 		

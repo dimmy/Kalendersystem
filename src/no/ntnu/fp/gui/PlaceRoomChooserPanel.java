@@ -42,8 +42,6 @@ public class PlaceRoomChooserPanel extends JPanel
 		// init of list with the events
 		selectPlaceRoomListener = new ArrayList<PlaceRoomListener>();
 		
-		setBorder(new EmptyBorder(10, 10, 10, 10) );
-		
 		// layout and constraints
 		GridBagLayout layout = new GridBagLayout();
 		GridBagConstraints c = new GridBagConstraints();
@@ -66,7 +64,7 @@ public class PlaceRoomChooserPanel extends JPanel
 		});
 		
 		// constrains
-		c.gridx=0; c.gridy=0; c.ipadx=1; c.ipady=10; c.weightx=1; c.gridwidth=1; c.fill = GridBagConstraints.NONE;
+		c.gridx=0; c.gridy=0; c.ipadx=0; c.ipady=0; c.weightx=1; c.gridwidth=1; c.fill = GridBagConstraints.NONE;
 		c.anchor = GridBagConstraints.WEST;
 		add(place, c);
 		
@@ -86,7 +84,7 @@ public class PlaceRoomChooserPanel extends JPanel
 		});
 		
 		// constrains
-		c.gridx=0; c.gridy=1; c.ipadx=1; c.ipady=10; c.weightx=1; c.gridwidth=1; c.fill = GridBagConstraints.NONE;
+		c.gridx=0; c.gridy=1; c.ipadx=0; c.ipady=0; c.weightx=1; c.gridwidth=1; c.fill = GridBagConstraints.NONE;
 		c.anchor = GridBagConstraints.WEST;
 		add(room, c);
 		
@@ -109,7 +107,7 @@ public class PlaceRoomChooserPanel extends JPanel
 		});
 		
 		// constrains
-		c.gridx=1; c.gridy=0; c.ipadx=1; c.ipady=1; c.weightx=1; c.gridwidth=1; c.fill = GridBagConstraints.BOTH;
+		c.gridx=1; c.gridy=0; c.ipadx=0; c.ipady=0; c.weightx=1; c.gridwidth=1; c.fill = GridBagConstraints.BOTH;
 		c.anchor = GridBagConstraints.WEST;
 		add(placeInput, c);
 		
@@ -143,7 +141,7 @@ public class PlaceRoomChooserPanel extends JPanel
 		roomInput.setRenderer(new PlaceRoomChooserListRenderer());
 		
 		// constrains
-		c.gridx=1; c.gridy=1; c.ipadx=10; c.ipady=10; c.weightx=1; c.gridwidth=1; c.fill = GridBagConstraints.BOTH;
+		c.gridx=1; c.gridy=1; c.ipadx=0; c.ipady=0; c.weightx=1; c.gridwidth=1; c.fill = GridBagConstraints.BOTH;
 		c.anchor = GridBagConstraints.WEST;
 		add(roomInput, c);
 		
