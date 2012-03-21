@@ -9,7 +9,7 @@ import java.util.Properties;
 
 class DatabaseConnection {
 	private String mysqlDriver = "com.mysql.jdbc.Driver";
-	private String url = "jdbc:mysql://mysql.stud.ntnu.no";
+	private String url = "jdbc:mysql://mysql.stud.ntnu.no/heddano_fp43";
 	private Connection conn;
 
 	private void initializeDB() throws ClassNotFoundException, SQLException {
