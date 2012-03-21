@@ -12,23 +12,20 @@ import java.util.Date;
 
 public class Room {
 	
-	private int id;
-	private String roomID;
-	private String description;
+	private String roomId;
 	private int capacity;
 	private ArrayList<RoomReservation> reservations;
 	
-	public Room(String roomID, String description, int capacity){
-		this.roomID = roomID;
-		this.description = description;
+	public Room(String roomId, int capacity){
+		this.roomId = roomId;
 		this.capacity = capacity;
 	}
 
-	public void unReserve(int id)
+	public void unReserve(String id)
 	{
 		for(RoomReservation r : reservations)
 		{
-			if(r.getId() == id)
+			if(r.getId().equals(id))
 			{
 				reservations.remove(r);
 			}
@@ -46,11 +43,11 @@ public class Room {
 	 */
 	public void reserve(Date date, int forHowLong, Event event)
 	{
-		reservations.add(new RoomReservation(date, forHowLong, event));
+//		reservations.add(new RoomReservation(date, forHowLong, event));
 	}
 	
 	public String getRoomID() {
-		return roomID;
+		return roomId;
 	}
 
 	public int getCapacity() {
