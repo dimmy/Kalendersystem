@@ -42,7 +42,7 @@ public class CalendarView extends JPanel {
 	public final static int HOUR_HEIGHT = 64;
 	public final static int FIRST_HOUR = 8;
 	public final static int LAST_HOUR = 24;
-	
+
 	private final static DateFormat dateFormat = DateFormat.getInstance();
 
 	public CalendarView() {
@@ -121,17 +121,12 @@ public class CalendarView extends JPanel {
 		// add some example events
 
 		eventPanels = new ArrayList<EventPanel>();
-		
+
 		Event testEv = new Event();
-		
+
 		testEv.setEventdescription("Avtale");
-		testEv.setStartTime("08:00");
-		testEv.setEndTime("10:30");
-		try {
-			testEv.setDate(dateFormat.parse("2012-03-26"));
-		} catch (ParseException e) {
-			testEv.setDate(new Date());
-		}
+		testEv.setStartTime(new Date());
+		testEv.setTimeLength(60);
 
 		EventPanel ep = new EventPanel(testEv);
 		addEventPanel(ep);
@@ -168,7 +163,7 @@ public class CalendarView extends JPanel {
 		rowHeaderPanel = new JPanel();
 		rowHeaderPanel.setOpaque(false);
 		rowHeaderPanel.setLayout(rowSpring);
-		
+
 		scrollPane.setRowHeaderView(rowHeaderPanel);
 
 		Spring maxWidth = Spring.constant(0);

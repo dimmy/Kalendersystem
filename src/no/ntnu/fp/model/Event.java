@@ -5,41 +5,40 @@ import java.util.Date;
 /**
  * 
  * @author Myklatun
- *
+ * 
  */
 
 public class Event {
-	
+
 	public enum Type {
-		
+
 		appointment, meeting;
 	}
 
 	private int eventID;
 	private String eventdescription;
-	private Date date;
-	private String startTime;
-	private String endTime;
+	private Date startTime;
+	private int timeLength;
 	private Type type;
 	private String place;
 	private RoomReservation room;
 	private String status;
 	private User eventowner;
-	
-	public Event(){
+
+	public Event() {
 		type = Type.appointment;
 	}
-	
-	public void changeEvent(){
+
+	public void changeEvent() {
 		type = Type.meeting;
 	}
-	
-	public void deleteEvent(){
-		
+
+	public void deleteEvent() {
+
 	}
-	
-	public void addPerson(){
-		
+
+	public void addPerson() {
+
 	}
 
 	public int getEventID() {
@@ -58,28 +57,25 @@ public class Event {
 		this.eventdescription = eventdescription;
 	}
 
-	public Date getDate() {
-		return date;
-	}
-
-	public void setDate(Date date) {
-		this.date = date;
-	}
-
-	public String getStartTime() {
+	public Date getStartTime() {
 		return startTime;
 	}
 
-	public void setStartTime(String startTime) {
+	public void setStartTime(Date startTime) {
 		this.startTime = startTime;
 	}
 
-	public String getEndTime() {
-		return endTime;
+	public Date getEndTime() {
+		// Return startTime with timeLength seconds added. (60000 ms = 1 minute)
+		return new Date(startTime.getTime() + (60000 * timeLength));
 	}
 
-	public void setEndTime(String endTime) {
-		this.endTime = endTime;
+	public int getTimeLength() {
+		return timeLength;
+	}
+
+	public void setTimeLength(int timeLength) {
+		this.timeLength = timeLength;
 	}
 
 	public Type getType() {
@@ -112,5 +108,18 @@ public class Event {
 
 	public RoomReservation getRoom() {
 		return room;
+	}
+
+	/**
+	 * Determines whether the event overlaps the given time interval
+	 * 
+	 * @param from
+	 *            the beginning of the time interval
+	 * @param to
+	 *            the end of the time interval
+	 * @return true if it overlaps; false otherwise
+	 */
+	public boolean overlaps(Date from, Date to) {
+		return (from.before(getEndTime())) && to.after(getStartTime());
 	}
 }
