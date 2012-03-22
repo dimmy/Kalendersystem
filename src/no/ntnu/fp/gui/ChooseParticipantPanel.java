@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
@@ -19,6 +20,8 @@ import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+
+import no.ntnu.fp.model.User;
 
 public class ChooseParticipantPanel extends JPanel{
 	
@@ -144,7 +147,7 @@ public class ChooseParticipantPanel extends JPanel{
 		
 	}
 	
-	public void setAvaliblePersons(ArrayList<User> users )
+	public void setAvaliblePersons(List<User> users )
 	{
 		
 	}

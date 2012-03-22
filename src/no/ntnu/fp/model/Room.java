@@ -6,7 +6,7 @@ import java.util.Date;
 
 /*
  * @author: Fredrik
- * @author: ¯yvind
+ * @author: ï¿½yvind
  * 
  */
 
@@ -21,11 +21,11 @@ public class Room {
 		this.capacity = capacity;
 	}
 
-	public void unReserve(String id)
+	public void unReserve(int id)
 	{
 		for(RoomReservation r : reservations)
 		{
-			if(r.getId().equals(id))
+			if(r.getId() == id)
 			{
 				reservations.remove(r);
 			}

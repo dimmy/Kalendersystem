@@ -98,11 +98,11 @@ public class Event {
 		this.status = status;
 	}
 
-	public Person getEventowner() {
+	public User getEventowner() {
 		return eventowner;
 	}
 
-	public void setEventowner(Person eventowner) {
+	public void setEventowner(User eventowner) {
 		this.eventowner = eventowner;
 	}
 
