@@ -24,12 +24,14 @@ public class RoomReservation {
 		this.id = id;
 	}
 	
+	
 	public RoomReservation(Date fromTime, Date toTime, Event event) {
 		this.timeFrom = fromTime;
 		this.timeTo = toTime;
 		this.event = event;
 		this.id = getNextId();
 	}
+	
 	
 	
 	

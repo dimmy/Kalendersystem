@@ -21,11 +21,11 @@ public class Room {
 		this.capacity = capacity;
 	}
 
-	public void unReserve(String id)
+	public void unReserve(int id)
 	{
 		for(RoomReservation r : reservations)
 		{
-			if(r.getId().equals(id))
+			if(r.getId() == id)
 			{
 				reservations.remove(r);
 			}
@@ -43,7 +43,10 @@ public class Room {
 	 */
 	public void reserve(Date date, int forHowLong, Event event)
 	{
-//		reservations.add(new RoomReservation(date, forHowLong, event));
+//		RoomReservation r = new RoomReservation(date, forHowLong, event);
+//		int id = r.getId();
+//		reservations.add(id);
+		
 	}
 	
 	public String getRoomID() {

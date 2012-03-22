@@ -56,6 +56,7 @@ public class KalSysDBConnection extends DatabaseConnection implements
 		return rooms;
 	}
 
+	
 	@Override
 	public Room getRoom(String roomId) throws SQLException {
 		String query = "select * from room " +
