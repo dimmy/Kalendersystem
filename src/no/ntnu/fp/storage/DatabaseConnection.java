@@ -12,12 +12,22 @@ class DatabaseConnection {
 	private String url = "jdbc:mysql://mysql.stud.ntnu.no/heddano_fp43";
 	private Connection conn;
 
-	private void initializeDB() throws ClassNotFoundException, SQLException {
-		Class.forName(mysqlDriver);
+	public void initializeDB(){
+		try {
+			Class.forName(mysqlDriver);
+		} catch (ClassNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		Properties props = new Properties();
 		props.setProperty("user", "heddano_fp43");
 		props.setProperty("password", "fp43");
-		conn = DriverManager.getConnection(url, props);
+		try {
+			conn = DriverManager.getConnection(url, props);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	public ResultSet makeSingleQuery(String query) throws SQLException {

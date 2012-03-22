@@ -138,6 +138,17 @@ public class ChooseParticipantPanel extends JPanel{
 		
 		
 	}
+	
+	public void getParticipants()
+	{
+		
+	}
+	
+	public void setAvaliblePersons(ArrayList<User> users )
+	{
+		
+	}
+	
 	public static void main(String[] args) {
 		JFrame frame = new JFrame();
 		frame.add(new ChooseParticipantPanel());
