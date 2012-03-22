@@ -17,11 +17,16 @@ public class CalendarPerspective implements CalendarChangeEventListener {
 
 	public CalendarPerspective(AbstractCalendar cal) {
 		this.cal = cal;
-		from = new Date();
-		to = new Date();
-		to.setTime(from.getTime() + 1000 * 60 * 60 * 24 * 7);
+
+		java.util.Calendar c = java.util.Calendar.getInstance();
+
 		listeners = new ArrayList<CalendarChangeEventListener>();
+
 		cal.addCalendarChangeEventListener(this);
+
+		c.setTime(new Date());
+		year = c.get(java.util.Calendar.YEAR);
+		setWeek(1);
 	}
 
 	/**
@@ -98,5 +103,13 @@ public class CalendarPerspective implements CalendarChangeEventListener {
 
 	public void update() {
 		updatePerspective();
+	}
+
+	public Date getFrom() {
+		return from;
+	}
+
+	public Date getTo() {
+		return to;
 	}
 }

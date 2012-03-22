@@ -36,6 +36,10 @@ public class CalendarView extends JPanel implements CalendarChangeEventListener 
 	JPanel headerPanel;
 	JPanel rowHeaderPanel;
 
+	private final static String dayNames[] = { "Man", "Tir", "Ons", "Tor",
+			"Fre", "Lør", "Søn" };
+	JLabel headerDayLabes[];
+
 	JPanel innerPanel;
 	SpringLayout innerSpring;
 	Spring innerColSprings[];
@@ -43,11 +47,11 @@ public class CalendarView extends JPanel implements CalendarChangeEventListener 
 	List<EventPanel> eventPanels;
 
 	public final static int HOUR_HEIGHT = 64;
-	public final static int FIRST_HOUR = 8;
+	public final static int FIRST_HOUR = 7;
 	public final static int LAST_HOUR = 24;
 
 	private final static DateFormat dateFormat = DateFormat.getInstance();
-	
+
 	private CalendarPerspective perspective;
 
 	public CalendarView() {
@@ -58,6 +62,26 @@ public class CalendarView extends JPanel implements CalendarChangeEventListener 
 
 		btnPrevWeek.setIcon(new ImageIcon("Icons/leftarrow.png"));
 		btnNextWeek.setIcon(new ImageIcon("Icons/rightarrow.png"));
+
+		btnPrevWeek.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (perspective != null) {
+					perspective.setWeek(perspective.getWeek() - 1);
+				}
+			}
+		});
+
+		btnNextWeek.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (perspective != null) {
+					perspective.setWeek(perspective.getWeek() + 1);
+				}
+			}
+		});
 
 		SpringLayout spring = new SpringLayout();
 		setLayout(spring);
@@ -133,13 +157,11 @@ public class CalendarView extends JPanel implements CalendarChangeEventListener 
 		headerPanel.setLayout(new BoxLayout(headerPanel, BoxLayout.X_AXIS));
 		scrollPane.setColumnHeaderView(headerPanel);
 
-		headerPanel.add(makeNewHeader("Mandag"));
-		headerPanel.add(makeNewHeader("Tirsdag"));
-		headerPanel.add(makeNewHeader("Onsdag"));
-		headerPanel.add(makeNewHeader("Torsdag"));
-		headerPanel.add(makeNewHeader("Fredag"));
-		headerPanel.add(makeNewHeader("Lørdag"));
-		headerPanel.add(makeNewHeader("Søndag"));
+		headerDayLabes = new JLabel[7];
+		
+		for (int i = 0; i < 7; i++) {
+			headerPanel.add(makeNewHeader(dayNames[i], i));
+		}
 
 		// Row header panel
 
@@ -172,10 +194,12 @@ public class CalendarView extends JPanel implements CalendarChangeEventListener 
 
 	}
 
-	private JPanel makeNewHeader(String caption) {
+	private JPanel makeNewHeader(String caption, int index) {
 		JPanel p = new JPanel();
 		p.setOpaque(false);
-		p.add(new JLabel(caption));
+		JLabel l = new JLabel(caption + " ??/??");
+		headerDayLabes[index] = l;
+		p.add(l);
 		return p;
 	}
 
@@ -193,7 +217,7 @@ public class CalendarView extends JPanel implements CalendarChangeEventListener 
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setSize(600, 400);
 	}
-	
+
 	public void addEvent(Event e) {
 		addEventPanel(new EventPanel(e));
 	}
@@ -212,7 +236,7 @@ public class CalendarView extends JPanel implements CalendarChangeEventListener 
 		c.setY(Spring.constant(ep.getEventYPos() - (HOUR_HEIGHT * FIRST_HOUR)));
 		c.setHeight(Spring.constant(ep.getEventYSize()));
 	}
-	
+
 	public void setPerspective(CalendarPerspective perspective) {
 		if (this.perspective != null) {
 			this.perspective.removeCalendarChangeEventListener(this);
@@ -220,7 +244,7 @@ public class CalendarView extends JPanel implements CalendarChangeEventListener 
 		this.perspective = perspective;
 		perspective.addCalendarChangeEventListener(this);
 	}
-	
+
 	public CalendarPerspective getPerspective() {
 		return perspective;
 	}
@@ -230,21 +254,36 @@ public class CalendarView extends JPanel implements CalendarChangeEventListener 
 		if (perspective != null) {
 			clear();
 			populate();
+			repaint();
+		}
+
+		java.util.Calendar c = java.util.Calendar.getInstance();
+
+		c.setTime(perspective.getFrom());
+
+		int dayOfYear = c.get(java.util.Calendar.DAY_OF_YEAR);
+
+		for (int i = 0; i < 7; i++) {
+			c.set(java.util.Calendar.DAY_OF_YEAR, dayOfYear+i);
+			int day = c.get(java.util.Calendar.DAY_OF_MONTH);
+			int month = c.get(java.util.Calendar.MONTH)+1;
+			headerDayLabes[i].setText(dayNames[i] + " " + Integer.toString(day)
+					+ "/" + Integer.toString(month));
 		}
 	}
-	
+
 	private void clear() {
 		for (EventPanel ep : eventPanels) {
-			//TODO: uncomment this line when it is possible
-			//ep.setModel(null);
-			remove(ep);
+			// TODO: uncomment this line when it is possible
+			// ep.setModel(null);
+			innerPanel.remove(ep);
 		}
 		eventPanels.clear();
 	}
-	
+
 	private void populate() {
 		List<Event> events = perspective.getEvents();
-		
+
 		for (Event ev : events) {
 			addEvent(ev);
 		}
