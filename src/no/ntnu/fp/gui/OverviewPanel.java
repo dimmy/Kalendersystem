@@ -183,6 +183,15 @@ public class OverviewPanel extends JPanel implements CalendarChangeEventListener
 		lblWeekDisplay.setText("<html><h1>Uke "+Integer.toString(perspective.getWeek())+"</h1></html>");
 	}
 	
+	/**
+	 * Changes the perspective to the current week
+	 */
+	public void goToNow() {
+		java.util.Calendar c = java.util.Calendar.getInstance();
+		c.setTime(new Date());
+		perspective.setYear(c.get(java.util.Calendar.YEAR));
+		perspective.setWeek(c.get(java.util.Calendar.WEEK_OF_YEAR));
+	}
 	
 
 	public static void main(String[] args) {
@@ -190,12 +199,14 @@ public class OverviewPanel extends JPanel implements CalendarChangeEventListener
 		OverviewPanel op = new OverviewPanel();
 		
 		op.setCalendar(cal);
+		op.goToNow();
 
 		Event ev = new Event();
 		
 		ev.setTime("2012-03-22 13:00");
 		ev.setTimeLength(60);
 		ev.setEventname("Testevent");
+		ev.setEventdescription("This is a test event. everyone is invited.");
 		
 		cal.addEvent(ev);
 
@@ -204,6 +215,7 @@ public class OverviewPanel extends JPanel implements CalendarChangeEventListener
 		ev.setTime("2012-03-23 14:00");
 		ev.setTimeLength(80);
 		ev.setEventname("Testevent 2");
+		ev.setEventdescription("Barbecue on roof.");
 		
 		cal.addEvent(ev);
 		
@@ -213,6 +225,7 @@ public class OverviewPanel extends JPanel implements CalendarChangeEventListener
 		ev.setTime("2012-03-27 09:00");
 		ev.setTimeLength(90);
 		ev.setEventname("Testevent 3");
+		ev.setEventdescription("Woot woot!");
 		
 		cal.addEvent(ev);
 		

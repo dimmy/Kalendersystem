@@ -127,6 +127,7 @@ public class CalendarView extends JPanel implements CalendarChangeEventListener 
 				.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 
 		scrollPane.getVerticalScrollBar().setBlockIncrement(HOUR_HEIGHT);
+		scrollPane.getVerticalScrollBar().setUnitIncrement(HOUR_HEIGHT/4);
 
 		scrollPane.setBackground(Color.WHITE);
 
