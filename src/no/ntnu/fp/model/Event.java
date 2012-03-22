@@ -2,7 +2,11 @@ package no.ntnu.fp.model;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 /**
  * 
@@ -24,12 +28,17 @@ public class Event {
 	private int timeLength;
 	private Type type;
 	private String place;
-	private RoomReservation room;
+	private RoomReservation roomReservation;
 	private String status;
 	private User eventowner;
 
+	// Event listeners
+
+	ArrayList<PropertyChangeListener> pclisteners;
+
 	public Event() {
 		type = Type.appointment;
+		pclisteners = new ArrayList<PropertyChangeListener>();
 	}
 
 	public void changeEvent() {
@@ -49,7 +58,10 @@ public class Event {
 	}
 
 	public void setEventID(int eventID) {
+		PropertyChangeEvent e = new PropertyChangeEvent(this, "eventID",
+				this.eventID, eventID);
 		this.eventID = eventID;
+		firePropertyChangeEvent(e);
 	}
 
 	public String getEventdescription() {
@@ -57,7 +69,10 @@ public class Event {
 	}
 
 	public void setEventdescription(String eventdescription) {
+		PropertyChangeEvent e = new PropertyChangeEvent(this,
+				"eventdescription", this.eventdescription, eventdescription);
 		this.eventdescription = eventdescription;
+		firePropertyChangeEvent(e);
 	}
 
 	public Date getStartTime() {
@@ -65,9 +80,12 @@ public class Event {
 	}
 
 	public void setStartTime(Date startTime) {
+		PropertyChangeEvent e = new PropertyChangeEvent(this, "startTime",
+				this.startTime, startTime);
 		this.startTime = startTime;
+		firePropertyChangeEvent(e);
 	}
-	
+
 	public void setTime(String time) {
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:ss");
 		try {
@@ -88,7 +106,10 @@ public class Event {
 	}
 
 	public void setTimeLength(int timeLength) {
+		PropertyChangeEvent e = new PropertyChangeEvent(this, "timeLength",
+				this.timeLength, timeLength);
 		this.timeLength = timeLength;
+		firePropertyChangeEvent(e);
 	}
 
 	public Type getType() {
@@ -96,7 +117,10 @@ public class Event {
 	}
 
 	public void setType(Type type) {
+		PropertyChangeEvent e = new PropertyChangeEvent(this, "type",
+				this.type, type);
 		this.type = type;
+		firePropertyChangeEvent(e);
 	}
 
 	public String getStatus() {
@@ -104,7 +128,10 @@ public class Event {
 	}
 
 	public void setStatus(String status) {
+		PropertyChangeEvent e = new PropertyChangeEvent(this, "status",
+				this.status, status);
 		this.status = status;
+		firePropertyChangeEvent(e);
 	}
 
 	public User getEventowner() {
@@ -112,19 +139,32 @@ public class Event {
 	}
 
 	public void setEventowner(User eventowner) {
+		PropertyChangeEvent e = new PropertyChangeEvent(this, "eventowner",
+				this.eventowner, eventowner);
 		this.eventowner = eventowner;
+		firePropertyChangeEvent(e);
 	}
 
 	public String getPlace() {
 		return place;
 	}
-	
-	public void setPlace(String place){
+
+	public void setPlace(String place) {
+		PropertyChangeEvent e = new PropertyChangeEvent(this, "place",
+				this.place, place);
 		this.place = place;
+		firePropertyChangeEvent(e);
 	}
 
-	public RoomReservation getRoom() {
-		return room;
+	public RoomReservation getRoomReservation() {
+		return roomReservation;
+	}
+
+	public void setRoomReservation(RoomReservation roomReservation) {
+		PropertyChangeEvent e = new PropertyChangeEvent(this, "roomReservation",
+				this.roomReservation, roomReservation);
+		this.roomReservation = roomReservation;
+		firePropertyChangeEvent(e);
 	}
 
 	/**
@@ -145,6 +185,23 @@ public class Event {
 	}
 
 	public void setEventname(String eventname) {
+		PropertyChangeEvent e = new PropertyChangeEvent(this, "eventname",
+				this.eventname, eventname);
 		this.eventname = eventname;
+		firePropertyChangeEvent(e);
+	}
+
+	public void addPropertyChangedListener(PropertyChangeListener listener) {
+		pclisteners.add(listener);
+	}
+
+	public void removePropertyChangedListener(PropertyChangeListener listener) {
+		pclisteners.remove(listener);
+	}
+
+	private void firePropertyChangeEvent(PropertyChangeEvent ev) {
+		for (PropertyChangeListener listener : pclisteners) {
+			listener.propertyChange(ev);
+		}
 	}
 }
