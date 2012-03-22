@@ -5,6 +5,8 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.text.ParseException;
+import java.util.Date;
 
 import javax.swing.*;
 
@@ -13,6 +15,7 @@ import no.ntnu.fp.model.Calendar;
 import no.ntnu.fp.model.CalendarChangeEvent;
 import no.ntnu.fp.model.CalendarChangeEventListener;
 import no.ntnu.fp.model.CalendarPerspective;
+import no.ntnu.fp.model.Event;
 
 /**
  * Panel for main overview window
@@ -187,6 +190,31 @@ public class OverviewPanel extends JPanel implements CalendarChangeEventListener
 		OverviewPanel op = new OverviewPanel();
 		
 		op.setCalendar(cal);
+
+		Event ev = new Event();
+		
+		ev.setTime("2012-03-22 13:00");
+		ev.setTimeLength(60);
+		ev.setEventname("Testevent");
+		
+		cal.addEvent(ev);
+
+		ev = new Event();
+		
+		ev.setTime("2012-03-23 14:00");
+		ev.setTimeLength(80);
+		ev.setEventname("Testevent 2");
+		
+		cal.addEvent(ev);
+		
+
+		ev = new Event();
+		
+		ev.setTime("2012-03-27 09:00");
+		ev.setTimeLength(90);
+		ev.setEventname("Testevent 3");
+		
+		cal.addEvent(ev);
 		
 		JFrame frame = new JFrame();
 		frame.add(op);

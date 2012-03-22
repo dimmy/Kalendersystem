@@ -13,7 +13,7 @@ public class EventPanel extends JPanel {
 	private int fromHour = 8;
 	private int fromMin = 0;
 
-	private int lengthMins = 60;
+	private int lengthMins = 55;
 
 	private int day = 0;
 
@@ -28,32 +28,14 @@ public class EventPanel extends JPanel {
 		setMinimumSize(new Dimension(0, CalendarView.HOUR_HEIGHT));
 	}
 
-	public EventPanel(String title) {
-		initAppearance();
-		this.title = title;
-
-		add(new JLabel(title));
-	}
-
 	public EventPanel(Event model) {
 		initAppearance();
 
 		this.model = model;
 
-		add(new JLabel(model.getEventdescription()));
-	}
+		updatePos();
 
-	public void setFrom(int hour, int minute) {
-		fromHour = hour;
-		fromMin = minute;
-	}
-
-	public void setDay(int day) {
-		this.day = day;
-	}
-
-	public void setLength(int mins) {
-		lengthMins = mins;
+		add(new JLabel(model.getEventname()));
 	}
 
 	public int getDay() {
@@ -66,5 +48,39 @@ public class EventPanel extends JPanel {
 
 	public int getEventYSize() {
 		return (CalendarView.HOUR_HEIGHT * (lengthMins)) / 60;
+	}
+
+	public void updatePos() {
+		java.util.Calendar c = java.util.Calendar.getInstance();
+
+		c.setTime(model.getStartTime());
+
+		day = javaToNorwegianWeekday(c.get(java.util.Calendar.DAY_OF_WEEK));
+
+		lengthMins = model.getTimeLength();
+		
+		fromHour = c.get(java.util.Calendar.HOUR_OF_DAY);
+		fromMin = c.get(java.util.Calendar.MINUTE);
+	}
+
+	private int javaToNorwegianWeekday(int javaDay) {
+		switch (javaDay) {
+		case java.util.Calendar.MONDAY:
+			return 0;
+		case java.util.Calendar.TUESDAY:
+			return 1;
+		case java.util.Calendar.WEDNESDAY:
+			return 2;
+		case java.util.Calendar.THURSDAY:
+			return 3;
+		case java.util.Calendar.FRIDAY:
+			return 4;
+		case java.util.Calendar.SATURDAY:
+			return 5;
+		case java.util.Calendar.SUNDAY:
+			return 6;
+		default:
+			return 0;
+		}
 	}
 }

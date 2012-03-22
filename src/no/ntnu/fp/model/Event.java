@@ -1,5 +1,7 @@
 package no.ntnu.fp.model;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -17,6 +19,7 @@ public class Event {
 
 	private int eventID;
 	private String eventdescription;
+	private String eventname;
 	private Date startTime;
 	private int timeLength;
 	private Type type;
@@ -63,6 +66,16 @@ public class Event {
 
 	public void setStartTime(Date startTime) {
 		this.startTime = startTime;
+	}
+	
+	public void setTime(String time) {
+		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:ss");
+		try {
+			setStartTime(df.parse(time));
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	public Date getEndTime() {
@@ -125,5 +138,13 @@ public class Event {
 	 */
 	public boolean overlaps(Date from, Date to) {
 		return (from.before(getEndTime())) && to.after(getStartTime());
+	}
+
+	public String getEventname() {
+		return eventname;
+	}
+
+	public void setEventname(String eventname) {
+		this.eventname = eventname;
 	}
 }
