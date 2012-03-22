@@ -13,8 +13,10 @@ public class Client {
         PrintWriter out = null;
         BufferedReader in = null;
         String en = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
-        String to = "<oppskrift navn=\"Loff\" forberedelsestid=\"5 minutter\" totaltid=\"3 timer\">";
-        String tre = "</oppskrift>";
+        String to = "<event eventdescription = \"Laangt\" place=\"Knuts kontor\" eventid = \"3\">";
+        String tre = "</event>";
+        String fire = "<participants>";
+        String fem = "<person>";
  
         try {
             kkSocket = new Socket("Oyvind-PC", 4444);

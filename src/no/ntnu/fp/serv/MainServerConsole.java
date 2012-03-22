@@ -14,6 +14,7 @@ import javax.xml.stream.XMLStreamConstants;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 
+import no.ntnu.fp.model.Event.Type;
 import nu.xom.Element;
 import nu.xom.Elements;
 
@@ -68,9 +69,13 @@ public class MainServerConsole {
             case XMLStreamConstants.END_DOCUMENT:
                     break;
             case XMLStreamConstants.START_ELEMENT:
-                if(xmlReader.getName().toString() == "oppskrift"){
-                	System.out.println("start");
-                }    
+                if(xmlReader.getName().toString() == "event"){
+                	insertEventIntoDatabase(xmlReader);
+                }
+                else if(xmlReader.getName().toString() == "room"){
+                	insertRoomIntoDatabase(xmlReader);
+                }
+                
             	break;
             case XMLStreamConstants.END_ELEMENT:
             	if(xmlReader.getName().toString() == "oppskrift"){
@@ -84,12 +89,65 @@ public class MainServerConsole {
         xmlReader.next();
         xmlReader.close();
         }
-
-	
-	
         
         
 	}
+	private static void makeEvent(XMLStreamReader xmlReader){
+		no.ntnu.fp.model.Event event = new no.ntnu.fp.model.Event(); 
+		event.setPlace(xmlReader.getAttributeValue(null, "place"));
+		event.setEventID(Integer.parseInt((xmlReader.getAttributeValue(null, "eventid"))));
+		event.setStatus(xmlReader.getAttributeValue(null, "status"));
+		event.setTimeLength(Integer.parseInt((xmlReader.getAttributeValue(null, "timelength"))));
+		if(xmlReader.getAttributeValue(null, "type") == "appointment"){
+			event.setType(Type.appointment);
+		}else{
+			event.setType(Type.meeting);
+		}
+	
+	
+	}
+	
+	private static void insertEventIntoDatabase(XMLStreamReader xmlReader) throws XMLStreamException{
+		String place = xmlReader.getAttributeValue(null, "place");
+		int eventId = Integer.parseInt((xmlReader.getAttributeValue(null, "eventid")));
+		String status = (xmlReader.getAttributeValue(null, "status"));
+		int timeLength = Integer.parseInt((xmlReader.getAttributeValue(null, "timelength")));
+		String type;
+		if(xmlReader.getAttributeValue(null, "type") == "appointment"){
+			type = Type.appointment.toString();
+		}else{
+			type = Type.meeting.toString();
+		}
+		int eventOwner = Integer.parseInt((xmlReader.getAttributeValue(null, "eventowner")));
+		String roomId = xmlReader.getAttributeValue(null, "roomid");
+		String date = xmlReader.getAttributeValue(null, "date");
+		String evenDescription = xmlReader.getAttributeValue(null, "eventdescription");
+		
+		if(xmlReader.hasNext()){
+			int count = xmlReader.getAttributeCount();
+			for (int i = 0; i < count; i++) {
+				xmlReader.hasNext();
+				String username = xmlReader.getAttributeValue(null, "username");
+				
+			}
+		}
+		
+		
+		
+		
+		//Insert into database!!
+	}
+	
+	private static void insertRoomIntoDatabase(XMLStreamReader xmlReader){
+		String roomId = xmlReader.getAttributeValue(null, "roomid");
+		int capacity = Integer.parseInt(xmlReader.getAttributeValue(null, "capacity"));
+		
+		//Insert into Database
+	}
+	
+	
+	
+	
 	
 }
 	
