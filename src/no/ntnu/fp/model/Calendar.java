@@ -9,8 +9,9 @@ public class Calendar implements AbstractCalendar {
 
 	private ArrayList<CalendarChangeEventListener> listeners;
 
-	Calendar() {
+	public Calendar() {
 		events = new ArrayList<Event>();
+		listeners = new ArrayList<CalendarChangeEventListener>();
 	}
 
 	public void addEvent(Event event) {

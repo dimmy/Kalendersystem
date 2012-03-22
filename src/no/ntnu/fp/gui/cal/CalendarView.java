@@ -1,5 +1,8 @@
 package no.ntnu.fp.gui.cal;
 
+import no.ntnu.fp.model.CalendarChangeEvent;
+import no.ntnu.fp.model.CalendarChangeEventListener;
+import no.ntnu.fp.model.CalendarPerspective;
 import no.ntnu.fp.model.Event;
 
 import java.awt.Color;
@@ -25,7 +28,7 @@ import no.ntnu.fp.model.Event;
  * 
  */
 
-public class CalendarView extends JPanel {
+public class CalendarView extends JPanel implements CalendarChangeEventListener {
 
 	JButton btnPrevWeek;
 	JButton btnNextWeek;
@@ -44,6 +47,8 @@ public class CalendarView extends JPanel {
 	public final static int LAST_HOUR = 24;
 
 	private final static DateFormat dateFormat = DateFormat.getInstance();
+	
+	private CalendarPerspective perspective;
 
 	public CalendarView() {
 		// Placeholder
@@ -122,26 +127,6 @@ public class CalendarView extends JPanel {
 
 		eventPanels = new ArrayList<EventPanel>();
 
-		Event testEv = new Event();
-
-		testEv.setEventdescription("Avtale");
-		testEv.setStartTime(new Date());
-		testEv.setTimeLength(60);
-
-		EventPanel ep = new EventPanel(testEv);
-		addEventPanel(ep);
-
-		ep = new EventPanel("Møte");
-		ep.setDay(1);
-		ep.setLength(90);
-		addEventPanel(ep);
-
-		ep = new EventPanel("etc");
-		ep.setDay(3);
-		ep.setLength(30);
-		ep.setFrom(9, 15);
-		addEventPanel(ep);
-
 		// Header panel
 
 		headerPanel = new JPanel();
@@ -208,8 +193,12 @@ public class CalendarView extends JPanel {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setSize(600, 400);
 	}
+	
+	public void addEvent(Event e) {
+		addEventPanel(new EventPanel(e));
+	}
 
-	public void addEventPanel(EventPanel ep) {
+	private void addEventPanel(EventPanel ep) {
 		if (ep == null)
 			return;
 
@@ -222,5 +211,42 @@ public class CalendarView extends JPanel {
 		c.setWidth(innerColSprings[1]);
 		c.setY(Spring.constant(ep.getEventYPos() - (HOUR_HEIGHT * FIRST_HOUR)));
 		c.setHeight(Spring.constant(ep.getEventYSize()));
+	}
+	
+	public void setPerspective(CalendarPerspective perspective) {
+		if (this.perspective != null) {
+			this.perspective.removeCalendarChangeEventListener(this);
+		}
+		this.perspective = perspective;
+		perspective.addCalendarChangeEventListener(this);
+	}
+	
+	public CalendarPerspective getPerspective() {
+		return perspective;
+	}
+
+	@Override
+	public void calendarChanged(CalendarChangeEvent ev) {
+		if (perspective != null) {
+			clear();
+			populate();
+		}
+	}
+	
+	private void clear() {
+		for (EventPanel ep : eventPanels) {
+			//TODO: uncomment this line when it is possible
+			//ep.setModel(null);
+			remove(ep);
+		}
+		eventPanels.clear();
+	}
+	
+	private void populate() {
+		List<Event> events = perspective.getEvents();
+		
+		for (Event ev : events) {
+			addEvent(ev);
+		}
 	}
 }

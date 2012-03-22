@@ -8,6 +8,6 @@ public interface AbstractCalendar {
 
 	public List<Event> getEvents(Date from, Date to);
 
-	void addCalendarChangeEventListener(CalendarChangeEventListener listener);
-	void removeCalendarChangeEventListener(CalendarChangeEventListener listener);
+	public void addCalendarChangeEventListener(CalendarChangeEventListener listener);
+	public void removeCalendarChangeEventListener(CalendarChangeEventListener listener);
 }

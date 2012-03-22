@@ -5,7 +5,7 @@ import java.util.EventObject;
 public class CalendarChangeEvent extends EventObject {
 
 	public enum Type {
-		ADDED, REMOVED
+		ADDED, REMOVED, CHANGED
 	};
 
 	private Type type;

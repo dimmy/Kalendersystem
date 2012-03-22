@@ -9,6 +9,10 @@ import java.awt.GridBagLayout;
 import javax.swing.*;
 
 import no.ntnu.fp.gui.cal.CalendarView;
+import no.ntnu.fp.model.Calendar;
+import no.ntnu.fp.model.CalendarChangeEvent;
+import no.ntnu.fp.model.CalendarChangeEventListener;
+import no.ntnu.fp.model.CalendarPerspective;
 
 /**
  * Panel for main overview window
@@ -17,7 +21,7 @@ import no.ntnu.fp.gui.cal.CalendarView;
  * 
  */
 
-public class OverviewPanel extends JPanel {
+public class OverviewPanel extends JPanel implements CalendarChangeEventListener {
 
 	static int buttonVerticalPadding = 10;
 	static int buttonHorizontalPadding = 5;
@@ -34,6 +38,9 @@ public class OverviewPanel extends JPanel {
 	JPanel panTitle;
 
 	CalendarView calendarView;
+	
+	private CalendarPerspective perspective;
+	private Calendar calendar;
 
 	public OverviewPanel() {
 		btnNewAppointment = new JButton("Ny avtale");
@@ -151,9 +158,38 @@ public class OverviewPanel extends JPanel {
 
 	}
 
+	
+	public void setCalendar(Calendar calendar) {
+		this.calendar = calendar;
+		if (perspective != null) {
+			perspective.removeCalendarChangeEventListener(this);
+			perspective.liberate();
+		}
+		perspective = new CalendarPerspective(calendar);
+		perspective.addCalendarChangeEventListener(this);
+		calendarView.setPerspective(perspective);
+		perspective.update();
+	}
+	
+	public Calendar getCalendar() {
+		return calendar;
+	}
+
+	@Override
+	public void calendarChanged(CalendarChangeEvent ev) {
+		lblWeekDisplay.setText("<html><h1>Uke "+Integer.toString(perspective.getWeek())+"</h1></html>");
+	}
+	
+	
+
 	public static void main(String[] args) {
+		Calendar cal = new Calendar();
+		OverviewPanel op = new OverviewPanel();
+		
+		op.setCalendar(cal);
+		
 		JFrame frame = new JFrame();
-		frame.add(new OverviewPanel());
+		frame.add(op);
 		frame.setVisible(true);
 		frame.pack();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
