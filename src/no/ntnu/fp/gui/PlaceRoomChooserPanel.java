@@ -115,15 +115,15 @@ public class PlaceRoomChooserPanel extends JPanel
 		
 		// Room List FOR DEBUGING
 		ArrayList<Room> roomList = new ArrayList<Room>();
-		Room r = new Room("Rom 23", "Med prosjektor", 30);
+		Room r = new Room("Rom 23",  30);
 		roomList.add(r);
-		r = new Room("Rom 3", "stort", 50);
+		r = new Room("Rom 3", 50);
 		roomList.add(r);
-		r = new Room("Rom 23", "med pc", 10);
+		r = new Room("Rom 23", 10);
 		roomList.add(r);
-		r = new Room("Rom A1", "auditorium", 30);
+		r = new Room("Rom A1", 30);
 		roomList.add(r);
-		r = new Room("Rom gul", "Gule vegger", 15);
+		r = new Room("Rom gul", 15);
 		roomList.add(r);
 		// END FOR DEBUGING
 		

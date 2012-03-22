@@ -6,7 +6,7 @@ import java.util.Date;
 
 /*
  * @author: Fredrik
- * @author: ¯yvind
+ * @author: ï¿½yvind
  * 
  */
 

@@ -26,6 +26,7 @@ import nu.xom.ParsingException;
  */
 public class XmlSerializer {
 
+	/*
 	public Document toXml(Project aProject) {
 		Element root = new Element("project");
 		
@@ -91,17 +92,10 @@ public class XmlSerializer {
 		return new User(name, email, date);
 	}
 	
-	/**
-	 * TODO: handle this one to avoid duplicate code
-	 * 
-	 * @param date
-	 * @return
-	 * @throws ParseException
-	 */
 	private Date parseDate(String date) throws ParseException {
 		DateFormat format = DateFormat.getDateInstance(DateFormat.MEDIUM, java.util.Locale.US);
 		return format.parse(date);
 	}
-
+	*/
 }
 
