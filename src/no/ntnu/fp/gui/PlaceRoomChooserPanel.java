@@ -157,17 +157,21 @@ public class PlaceRoomChooserPanel extends JPanel
 		
 	}
 	
-	public void setSelected(Room room)
-	{
-		roomInput.setSelectedItem(room);
-	}
-	
 	public void addPlaceRoomSelectListener(PlaceRoomListener listener)
 	{
 		this.selectPlaceRoomListener.add(listener);
 	}
 	
-	
+	public void setPlaceRoom(String place, Room room) {
+		if (room != null) {
+			this.room.setSelected(true);
+			roomInput.setSelectedItem(room);
+		}
+		else if (place != null) {
+			this.place.setSelected(true);
+			placeInput.setText(place);
+		}
+	}
 	
 	private void firePlaceRoomSelectEvent(){
 		

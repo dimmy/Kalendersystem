@@ -3,6 +3,8 @@ package no.ntnu.fp.gui.cal;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.beans.PropertyChangeEvent;
@@ -13,13 +15,23 @@ import javax.swing.*;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.LineBorder;
 
+import no.ntnu.fp.gui.MeetingForm;
 import no.ntnu.fp.model.*;
 
 public class EventPanel extends JPanel implements PropertyChangeListener, MouseListener {
 
 	private class Popup extends JPopupMenu {
 		public Popup() {
-			add(new JMenuItem("Rediger"));	//TODO: Implement
+			JMenuItem mnuEdit = new JMenuItem("Rediger");
+			
+			mnuEdit.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+					MeetingForm.editMeeting(model); //TODO: Change this so you can also edit appointments
+				}
+			});
+			
+			add(mnuEdit);	//TODO: Implement
 			add(new JMenuItem("Meld avbud")); //TODO: Implement
 		}
 	}
@@ -38,6 +50,8 @@ public class EventPanel extends JPanel implements PropertyChangeListener, MouseL
 
 	private static final Font TITLE_FONT = new Font("Serif", Font.BOLD, 11);
 	private static final Font DESC_FONT = new Font("Serif", 0, 11);
+	
+	private CalendarView calView;
 
 	private void initAppearance() {
 
@@ -46,8 +60,10 @@ public class EventPanel extends JPanel implements PropertyChangeListener, MouseL
 		setMinimumSize(new Dimension(0, CalendarView.HOUR_HEIGHT));
 	}
 
-	public EventPanel(Event model) {
+	public EventPanel(Event model, CalendarView calView) {
 
+		this.calView = calView;
+		
 		initAppearance();
 
 		title = new JLabel("(title)");
@@ -93,6 +109,8 @@ public class EventPanel extends JPanel implements PropertyChangeListener, MouseL
 			this.model.removePropertyChangedListener(this);
 
 		this.model = model;
+		
+		model.addPropertyChangedListener(this);
 
 		if (model != null) {
 			title.setText(model.getEventname());
@@ -125,6 +143,8 @@ public class EventPanel extends JPanel implements PropertyChangeListener, MouseL
 
 		fromHour = c.get(java.util.Calendar.HOUR_OF_DAY);
 		fromMin = c.get(java.util.Calendar.MINUTE);
+
+		calView.updatePosition(this);
 	}
 
 	private int javaToNorwegianWeekday(int javaDay) {
@@ -155,6 +175,12 @@ public class EventPanel extends JPanel implements PropertyChangeListener, MouseL
 		}
 		else if (evt.getPropertyName() == "eventdescription") {
 			desc.setText("<html>"+(String) evt.getOldValue()+"</html>");
+		}
+		else if (evt.getPropertyName() == "startTime") {
+			updatePos();
+		}
+		else if (evt.getPropertyName() == "timeLength") {
+			updatePos();
 		}
 	}
 

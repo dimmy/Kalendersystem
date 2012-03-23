@@ -246,6 +246,7 @@ public class OverviewPanel extends JPanel implements CalendarChangeEventListener
 		ev.setTimeLength(60);
 		ev.setEventname("Testevent");
 		ev.setEventdescription("This is a test event. everyone is invited.");
+		ev.setType(Event.Type.meeting);
 		
 		cal.addEvent(ev);
 
@@ -255,6 +256,7 @@ public class OverviewPanel extends JPanel implements CalendarChangeEventListener
 		ev.setTimeLength(80);
 		ev.setEventname("Testevent 2");
 		ev.setEventdescription("Barbecue on roof.");
+		ev.setType(Event.Type.appointment);
 		
 		cal.addEvent(ev);
 		
