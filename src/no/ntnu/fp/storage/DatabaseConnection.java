@@ -2,6 +2,7 @@ package no.ntnu.fp.storage;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -41,6 +42,14 @@ class DatabaseConnection {
 		Statement st = conn.createStatement();
 		int res = st.executeUpdate(query);
 		return res;
+	}
+
+	public ResultSet makeSingleQuery(PreparedStatement pst) throws SQLException {
+		return pst.executeQuery();
+	}
+
+	public int makeUpdate(PreparedStatement pst) throws SQLException {
+		return pst.executeUpdate();
 	}
 
 }
