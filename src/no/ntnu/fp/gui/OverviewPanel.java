@@ -141,9 +141,9 @@ public class OverviewPanel extends JPanel implements CalendarChangeEventListener
 
 		// Title
 
-		lblWeekDisplay = new JLabel("<html><h1>Uke ?</h1></html>",
+		lblWeekDisplay = new JLabel("<html><h1>Week ?</h1></html>",
 				SwingConstants.CENTER);
-		lblLoginInfo = new JLabel("<html>Logget inn som: brukernavn</html>",
+		lblLoginInfo = new JLabel("<html>Loged in as: Username</html>",
 				SwingConstants.RIGHT);
 
 		panTitle = new JPanel();
@@ -219,7 +219,7 @@ public class OverviewPanel extends JPanel implements CalendarChangeEventListener
 
 	@Override
 	public void calendarChanged(CalendarChangeEvent ev) {
-		lblWeekDisplay.setText("<html><h1>Uke "+Integer.toString(perspective.getWeek())+"</h1></html>");
+		lblWeekDisplay.setText("<html><h1>Week "+Integer.toString(perspective.getWeek())+"</h1></html>");
 	}
 	
 	/**
