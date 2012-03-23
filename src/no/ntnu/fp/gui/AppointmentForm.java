@@ -44,8 +44,8 @@ public class AppointmentForm extends JPanel {
 
 		name = new JLabel("Name:");
 		description = new JLabel("Description:");
-		timeTo = new JLabel("From");
-		timeFrom = new JLabel("To");
+		timeTo = new JLabel("To");
+		timeFrom = new JLabel("From");
 		date = new JLabel("Date");
 
 		nameField = new JTextField();
