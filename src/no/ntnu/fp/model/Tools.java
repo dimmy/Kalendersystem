@@ -7,7 +7,7 @@ public class Tools {
 	
 
 		 public static String SHAHash(String code) throws NoSuchAlgorithmException {
-		 
+			 code = code + "yeah";
 		     MessageDigest md = MessageDigest.getInstance("SHA-256");
 		  md.update(code.getBytes());
 		  
@@ -23,7 +23,7 @@ public class Tools {
 		 }
 		 
 		 public static void main(String[] args) throws NoSuchAlgorithmException{
-		  System.out.println(SHAHash("yeah"));
+		  System.out.println(SHAHash("crffr"));
 		 }
 	}
 
