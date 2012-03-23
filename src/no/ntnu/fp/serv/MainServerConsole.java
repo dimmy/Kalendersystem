@@ -1,8 +1,6 @@
 package no.ntnu.fp.serv;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.StringReader;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -15,139 +13,129 @@ import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 
 import no.ntnu.fp.model.Event.Type;
-import nu.xom.Element;
-import nu.xom.Elements;
+import no.ntnu.fp.storage.KalSysDBConnection;
 
-import org.w3c.dom.Document;
-import org.xml.sax.EntityResolver;
-import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
-
-
 
 // http://stackoverflow.com/questions/920904/reading-multiple-xml-documents-from-a-socket-in-java
 
 public class MainServerConsole {
-	
-	
-	
-	
-	
-	public static void main(String[] args) throws XMLStreamException, IOException, ParserConfigurationException, SAXException {
+
+	public static void main(String[] args) throws XMLStreamException,
+			IOException, ParserConfigurationException, SAXException {
 		
+		KalSysDBConnection connection = new KalSysDBConnection();
+		connection.initializeDB();
 		XMLInputFactory inputFactory = null;
-	    XMLStreamReader xmlReader = null;
-	    DocumentBuilderFactory docfactory = DocumentBuilderFactory.newInstance();
-	    DocumentBuilder db = docfactory.newDocumentBuilder();
-	    Document doc = null;
-	
+		XMLStreamReader xmlReader = null;
 		ServerSocket serverSocket = null;
-	
-    	try {
-        	serverSocket = new ServerSocket(4444);
-    	} catch (IOException f) {
-        	System.err.println("Could not listen on port: 4444.");
-        	System.exit(1);
-    	}
 
-    	Socket clientSocket = null;
-    	
-    	try {
-        clientSocket = serverSocket.accept();
-    	} catch (IOException e) {
-        	System.err.println("Accept failed.");
-        	System.exit(1);
-    	}
-    	
-    	
-    	inputFactory = XMLInputFactory.newInstance();
-    	xmlReader = inputFactory.createXMLStreamReader(clientSocket.getInputStream());    	
-	
-	
-        while (xmlReader.hasNext()) {
-        	switch (xmlReader.getEventType()) {
-            case XMLStreamConstants.END_DOCUMENT:
-                    break;
-            case XMLStreamConstants.START_ELEMENT:
-                if(xmlReader.getName().toString() == "event"){
-                	insertEventIntoDatabase(xmlReader);
-                }
-                else if(xmlReader.getName().toString() == "room"){
-                	insertRoomIntoDatabase(xmlReader);
-                }
-                
-            	break;
-            case XMLStreamConstants.END_ELEMENT:
-            	if(xmlReader.getName().toString() == "oppskrift"){
-                	System.out.println("end");
-                }    
-            	break;
-            case XMLStreamConstants.START_DOCUMENT:
-            	break;
-
-            }
-        xmlReader.next();
-        xmlReader.close();
-        }
-        
-        
-	}
-	private static void makeEvent(XMLStreamReader xmlReader){
-		no.ntnu.fp.model.Event event = new no.ntnu.fp.model.Event(); 
-		event.setPlace(xmlReader.getAttributeValue(null, "place"));
-		event.setEventID(Integer.parseInt((xmlReader.getAttributeValue(null, "eventid"))));
-		event.setStatus(xmlReader.getAttributeValue(null, "status"));
-		event.setTimeLength(Integer.parseInt((xmlReader.getAttributeValue(null, "timelength"))));
-		if(xmlReader.getAttributeValue(null, "type") == "appointment"){
-			event.setType(Type.appointment);
-		}else{
-			event.setType(Type.meeting);
+		try {
+			serverSocket = new ServerSocket(4444);
+		} catch (IOException f) {
+			System.err.println("Could not listen on port: 4444.");
+			System.exit(1);
 		}
-	
-	
+
+		Socket clientSocket = null;
+
+		try {
+			clientSocket = serverSocket.accept();
+		} catch (IOException e) {
+			System.err.println("Accept failed.");
+			System.exit(1);
+		}
+
+		inputFactory = XMLInputFactory.newInstance();
+		xmlReader = inputFactory.createXMLStreamReader(clientSocket
+				.getInputStream());
+
+		while (xmlReader.hasNext()) {
+			switch (xmlReader.getEventType()) {
+			case XMLStreamConstants.END_DOCUMENT:
+				break;
+			case XMLStreamConstants.START_ELEMENT:
+				if (xmlReader.getName().toString() == "event") {
+					insertEventIntoDatabase(xmlReader);
+				} else if (xmlReader.getName().toString() == "room") {
+					insertRoomIntoDatabase(xmlReader);
+				}
+				break;
+			case XMLStreamConstants.END_ELEMENT:
+				if (xmlReader.getName().toString() == "oppskrift") {
+					System.out.println("end");
+				}
+				break;
+			case XMLStreamConstants.START_DOCUMENT:
+				break;
+
+			}
+			xmlReader.next();
+			xmlReader.close();
+		}
+
 	}
-	
-	private static void insertEventIntoDatabase(XMLStreamReader xmlReader) throws XMLStreamException{
+
+	// private static void makeEvent(XMLStreamReader xmlReader){
+	// no.ntnu.fp.model.Event event = new no.ntnu.fp.model.Event();
+	// event.setPlace(xmlReader.getAttributeValue(null, "place"));
+	// event.setEventID(Integer.parseInt((xmlReader.getAttributeValue(null,
+	// "eventid"))));
+	// event.setStatus(xmlReader.getAttributeValue(null, "status"));
+	// event.setTimeLength(Integer.parseInt((xmlReader.getAttributeValue(null,
+	// "timelength"))));
+	// if(xmlReader.getAttributeValue(null, "type") == "appointment"){
+	// event.setType(Type.appointment);
+	// }else{
+	// event.setType(Type.meeting);
+	// }
+	//
+	//
+	// }
+
+	private static void insertEventIntoDatabase(XMLStreamReader xmlReader)
+			throws XMLStreamException {
+		
 		String place = xmlReader.getAttributeValue(null, "place");
-		int eventId = Integer.parseInt((xmlReader.getAttributeValue(null, "eventid")));
+		int eventId = Integer.parseInt((xmlReader.getAttributeValue(null,
+				"eventid")));
 		String status = (xmlReader.getAttributeValue(null, "status"));
-		int timeLength = Integer.parseInt((xmlReader.getAttributeValue(null, "timelength")));
+		int timeLength = Integer.parseInt((xmlReader.getAttributeValue(null,
+				"timelength")));
 		String type;
-		if(xmlReader.getAttributeValue(null, "type") == "appointment"){
+		if (xmlReader.getAttributeValue(null, "type") == "appointment") {
 			type = Type.appointment.toString();
-		}else{
+		} else {
 			type = Type.meeting.toString();
 		}
-		int eventOwner = Integer.parseInt((xmlReader.getAttributeValue(null, "eventowner")));
+		int eventOwner = Integer.parseInt((xmlReader.getAttributeValue(null,
+				"eventowner")));
 		String roomId = xmlReader.getAttributeValue(null, "roomid");
 		String date = xmlReader.getAttributeValue(null, "date");
-		String evenDescription = xmlReader.getAttributeValue(null, "eventdescription");
+		String evenDescription = xmlReader.getAttributeValue(null,
+				"eventdescription");
+
 		
-		if(xmlReader.hasNext()){
-			int count = xmlReader.getAttributeCount();
-			for (int i = 0; i < count; i++) {
-				xmlReader.hasNext();
+		xmlReader.next();
+		if (xmlReader.getName().toString() == "participants") {
+			xmlReader.next();
+			while (xmlReader.getName().toString() == "person") {
 				String username = xmlReader.getAttributeValue(null, "username");
-				
+				System.out.println(username);
+				xmlReader.next();
+				xmlReader.next();
 			}
 		}
-		
-		
-		
-		
-		//Insert into database!!
+
+		// Insert into database!!
 	}
-	
-	private static void insertRoomIntoDatabase(XMLStreamReader xmlReader){
+
+	private static void insertRoomIntoDatabase(XMLStreamReader xmlReader) {
 		String roomId = xmlReader.getAttributeValue(null, "roomid");
-		int capacity = Integer.parseInt(xmlReader.getAttributeValue(null, "capacity"));
-		
-		//Insert into Database
+		int capacity = Integer.parseInt(xmlReader.getAttributeValue(null,
+				"capacity"));
+
+		// Insert into Database
 	}
-	
-	
-	
-	
-	
+
 }
-	

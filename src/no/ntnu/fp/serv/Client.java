@@ -13,10 +13,15 @@ public class Client {
         PrintWriter out = null;
         BufferedReader in = null;
         String en = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
-        String to = "<event eventdescription = \"Laangt\" place=\"Knuts kontor\" eventid = \"3\">";
-        String tre = "</event>";
-        String fire = "<participants>";
-        String fem = "<person>";
+        String to = "<event eventdescription = \"Laangt\" place=\"Knuts kontor\" eventid = \"3\" timelength = \"2\" eventowner = \"3\">";
+        String tre = "<participants>";
+        String fire = "<person username = \"perry\">";
+        String fem = "</person>";
+        String seks = "<person username = \"larsy\">";
+        String sju = "</person>";
+        String otte = "</participants>";
+        String ni = "</event>";
+        
  
         try {
             kkSocket = new Socket("Oyvind-PC", 4444);
@@ -38,6 +43,12 @@ public class Client {
         out.print(en);
         out.print(to);
         out.print(tre);
+        out.print(fire);
+        out.print(fem);
+        out.print(seks);
+        out.print(sju);
+        out.print(otte);
+        out.print(ni);
         out.close();
         kkSocket.close();
     }
