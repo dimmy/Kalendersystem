@@ -26,6 +26,13 @@ public interface KalSysStorage {
 	
 	public Room getRoom(String roomId) throws SQLException;
 	
+	public void insertEvent(String evenDescription, String leader, String name, java.sql.Date date, int timeLength, String place, String roomId, String type, String status) throws SQLException;
 	
+	public void deleteEvent(int eventId) throws SQLException;
 	
+	public void insertParticipant(String userName, int evid, String status) throws SQLException;
+	
+	public int getLatestEventId() throws SQLException;
+	
+	public void changeEvent(int evid, String evenDescription, String name, java.sql.Date date, int timeLength, String place, String roomId, String type, String status) throws SQLException;
 }

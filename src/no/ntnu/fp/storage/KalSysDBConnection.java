@@ -8,6 +8,7 @@ import java.util.Date;
 import java.util.List;
 
 import no.ntnu.fp.model.Event;
+import no.ntnu.fp.model.Event.Type;
 import no.ntnu.fp.model.User;
 import no.ntnu.fp.model.Room;
 
@@ -29,6 +30,22 @@ public class KalSysDBConnection extends DatabaseConnection implements
 		return user;
 	}
 
+	public void insertEvent(String evenDescription, String leader, String name, java.sql.Date date, int timeLength, String place, String roomId, String type, String status) throws SQLException{
+		PreparedStatement pst = conn.prepareStatement("insert into event (eventdescription, leader, starttime, timelength, place, roomid, type, status) values(?, ?, ?, ?, ?, ?, ?, ?)");
+		pst.setString(1, evenDescription); pst.setString(2, leader); pst.setString(3, name); pst.setDate(4, date); 
+		pst.setInt(5, timeLength);pst.setString(6, place); pst.setString(7, roomId); pst.setString(8, type); pst.setString(9, status);
+		makeUpdate(pst);
+	}
+	
+	public void deleteEvent(int eventId) throws SQLException{
+		PreparedStatement pst = conn.prepareStatement("delete from event where eventId = ?");
+		pst.setInt(1, eventId);
+		makeUpdate(pst);
+		pst = conn.prepareStatement("delete from participants where eventId = ?");
+		pst.setInt(1, eventId);
+		makeUpdate(pst);
+	}
+	
 	@Override
 	public void saveUser(User person) {
 		// TODO Auto-generated method stub
@@ -40,11 +57,23 @@ public class KalSysDBConnection extends DatabaseConnection implements
 		return null;
 	}
 
+	public void insertParticipant(String userName, int evid, String status) throws SQLException{
+		PreparedStatement pst = conn.prepareStatement("insert into participants values(?, ?, ?)");
+		pst.setString(1, userName); pst.setInt(2, evid); pst.setString(3, status);
+		makeUpdate(pst);
+	}
 	@Override
 	public List<Event> getEvents(User user) {
 		return null;
 	}
-
+	
+	public int getLatestEventId() throws SQLException{
+		PreparedStatement pst = conn.prepareStatement("select evid from event where evid = (select max(evid) from event)");
+		ResultSet rs = makeSingleQuery(pst);
+		rs.next();
+		return rs.getInt("evid");
+	}
+	
 	@Override
 	public void saveEvent(Event event) {
 		// TODO Auto-generated method stub
@@ -89,6 +118,20 @@ public class KalSysDBConnection extends DatabaseConnection implements
 		for (int i = 0; i < rooms.size(); i++) {
 			System.out.println(rooms.get(i));
 		}
+	}
+
+	@Override
+	public void changeEvent(int evid, String eventDescription, String name,
+			java.sql.Date date, int timeLength, String place, String roomId,
+			String type, String status) throws SQLException {
+		
+		PreparedStatement pst = conn.prepareStatement("insert into event where evid = ? values(?, ?, ?, ?, ?, ?, ?, ?)");
+		pst.setInt(1, evid); pst.setString(2, eventDescription); pst.setString(3, name); pst.setDate(4, date); 
+		pst.setInt(5, timeLength);pst.setString(6, place); pst.setString(7, roomId); pst.setString(8, type); pst.setString(9, status);
+		makeUpdate(pst);
+		
+		// TODO Auto-generated method stub
+		
 	}
 
 
