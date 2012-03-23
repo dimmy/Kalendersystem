@@ -127,7 +127,7 @@ public class CalendarView extends JPanel implements CalendarChangeEventListener 
 				.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 
 		scrollPane.getVerticalScrollBar().setBlockIncrement(HOUR_HEIGHT);
-		scrollPane.getVerticalScrollBar().setUnitIncrement(HOUR_HEIGHT/4);
+		scrollPane.getVerticalScrollBar().setUnitIncrement(HOUR_HEIGHT / 4);
 
 		scrollPane.setBackground(Color.WHITE);
 
@@ -159,7 +159,7 @@ public class CalendarView extends JPanel implements CalendarChangeEventListener 
 		scrollPane.setColumnHeaderView(headerPanel);
 
 		headerDayLabes = new JLabel[7];
-		
+
 		for (int i = 0; i < 7; i++) {
 			headerPanel.add(makeNewHeader(dayNames[i], i));
 		}
@@ -220,7 +220,7 @@ public class CalendarView extends JPanel implements CalendarChangeEventListener 
 	}
 
 	public void addEvent(Event e) {
-		addEventPanel(new EventPanel(e));
+		addEventPanel(new EventPanel(e, this));
 	}
 
 	private void addEventPanel(EventPanel ep) {
@@ -230,6 +230,10 @@ public class CalendarView extends JPanel implements CalendarChangeEventListener 
 		innerPanel.add(ep);
 		eventPanels.add(ep);
 
+		updatePosition(ep);
+	}
+
+	public void updatePosition(EventPanel ep) {
 		Constraints c = innerSpring.getConstraints(ep);
 
 		c.setX(innerColSprings[ep.getDay()]);
@@ -265,9 +269,9 @@ public class CalendarView extends JPanel implements CalendarChangeEventListener 
 		int dayOfYear = c.get(java.util.Calendar.DAY_OF_YEAR);
 
 		for (int i = 0; i < 7; i++) {
-			c.set(java.util.Calendar.DAY_OF_YEAR, dayOfYear+i);
+			c.set(java.util.Calendar.DAY_OF_YEAR, dayOfYear + i);
 			int day = c.get(java.util.Calendar.DAY_OF_MONTH);
-			int month = c.get(java.util.Calendar.MONTH)+1;
+			int month = c.get(java.util.Calendar.MONTH) + 1;
 			headerDayLabes[i].setText(dayNames[i] + " " + Integer.toString(day)
 					+ "/" + Integer.toString(month));
 		}

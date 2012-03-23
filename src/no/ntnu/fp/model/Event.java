@@ -28,7 +28,7 @@ public class Event {
 	private int timeLength;
 	private Type type;
 	private String place;
-	private RoomReservation roomReservation;
+	private Room room;
 	private String status;
 	private User eventowner;
 
@@ -156,14 +156,14 @@ public class Event {
 		firePropertyChangeEvent(e);
 	}
 
-	public RoomReservation getRoomReservation() {
-		return roomReservation;
+	public Room getRoom() {
+		return room;
 	}
 
-	public void setRoomReservation(RoomReservation roomReservation) {
+	public void setRoom(Room room) {
 		PropertyChangeEvent e = new PropertyChangeEvent(this,
-				"roomReservation", this.roomReservation, roomReservation);
-		this.roomReservation = roomReservation;
+				"room", this.room, room);
+		this.room = room;
 		firePropertyChangeEvent(e);
 	}
 
@@ -225,12 +225,12 @@ public class Event {
 	}
 
 	public String getFromText() {
-		SimpleDateFormat sdf = new SimpleDateFormat("mm:ss");
+		SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
 		return sdf.format(getFrom());
 	}
 
 	public String getToText() {
-		SimpleDateFormat sdf = new SimpleDateFormat("mm:ss");
+		SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
 		return sdf.format(getTo());
 	}
 
@@ -238,7 +238,7 @@ public class Event {
 		try {
 			SimpleDateFormat sdf_prefix = new SimpleDateFormat("yyyy-MM-dd");
 			SimpleDateFormat sdf_final = new SimpleDateFormat(
-					"yyyy-MM-dd mm:ss");
+					"yyyy-MM-dd HH:mm");
 			String fulldate = sdf_prefix.format(startTime) + " " + fromText;
 			setFrom(sdf_final.parse(fulldate));
 		} catch (ParseException e) {
@@ -251,7 +251,7 @@ public class Event {
 		try {
 			SimpleDateFormat sdf_prefix = new SimpleDateFormat("yyyy-MM-dd");
 			SimpleDateFormat sdf_final = new SimpleDateFormat(
-					"yyyy-MM-dd mm:ss");
+					"yyyy-MM-dd HH:mm");
 			String fulldate = sdf_prefix.format(startTime) + " " + toText;
 			setTo(sdf_final.parse(fulldate));
 		} catch (ParseException e) {
@@ -269,7 +269,7 @@ public class Event {
 		try {
 			SimpleDateFormat sdf_suffix = new SimpleDateFormat("mm:ss");
 			SimpleDateFormat sdf_final = new SimpleDateFormat(
-					"yyyy-MM-dd mm:ss");
+					"yyyy-MM-dd HH:mm");
 			String fulldate = dateText + " " + sdf_suffix.format(startTime);
 			setFrom(sdf_final.parse(fulldate));
 		} catch (ParseException e) {
