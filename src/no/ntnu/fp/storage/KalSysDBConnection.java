@@ -21,7 +21,12 @@ public class KalSysDBConnection extends DatabaseConnection implements
 		
 		ResultSet rs = this.makeSingleQuery(pst);
 		
-		return new User();
+		User user = new User();
+		user.setUsername(rs.getString("username"));
+		user.setName(rs.getString("user"));
+		user.setEmail(rs.getString("email"));
+		user.setPhone(rs.getInt("phone"));
+		return user;
 	}
 
 	@Override
