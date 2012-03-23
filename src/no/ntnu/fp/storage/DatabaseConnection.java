@@ -11,7 +11,7 @@ import java.util.Properties;
 class DatabaseConnection {
 	private String mysqlDriver = "com.mysql.jdbc.Driver";
 	private String url = "jdbc:mysql://mysql.stud.ntnu.no/heddano_fp43";
-	private Connection conn;
+	protected Connection conn;
 
 	public void initializeDB(){
 		try {
