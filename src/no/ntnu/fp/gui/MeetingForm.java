@@ -49,35 +49,36 @@ public class MeetingForm extends JPanel{
 	
 	private JButton addParticipant;
 	private JButton saveMeeting;
+	private JButton cancel;
 	
 	public MeetingForm (){
 		
 		setBorder(new EmptyBorder(10, 10, 10, 10) );
 		
-		name = new JLabel("Navn: ");
+		name = new JLabel("Name: ");
 		nameField = new JTextField("", 20);
 		
 		place = new PlaceRoomChooserPanel();
 		
-		time = new JLabel("Tid: ");
+		time = new JLabel("Time: ");
 		
-		from = new JLabel("Fra: ");
+		from = new JLabel("From: ");
 		fromField = new JTextField("", 6);
 		
-		to = new JLabel("Til: ");
+		to = new JLabel("To: ");
 		toField = new JTextField("", 6);
 		
-		date = new JLabel("Dato:");
+		date = new JLabel("Date:");
 		dateField = new JTextField("", 10);
 		
-		description = new JLabel("Beskrivelse:");
+		description = new JLabel("Description:");
 		descriptionArea = new JTextArea();
 		descriptionScroll = new JScrollPane(descriptionArea);
 		descriptionScroll.setPreferredSize(new Dimension(200,100));
 		descriptionArea.setWrapStyleWord(true);
 		descriptionArea.setLineWrap(true);
 		
-		participants = new JLabel("Deltagere: ");
+		participants = new JLabel("Participants: ");
 		participantsArea = new JTextArea();
 		participantScroll = new JScrollPane(participantsArea);
 		participantScroll.setPreferredSize(new Dimension(200,100));
@@ -85,7 +86,7 @@ public class MeetingForm extends JPanel{
 		participantsArea.setLineWrap(true);
 		
 		
-		addParticipant = new JButton("Legg til deltagere");
+		addParticipant = new JButton("Add participant");
 		addParticipant.addActionListener(new ActionListener() {
 			
 			@Override
@@ -99,8 +100,18 @@ public class MeetingForm extends JPanel{
 		});
 		
 		
-		saveMeeting = new JButton("Lagre");
+		saveMeeting = new JButton("Save");
 		
+		
+		cancel = new JButton("Cancel");
+		cancel.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				getParent().getParent().getParent().getParent().setVisible(false);
+				
+			}
+		});
 		
 		setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
@@ -218,7 +229,7 @@ public class MeetingForm extends JPanel{
 		c.gridwidth = 2;
 		c.ipadx = 0;
 		c.ipady = 0;
-		c.gridx = 2;
+		c.gridx = 1;
 		c.gridy = 6;
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.anchor = GridBagConstraints.EAST;
@@ -227,11 +238,20 @@ public class MeetingForm extends JPanel{
 		c.gridwidth = 1;
 		c.ipadx = 0;
 		c.ipady = 0;
-		c.gridx = 4;
+		c.gridx = 3;
 		c.gridy = 6;
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.anchor = GridBagConstraints.EAST;
 		add(saveMeeting, c);
+		
+		c.gridwidth = 1;
+		c.ipadx = 0;
+		c.ipady = 0;
+		c.gridx = 4;
+		c.gridy = 6;
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.anchor = GridBagConstraints.EAST;
+		add(cancel, c);
 		
 		
 	}

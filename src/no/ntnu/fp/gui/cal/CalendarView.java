@@ -36,8 +36,8 @@ public class CalendarView extends JPanel implements CalendarChangeEventListener 
 	JPanel headerPanel;
 	JPanel rowHeaderPanel;
 
-	private final static String dayNames[] = { "Man", "Tir", "Ons", "Tor",
-			"Fre", "Lør", "Søn" };
+	private final static String dayNames[] = { "Mon", "Tue", "Wed", "Thu",
+			"Fri", "Sat", "Sun" };
 	JLabel headerDayLabes[];
 
 	JPanel innerPanel;
