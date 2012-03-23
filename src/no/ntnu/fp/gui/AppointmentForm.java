@@ -7,25 +7,26 @@ import java.awt.GridBagLayout;
 
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 
 public class AppointmentForm extends JPanel {
 
 	private JLabel name;
-	private JLabel place;
 	private JLabel description;
 	private JLabel timeFrom;
 	private JLabel timeTo;
 	private JLabel date;
 
 	private JTextField nameField;
-	private JTextField placeField;
 	private JTextArea descriptionField;
 	private JTextField timeFromField;
 	private JTextField timeToField;
 	private JTextField dateField;
 
+	private PlaceRoomChooserPanel place;
+	
 	private JButton save;
-	private JButton delete;
+	private JButton cancel;
 
 	private GridBagLayout gbl;
 	private GridBagConstraints c;
@@ -33,30 +34,31 @@ public class AppointmentForm extends JPanel {
 	
 	public AppointmentForm() {
 		
+		setBorder(new EmptyBorder(10, 10, 10, 10) );
+		
 		gbl = new GridBagLayout();
 		c = new GridBagConstraints();
 		setLayout(gbl);
 
-		name = new JLabel("Navn:");
-		place = new JLabel("Sted:");
-		description = new JLabel("Beskrivelse:");
-		timeTo = new JLabel("Tid fra");
-		timeFrom = new JLabel("Tid til");
-		date = new JLabel("Dato");
+		name = new JLabel("Name:");
+		description = new JLabel("Description:");
+		timeTo = new JLabel("From");
+		timeFrom = new JLabel("To");
+		date = new JLabel("Date");
 
 		nameField = new JTextField();
-		placeField = new JTextField();
 		descriptionField = new JTextArea();
 		timeToField = new JTextField();
 		timeFromField = new JTextField();
 		dateField = new JTextField();
 
-		save = new JButton("Lagre");
-		delete = new JButton("Slett");
+		place = new PlaceRoomChooserPanel();
+		
+		save = new JButton("Save");
+		cancel = new JButton("Cancel");
 
 
 		nameField.setPreferredSize(new Dimension(200, 20));
-		placeField.setPreferredSize(new Dimension(200, 20));
 		dateField.setPreferredSize(new Dimension(100, 20));
 		timeFromField.setPreferredSize(new Dimension(100, 20));
 		timeToField.setPreferredSize(new Dimension(100, 20));
@@ -66,25 +68,24 @@ public class AppointmentForm extends JPanel {
 		c.ipadx = 10;
 		c.ipady = 10;
 		c.anchor = GridBagConstraints.WEST;
+		c.fill = GridBagConstraints.BOTH;
 
 		// Grid layout
 		c.gridx = 0;
 		c.gridy = 0;
 
 		add(name, c);
-		c.gridx = 1;
+		c.gridx = 1; c.gridy = 0;
 		add(nameField, c);
-
-		c.gridx = 0;
-		c.gridy = 1;
+		
+		c.gridx = 0; c.gridy = 1; c.gridwidth = 2;
 		add(place, c);
-		c.gridx = 1;
-		add(placeField, c);
-
-		c.gridx = 0;
+		
+		c.gridx = 0; c.gridwidth = 1;
 		c.gridy = 2;
 		add(timeFrom, c);
-		c.gridx = 1;
+		
+		c.gridx = 1; c.gridy = 2;
 		add(timeFromField, c);
 
 		c.gridx = 0;
@@ -112,13 +113,17 @@ public class AppointmentForm extends JPanel {
 		c.gridy = 6;
 		add(save, c);
 		c.gridx = 1;
-		add(delete, c);
+		add(cancel, c);
 		
 
 	}
 
 	public static void main(String[] args) {
 		
+		JFrame frame = new JFrame();
+		frame.add(new AppointmentForm());
+		frame.setVisible(true);
+		frame.pack();
 
 	}
 
