@@ -161,8 +161,8 @@ public class Event {
 	}
 
 	public void setRoomReservation(RoomReservation roomReservation) {
-		PropertyChangeEvent e = new PropertyChangeEvent(this, "roomReservation",
-				this.roomReservation, roomReservation);
+		PropertyChangeEvent e = new PropertyChangeEvent(this,
+				"roomReservation", this.roomReservation, roomReservation);
 		this.roomReservation = roomReservation;
 		firePropertyChangeEvent(e);
 	}
@@ -202,6 +202,79 @@ public class Event {
 	private void firePropertyChangeEvent(PropertyChangeEvent ev) {
 		for (PropertyChangeListener listener : pclisteners) {
 			listener.propertyChange(ev);
+		}
+	}
+
+	public Date getFrom() {
+		return startTime;
+	}
+
+	public void setFrom(Date from) {
+		setStartTime(from);
+	}
+
+	public Date getTo() {
+		return new Date(startTime.getTime() + 60000 * timeLength);
+	}
+
+	public void setTo(Date to) {
+		int ms = (int) (to.getTime() - startTime.getTime());
+		if (ms <= 0)
+			ms = 60000;
+		setTimeLength(ms);
+	}
+
+	public String getFromText() {
+		SimpleDateFormat sdf = new SimpleDateFormat("mm:ss");
+		return sdf.format(getFrom());
+	}
+
+	public String getToText() {
+		SimpleDateFormat sdf = new SimpleDateFormat("mm:ss");
+		return sdf.format(getTo());
+	}
+
+	public void setFromText(String fromText) {
+		try {
+			SimpleDateFormat sdf_prefix = new SimpleDateFormat("yyyy-MM-dd");
+			SimpleDateFormat sdf_final = new SimpleDateFormat(
+					"yyyy-MM-dd mm:ss");
+			String fulldate = sdf_prefix.format(startTime) + " " + fromText;
+			setFrom(sdf_final.parse(fulldate));
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	public void setToText(String toText) {
+		try {
+			SimpleDateFormat sdf_prefix = new SimpleDateFormat("yyyy-MM-dd");
+			SimpleDateFormat sdf_final = new SimpleDateFormat(
+					"yyyy-MM-dd mm:ss");
+			String fulldate = sdf_prefix.format(startTime) + " " + toText;
+			setTo(sdf_final.parse(fulldate));
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	public String getDateText() {
+		SimpleDateFormat sdf_prefix = new SimpleDateFormat("yyyy-MM-dd");
+		return sdf_prefix.format(startTime);
+	}
+
+	public void setDateText(String dateText) {
+		try {
+			SimpleDateFormat sdf_suffix = new SimpleDateFormat("mm:ss");
+			SimpleDateFormat sdf_final = new SimpleDateFormat(
+					"yyyy-MM-dd mm:ss");
+			String fulldate = dateText + " " + sdf_suffix.format(startTime);
+			setFrom(sdf_final.parse(fulldate));
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 }
