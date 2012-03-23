@@ -10,6 +10,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.border.EmptyBorder;
 
 public class MeetingSummon extends JPanel{
 	
@@ -38,39 +39,41 @@ public class MeetingSummon extends JPanel{
 	
 	
 	public MeetingSummon (){
+		
+		setBorder(new EmptyBorder(10, 10, 10, 10) );
 	
-		name = new JLabel("Navn: ");
+		name = new JLabel("Name: ");
 		nameField = new JTextField("", 20);
 		nameField.setEditable(false);
 		
-		place = new JLabel("Sted: ");
+		place = new JLabel("Place: ");
 		placeField = new JTextField("", 20);
 		placeField.setEditable(false);
 		
-		from = new JLabel("Fra: ");
+		from = new JLabel("From: ");
 		fromField = new JTextField("", 10);
 		fromField.setEditable(false);
 		
-		to = new JLabel("Til: ");
+		to = new JLabel("To: ");
 		toField = new JTextField("", 10);
 		toField.setEditable(false);
 		
-		description = new JLabel("Beskrivelse: ");
+		description = new JLabel("Description: ");
 		descriptionArea = new JTextArea(4, 20);
 		descriptionArea.setEditable(false);
 		descriptionArea.setWrapStyleWord(true);
 		descriptionArea.setLineWrap(true);
 		descriptionScroll = new JScrollPane(descriptionArea);
 		
-		participants = new JLabel("Deltagere: ");
+		participants = new JLabel("Participants: ");
 		participantsArea = new JTextArea(4, 20);
 		participantsArea.setEditable(false);
 		participantsArea.setWrapStyleWord(true);
 		participantsArea.setLineWrap(true);
 		participantsScroll = new JScrollPane(participantsArea);
 		
-		accept = new JButton("Godta");
-		decline = new JButton("Avslå"); 
+		accept = new JButton("Accept");
+		decline = new JButton("Decline"); 
 		
 		this.setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
