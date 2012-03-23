@@ -34,14 +34,14 @@ public class LoginPanel extends JPanel {
 	    lock.setIcon(icon);
 		
 		
-		text = new JLabel("Tast inn brukernavn og passord");
-		username = new JLabel("Brukernavn:");
-		password = new JLabel("Passord:");
+		text = new JLabel("Enter username and password");
+		username = new JLabel("Username:");
+		password = new JLabel("Password:");
 		
 		usernameField = new JTextField();
 		passwordField = new JPasswordField();
 		
-		logInButton = new JButton("Log inn");
+		logInButton = new JButton("Log in");
 		
 		usernameField.setPreferredSize(new Dimension(150, 20));
 		passwordField.setPreferredSize(new Dimension(150, 20));
@@ -84,7 +84,7 @@ public class LoginPanel extends JPanel {
 	
 	
 	public static void main(String[]args) {
-		JFrame frame = new JFrame("Log inn");
+		JFrame frame = new JFrame("Log in");
 		frame.setContentPane(new LoginPanel());
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.pack();
