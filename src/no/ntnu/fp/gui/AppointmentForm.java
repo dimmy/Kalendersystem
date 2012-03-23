@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 
 import javax.swing.*;
@@ -55,7 +57,24 @@ public class AppointmentForm extends JPanel {
 		place = new PlaceRoomChooserPanel();
 		
 		save = new JButton("Save");
+		
+		save.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		});
+		
 		cancel = new JButton("Cancel");
+		
+		cancel.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				getParent().getParent().getParent().getParent().setVisible(false);
+			}
+		});
 
 
 		nameField.setPreferredSize(new Dimension(200, 20));

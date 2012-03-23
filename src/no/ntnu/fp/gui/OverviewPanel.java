@@ -5,6 +5,8 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.text.ParseException;
 import java.util.Date;
 
@@ -30,6 +32,7 @@ public class OverviewPanel extends JPanel implements CalendarChangeEventListener
 	static int buttonHorizontalPadding = 5;
 
 	JButton btnNewAppointment;
+	JButton btnNewMeeting;
 	JButton btnAddCalendar;
 	JButton btnInbox;
 	JButton btnLogOut;
@@ -46,11 +49,39 @@ public class OverviewPanel extends JPanel implements CalendarChangeEventListener
 	private Calendar calendar;
 
 	public OverviewPanel() {
-		btnNewAppointment = new JButton("Ny avtale");
+		btnNewAppointment = new JButton("New appointment");
+		btnNewMeeting = new JButton("New meeting");
 		btnAddCalendar = new JButton("Add calendar");
 		btnInbox = new JButton("Inbox (?)");
 		btnLogOut = new JButton("Log out");
-
+		
+		// buttons Actionlistners
+		
+		btnNewAppointment.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				JFrame afFrame = new JFrame();
+				afFrame.add(new AppointmentForm());
+				afFrame.pack();
+				afFrame.setVisible(true);
+				
+			}
+		});
+		
+		btnNewMeeting.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				JFrame mfFrame = new JFrame();
+				mfFrame.add(new MeetingForm());
+				mfFrame.pack();
+				mfFrame.setVisible(true);
+				
+			}
+		});
+		
+		
 		// Left side button panel
 
 		SpringLayout spring = new SpringLayout();
@@ -59,11 +90,14 @@ public class OverviewPanel extends JPanel implements CalendarChangeEventListener
 		panLeftButtonPanel.setLayout(spring);
 
 		panLeftButtonPanel.add(btnNewAppointment);
+		panLeftButtonPanel.add(btnNewMeeting);
 		panLeftButtonPanel.add(btnAddCalendar);
 		panLeftButtonPanel.add(btnInbox);
 		panLeftButtonPanel.add(btnLogOut);
 
 		spring.putConstraint(SpringLayout.WEST, btnNewAppointment,
+				buttonHorizontalPadding, SpringLayout.WEST, panLeftButtonPanel);
+		spring.putConstraint(SpringLayout.WEST, btnNewMeeting,
 				buttonHorizontalPadding, SpringLayout.WEST, panLeftButtonPanel);
 		spring.putConstraint(SpringLayout.WEST, btnAddCalendar,
 				buttonHorizontalPadding, SpringLayout.WEST, panLeftButtonPanel);
@@ -76,6 +110,8 @@ public class OverviewPanel extends JPanel implements CalendarChangeEventListener
 		rightBorder = rightBorder.max(rightBorder,
 				spring.getConstraints(btnNewAppointment).getWidth());
 		rightBorder = rightBorder.max(rightBorder,
+				spring.getConstraints(btnNewMeeting).getWidth());
+		rightBorder = rightBorder.max(rightBorder,
 				spring.getConstraints(btnAddCalendar).getWidth());
 		rightBorder = rightBorder.max(rightBorder,
 				spring.getConstraints(btnInbox).getWidth());
@@ -83,6 +119,7 @@ public class OverviewPanel extends JPanel implements CalendarChangeEventListener
 				spring.getConstraints(btnLogOut).getWidth());
 
 		spring.getConstraints(btnNewAppointment).setWidth(rightBorder);
+		spring.getConstraints(btnNewMeeting).setWidth(rightBorder);
 		spring.getConstraints(btnAddCalendar).setWidth(rightBorder);
 		spring.getConstraints(btnInbox).setWidth(rightBorder);
 		spring.getConstraints(btnLogOut).setWidth(rightBorder);
@@ -93,8 +130,10 @@ public class OverviewPanel extends JPanel implements CalendarChangeEventListener
 
 		spring.putConstraint(SpringLayout.NORTH, btnNewAppointment,
 				buttonVerticalPadding, SpringLayout.NORTH, panLeftButtonPanel);
-		spring.putConstraint(SpringLayout.NORTH, btnAddCalendar,
+		spring.putConstraint(SpringLayout.NORTH, btnNewMeeting,
 				buttonVerticalPadding, SpringLayout.SOUTH, btnNewAppointment);
+		spring.putConstraint(SpringLayout.NORTH, btnAddCalendar,
+				buttonVerticalPadding, SpringLayout.SOUTH, btnNewMeeting);
 		spring.putConstraint(SpringLayout.NORTH, btnInbox,
 				buttonVerticalPadding, SpringLayout.SOUTH, btnAddCalendar);
 		spring.putConstraint(SpringLayout.NORTH, btnLogOut,
