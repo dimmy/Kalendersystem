@@ -80,7 +80,7 @@ public class LoginPanel extends JPanel {
 		c.gridy = 3;
 		add(logInButton, c);
 		
-		
+		revalidate();
 		setBackground(Color.white);
 		
 		
