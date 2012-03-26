@@ -1,6 +1,7 @@
 package no.ntnu.fp.serv;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.sql.Connection;
@@ -20,6 +21,7 @@ import no.ntnu.fp.model.Room;
 import no.ntnu.fp.model.Event.Type;
 import no.ntnu.fp.model.User;
 import no.ntnu.fp.model.ref.UserRef;
+import no.ntnu.fp.storage.ClassToXMLConverter;
 import no.ntnu.fp.storage.KalSysDBConnection;
 
 import org.xml.sax.SAXException;
@@ -40,6 +42,7 @@ public class MainServerConsole {
 		XMLInputFactory inputFactory = null;
 		XMLStreamReader xmlReader = null;
 		ServerSocket serverSocket = null;
+		PrintWriter out = null;
 
 		/**
 		 * Try to open connection
@@ -58,6 +61,7 @@ public class MainServerConsole {
 		 */
 		try {
 			clientSocket = serverSocket.accept();
+			out = new PrintWriter(clientSocket.getOutputStream(), true);
 		} catch (IOException e) {
 			System.err.println("Accept failed.");
 			System.exit(1);
@@ -67,9 +71,6 @@ public class MainServerConsole {
 		xmlReader = inputFactory.createXMLStreamReader(clientSocket
 				.getInputStream());
 
-		/**
-		 * Use xmlReader to get info and insert into database
-		 */
 
 		while (xmlReader.hasNext()) {
 			switch (xmlReader.getEventType()) {
@@ -85,7 +86,7 @@ public class MainServerConsole {
 				} else if (xmlReader.getName().toString() == "changeevent") {
 					Event event = parseEvent(xmlReader);
 					conn.changeEvent(event);
-				}else if (xmlReader.getName().toString() == "addparticipants") {
+				} else if (xmlReader.getName().toString() == "addparticipants") {
 					int eventid = Integer.parseInt(xmlReader.getAttributeValue(
 							null, "eventid"));
 					List<UserRef> participants = new ArrayList<UserRef>();
@@ -111,6 +112,17 @@ public class MainServerConsole {
 						xmlReader.next();
 					}
 					conn.deleteParticipants(participants, eventid);
+				} else if (xmlReader.getName().toString() == "login") {
+					String username = xmlReader.getAttributeValue(null, "username");
+					String password = xmlReader.getAttributeValue(null, "password");
+					conn.isValidUser(username, password);
+					
+				}else if(xmlReader.getName().toString() == "getevents"){
+					List<Event> events = conn.getEvents(xmlReader.getAttributeValue(null,"username"));
+					List<String> event = ClassToXMLConverter.EventFromClassToXML(events.get(1));
+					for (int i = 0; i < events.size(); i++) {
+						out.print(event.get(i));
+					}
 				}
 			case XMLStreamConstants.END_ELEMENT:
 				if (xmlReader.getName().toString() == "oppskrift") {

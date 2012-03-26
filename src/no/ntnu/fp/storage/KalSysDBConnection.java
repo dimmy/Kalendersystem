@@ -31,7 +31,6 @@ public class KalSysDBConnection extends DatabaseConnection implements
 		return user;
 	}
 
-
 	@Override
 	public void saveUser(User person) {
 		// TODO Auto-generated method stub
@@ -57,7 +56,6 @@ public class KalSysDBConnection extends DatabaseConnection implements
 	public List<Event> getEvents(User user) {
 		return null;
 	}
-
 
 	@Override
 	public void saveEvent(Event event) {
@@ -105,9 +103,6 @@ public class KalSysDBConnection extends DatabaseConnection implements
 		}
 	}
 
-
-	
-
 	@Override
 	public void deleteParticipants(List<UserRef> users, int eventid)
 			throws SQLException {
@@ -116,6 +111,7 @@ public class KalSysDBConnection extends DatabaseConnection implements
 			pst = conn
 					.prepareStatement("delete from participant where participant.username = ? and participant.evid = ?");
 			pst.setString(1, users.get(i).getUsername());
+			pst.setInt(2, eventid);
 			makeUpdate(pst);
 		}
 
@@ -123,14 +119,14 @@ public class KalSysDBConnection extends DatabaseConnection implements
 
 	}
 
-	
 	@Override
 	public void addParticipants(List<UserRef> users, int eventid)
 			throws SQLException {
 
 		PreparedStatement pst;
 		for (int i = 0; i < users.size(); i++) {
-			pst = conn.prepareStatement("insert into participant values(?, ?, ?)");
+			pst = conn
+					.prepareStatement("insert into participant values(?, ?, ?)");
 			pst.setString(1, users.get(i).getUsername());
 			pst.setInt(2, eventid);
 			pst.setString(3, "Waiting");
@@ -145,6 +141,7 @@ public class KalSysDBConnection extends DatabaseConnection implements
 				.prepareStatement("update event set eventdescription = ?, leader = ?, name = ?, starttime = ?, timelength = ?, place = ?, roomid = ?, type = ?, status = ? where evid = ?");
 		pst.setString(1, event.getEventdescription());
 		pst.setString(2, event.getEventowner().getUsername());
+		pst.setString(2, "Per");
 		pst.setString(3, event.getEventname());
 		pst.setString(4, event.getDateText());
 		pst.setInt(5, event.getTimeLength());
@@ -157,14 +154,15 @@ public class KalSysDBConnection extends DatabaseConnection implements
 		// TODO Auto-generated method stub
 
 	}
-	
-	public int getLatestEventId() throws SQLException{
-		PreparedStatement pst = conn.prepareStatement("select LAST_INSERT_ID()");
+
+	public int getLatestEventId() throws SQLException {
+		PreparedStatement pst = conn
+				.prepareStatement("select LAST_INSERT_ID()");
 		ResultSet rs = makeSingleQuery(pst);
 		rs.next();
 		return rs.getInt(1);
 	}
-	
+
 	public void insertEvent(Event event) throws SQLException {
 		PreparedStatement pst = conn
 				.prepareStatement("insert into event (eventdescription, leader, name, starttime, timelength, place, roomid, type, status) values(?, ?, ?, ?, ?, ?, ?, ?, ?)");
@@ -178,7 +176,7 @@ public class KalSysDBConnection extends DatabaseConnection implements
 		pst.setString(8, event.getType().toString());
 		pst.setString(9, event.getStatus());
 		makeUpdate(pst);
-		
+
 		event.setEventID(getLatestEventId());
 	}
 
@@ -191,6 +189,39 @@ public class KalSysDBConnection extends DatabaseConnection implements
 				.prepareStatement("delete from participants where eventId = ?");
 		pst.setInt(1, event.getEventID());
 		makeUpdate(pst);
+	}
+
+	@Override
+	public boolean isValidUser(String username, String password)
+			throws SQLException {
+		PreparedStatement pst = conn
+				.prepareStatement("select from user where user.username = ? and user.password = ?");
+		pst.setString(1, username);
+		pst.setString(2, password);
+		int count = 0;
+		ResultSet rs = makeSingleQuery(pst);
+		while (rs.next()) {
+			count++;
+		}
+		return count == 1 ? true : false;
+	}
+
+	@Override
+	public List<Event> getEvents(String username) throws SQLException {
+		List<Event> events = new ArrayList<Event>();
+		PreparedStatement pst = conn
+				.prepareStatement("select from event, participant where event.evid = participant.evid and participant.username = ?");
+		pst.setString(1, username);
+		ResultSet rs = makeSingleQuery(pst);
+		while (rs.next()) {
+			events.add(new Event(rs.getInt("evid"), rs
+					.getString("eventdescription"), rs.getString("name"), rs
+					.getDate("starttime"), rs.getInt("timelength"), rs
+					.getString("type"), rs.getString("place"), rs
+					.getString("room"), rs.getString("status"), rs
+					.getString("eventOwner")));
+		}
+		return events;
 	}
 
 }

@@ -38,4 +38,8 @@ public interface KalSysStorage {
 	public void addParticipants(List<UserRef> users, int eventid) throws SQLException; 
 	
 	public void changeEvent(Event event) throws SQLException;
+	
+	public boolean isValidUser(String username, String password) throws SQLException;
+	
+	public List<Event> getEvents(String username) throws SQLException;
 }
