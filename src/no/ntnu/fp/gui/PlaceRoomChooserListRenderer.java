@@ -7,6 +7,7 @@ import javax.swing.JList;
 import javax.swing.ListCellRenderer;
 
 import no.ntnu.fp.model.Room;
+import no.ntnu.fp.model.ref.RoomRef;
 
 @SuppressWarnings("serial")
 public class PlaceRoomChooserListRenderer extends JLabel implements ListCellRenderer {
@@ -18,9 +19,9 @@ public class PlaceRoomChooserListRenderer extends JLabel implements ListCellRend
 			boolean isSelected, 
 			boolean cellHasFocus) 
 	{
-		Room r = (Room) value;
+		RoomRef r = (RoomRef) value;
 		if(r != null){
-			String s = r.getRoomID() + " - " + r.getCapacity();
+			String s = r.getRoomid();
 			setText(s);
 		}
 		return this;
