@@ -16,6 +16,7 @@ public class UserRef {
 		RefCounter<User> r = instances.get(this.username);
 		if (r == null) {
 			r = new RefCounter<User>(null);
+			instances.put(username, r);
 		} else {
 			r.ref();
 		}
@@ -26,6 +27,7 @@ public class UserRef {
 		RefCounter<User> r = instances.get(this.username);
 		if (r == null) {
 			r = new RefCounter<User>(user);
+			instances.put(username, r);
 		} else {
 			r.set(user);
 			r.ref();
