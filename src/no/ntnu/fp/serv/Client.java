@@ -15,10 +15,10 @@ public class Client {
 		String en = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
 		String to = "<createevent eventdescription=\"Laangt\" place=\"Knuts kontor\" timelength = \"120\" name=\"personalmote\" leader=\"knutty\" type=\"appointment\">";
 		String tre = "<participants>";
-		String fire = "<person username = \"perry\">";
-		String fem = "</person>";
-		String seks = "<person username = \"larsy\">";
-		String sju = "</person>";
+		String fire = "<user username = \"perry\">";
+		String fem = "</user>";
+		String seks = "<user username = \"larsy\">";
+		String sju = "</user>";
 		String otte = "</participants>";
 		String ni = "</createevent>";
 

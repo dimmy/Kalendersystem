@@ -8,6 +8,8 @@ import java.util.Date;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
+import no.ntnu.fp.model.ref.UserRef;
+
 /**
  * 
  * @author Myklatun
@@ -28,9 +30,9 @@ public class Event {
 	private int timeLength;
 	private Type type;
 	private String place;
-	private Room room;
+	private R room;
 	private String status;
-	private User eventowner;
+	private UserRef eventowner;
 
 	// Event listeners
 
@@ -41,6 +43,18 @@ public class Event {
 		pclisteners = new ArrayList<PropertyChangeListener>();
 	}
 
+	public Event(int eventId, String eventdescription, String eventname, Date startTime, int timelength, String type, String place, String room, String status, String eventOwner){
+		this.eventdescription = eventdescription;
+		this.eventID = eventId;
+		this.eventname = eventname;
+		this.eventowner = new UserRef(eventOwner);
+		this.status = status;
+		this.timeLength = timelength;
+		this.type = (type == "appointment") ? Type.appointment : Type.meeting; 
+		this.room = RoomRef.getRoom(room);
+		this.startTime = startTime;
+	}
+	
 	public void changeEvent() {
 		type = Type.meeting;
 	}
@@ -134,11 +148,11 @@ public class Event {
 		firePropertyChangeEvent(e);
 	}
 
-	public User getEventowner() {
+	public UserRef getEventowner() {
 		return eventowner;
 	}
 
-	public void setEventowner(User eventowner) {
+	public void setEventowner(UserRef eventowner) {
 		PropertyChangeEvent e = new PropertyChangeEvent(this, "eventowner",
 				this.eventowner, eventowner);
 		this.eventowner = eventowner;

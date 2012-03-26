@@ -9,6 +9,7 @@ import java.util.Date;
 import no.ntnu.fp.model.Event;
 import no.ntnu.fp.model.User;
 import no.ntnu.fp.model.Room;
+import no.ntnu.fp.model.ref.UserRef;
 
 public interface KalSysStorage {
 
@@ -35,4 +36,8 @@ public interface KalSysStorage {
 	public int getLatestEventId() throws SQLException;
 	
 	public void changeEvent(int evid, String evenDescription, String name, java.sql.Date date, int timeLength, String place, String roomId, String type, String status) throws SQLException;
+	
+	public void deleteParticipants(List<UserRef> users, int eventid) throws SQLException;
+	
+	public void addParticipants(List<UserRef> users, int eventid) throws SQLException; 
 }
