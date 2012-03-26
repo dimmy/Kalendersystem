@@ -23,7 +23,11 @@ public class RoomRef {
 	}
 
 	public RoomRef(Room room) {
-		this.roomid = room.getRoomID();
+		if (room == null) {
+			roomid = null;
+			return;
+		}
+		roomid = room.getRoomID();
 		RefCounter<Room> r = instances.get(this.roomid);
 		if (r == null) {
 			r = new RefCounter<Room>(room);
@@ -34,8 +38,29 @@ public class RoomRef {
 		}
 	}
 
+	public RoomRef(RoomRef room) {
+		if (room == null) {
+			roomid = null;
+			return;
+		}
+		roomid = room.getRoomid();
+		RefCounter<Room> r = instances.get(this.roomid);
+		if (r == null) {
+			r = new RefCounter<Room>(null);
+			instances.put(roomid, r);
+		} else {
+			r.ref();
+		}
+	}
+
+	public RoomRef() {
+		roomid = null;
+	}
+
 	@Override
 	public void finalize() {
+		if (roomid == null)
+			return;
 		RefCounter<Room> r = instances.get(roomid);
 		if (r != null) {
 			if (r.unref()) {
@@ -45,6 +70,8 @@ public class RoomRef {
 	}
 
 	public Room get() {
+		if (roomid == null)
+			return null;
 		Room user = instances.get(roomid).get();
 		return user;
 	}

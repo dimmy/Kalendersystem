@@ -43,6 +43,9 @@ public class Event {
 	public Event() {
 		type = Type.appointment;
 		pclisteners = new ArrayList<PropertyChangeListener>();
+		
+		room = new RoomRef();
+		eventowner = new UserRef();
 	}
 
 	public Event(int eventId, String eventdescription, String eventname, Date startTime, int timelength, String type, String place, String room, String status, String eventOwner){
@@ -179,21 +182,14 @@ public class Event {
 		firePropertyChangeEvent(e);
 	}
 
-	public Room getRoom() {
-		return room.get();
+	public RoomRef getRoom() {
+		return new RoomRef(room.getRoomid());
 	}
 
-	public void setRoom(Room room) {
+	public void setRoom(RoomRef room) {
 		PropertyChangeEvent e = new PropertyChangeEvent(this,
 				"room", this.room, room);
-		this.room = new RoomRef(room);
-		firePropertyChangeEvent(e);
-	}
-
-	public void setRoom(String roomid) {
-		PropertyChangeEvent e = new PropertyChangeEvent(this,
-				"room", this.room, room);
-		this.room = new RoomRef(roomid);
+		this.room = new RoomRef(room.getRoomid());
 		firePropertyChangeEvent(e);
 	}
 
