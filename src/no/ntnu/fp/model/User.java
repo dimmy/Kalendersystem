@@ -13,6 +13,15 @@ public class User {
 		email = "";
 	}
 	
+	public User(String username, String name, String email, int phone) {
+		this.username = username;
+		this.name = name;
+		this.email = email;
+		this.phone = phone;
+	}
+	
+	
+	
 	public String getUsername() {
 		return username;
 	}
@@ -37,4 +46,5 @@ public class User {
 	public void setPhone(int phone) {
 		this.phone = phone;
 	}
+	
 }

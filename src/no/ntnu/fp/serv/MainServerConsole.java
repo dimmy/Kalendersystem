@@ -6,6 +6,8 @@ import java.net.Socket;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.stream.XMLInputFactory;
@@ -13,10 +15,14 @@ import javax.xml.stream.XMLStreamConstants;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 
+import no.ntnu.fp.model.Event;
+import no.ntnu.fp.model.Room;
+import no.ntnu.fp.model.Event.Type;
+import no.ntnu.fp.model.User;
+import no.ntnu.fp.model.ref.UserRef;
 import no.ntnu.fp.storage.KalSysDBConnection;
 
 import org.xml.sax.SAXException;
-
 
 // http://stackoverflow.com/questions/920904/reading-multiple-xml-documents-from-a-socket-in-java
 
@@ -25,10 +31,11 @@ import org.xml.sax.SAXException;
  */
 public class MainServerConsole {
 
-	
 	public static void main(String[] args) throws XMLStreamException,
-			IOException, ParserConfigurationException, SAXException, SQLException {
-		
+			IOException, ParserConfigurationException, SAXException,
+			SQLException {
+
+		KalSysDBConnection conn = new KalSysDBConnection();
 		XMLInputFactory inputFactory = null;
 		XMLStreamReader xmlReader = null;
 		ServerSocket serverSocket = null;
@@ -54,31 +61,53 @@ public class MainServerConsole {
 			System.err.println("Accept failed.");
 			System.exit(1);
 		}
-		
-		
+
 		inputFactory = XMLInputFactory.newInstance();
 		xmlReader = inputFactory.createXMLStreamReader(clientSocket
 				.getInputStream());
 
-		
 		/**
 		 * Use xmlReader to get info and insert into database
 		 */
-		
+
 		while (xmlReader.hasNext()) {
 			switch (xmlReader.getEventType()) {
 			case XMLStreamConstants.END_DOCUMENT:
 				break;
 			case XMLStreamConstants.START_ELEMENT:
 				if (xmlReader.getName().toString() == "createevent") {
-					insertEvent(xmlReader);
-				}else if(xmlReader.getName().toString() == "deleteevent"){
-					deleteEvent(xmlReader);
-				}else if(xmlReader.getName().toString() == "changeevent"){
-					changeEvent(xmlReader);
-				}
-				else if (xmlReader.getName().toString() == "room") {
-					insertRoomIntoDatabase(xmlReader);
+					Event event = parseEvent(xmlReader);
+					conn.insertEvent(event);
+				} else if (xmlReader.getName().toString() == "deleteevent") {
+					Event event = parseEvent(xmlReader);
+					conn.deleteEvent(event);
+				} else if (xmlReader.getName().toString() == "changeevent") {
+					Event event = parseEvent(xmlReader);
+					conn.changeEvent(event);
+				} else if (xmlReader.getName().toString() == "addparticipants") {
+					int eventid = Integer.parseInt(xmlReader.getAttributeValue(
+							null, "eventid"));
+					List<UserRef> participants = new ArrayList<UserRef>();
+					xmlReader.next();
+					while (xmlReader.getName().toString() == "user") {
+						String username = xmlReader.getAttributeValue(null,
+								"username");
+						participants.add(new UserRef(username));
+					}
+					conn.addParticipants(participants, eventid);
+				} else if (xmlReader.getName().toString() == "deleteparticipants") {
+					int eventid = Integer.parseInt(xmlReader.getAttributeValue(
+							null, "eventid"));
+					List<UserRef> participants = new ArrayList<UserRef>();
+					xmlReader.next();
+					while (xmlReader.getName().toString() == "user") {
+						String username = xmlReader.getAttributeValue(null,
+								"username");
+						participants.add(new UserRef(username));
+					}
+					conn.deleteParticipants(participants, eventid);
+				} else if (xmlReader.getName().toString() == "deleteparicipants") {
+
 				}
 				break;
 			case XMLStreamConstants.END_ELEMENT:
@@ -96,87 +125,48 @@ public class MainServerConsole {
 
 	}
 
-
 	/**
 	 * Insert Event
-	 * @throws SQLException 
+	 * 
+	 * @throws SQLException
 	 */
-	private static void insertEvent(XMLStreamReader xmlReader)
+	public static Event parseEvent(XMLStreamReader xmlReader)
 			throws XMLStreamException, SQLException {
-		
+
+		int eventId = xmlReader.getAttributeValue(null, "eventid") == null ? Integer
+				.parseInt(xmlReader.getAttributeValue(null, "eventid")) : null;
 		String place = xmlReader.getAttributeValue(null, "place");
 		String status = (xmlReader.getAttributeValue(null, "status"));
 		String name = xmlReader.getAttributeValue(null, "name");
 		int timeLength = Integer.parseInt((xmlReader.getAttributeValue(null,
 				"timelength")));
 		String type = xmlReader.getAttributeValue(null, "type");
-		String leader = xmlReader.getAttributeValue(null,
-				"leader");
+		String leader = xmlReader.getAttributeValue(null, "leader");
 		String roomId = xmlReader.getAttributeValue(null, "roomid");
 		String date = xmlReader.getAttributeValue(null, "date");
 		String eventDescription = xmlReader.getAttributeValue(null,
 				"eventdescription");
-		
-		KalSysDBConnection conn = new KalSysDBConnection();
-		conn.initializeDB();
-		conn.insertEvent(eventDescription, leader, name, new Date(21), timeLength, place, roomId, type, status);
-		int latestEventId = conn.getLatestEventId();
-		
-		xmlReader.next();
-		if (xmlReader.getName().toString() == "participants") {
-			xmlReader.next();
-			while (xmlReader.getName().toString() == "person") {
-				String userName = xmlReader.getAttributeValue(null, "username");
-				conn.insertParticipant(userName, latestEventId, "waiting");
-				xmlReader.next();
-				xmlReader.next();
-				
-			}
-		}
-	}
-	private static void deleteEvent(XMLStreamReader xmlReader) throws SQLException{
-		int eventId = Integer.parseInt(xmlReader.getAttributeValue(null, "eventid"));
-		KalSysDBConnection conn = new KalSysDBConnection();
-		conn.initializeDB();
-		conn.deleteEvent(eventId);
-	}
-	
-	private static void changeEvent(XMLStreamReader xmlReader) throws SQLException, XMLStreamException{
-		int evid = Integer.parseInt(xmlReader.getAttributeValue(null, "evid"));
-		String place = xmlReader.getAttributeValue(null, "place");
-		String status = (xmlReader.getAttributeValue(null, "status"));
-		int timeLength = Integer.parseInt((xmlReader.getAttributeValue(null,
-				"timelength")));
-		String type = xmlReader.getAttributeValue(null, "type");
-		String eventOwner = xmlReader.getAttributeValue(null,
-				"eventowner");
-		String roomId = xmlReader.getAttributeValue(null, "roomid");
-		String date = xmlReader.getAttributeValue(null, "date");
-		String evenDescription = xmlReader.getAttributeValue(null,
-				"eventdescription");
-		
-		KalSysDBConnection conn = new KalSysDBConnection();
-		conn.initializeDB();
-		conn.changeEvent(evid, evenDescription, eventOwner, new Date(21), timeLength, place, roomId, type, status);
-		
-		if (xmlReader.getName().toString() == "participants") {
-			xmlReader.next();
-			while (xmlReader.getName().toString() == "person") {
-				String userName = xmlReader.getAttributeValue(null, "username");
-				conn.insertParticipant(userName, evid, "waiting");
-				xmlReader.next();
-				xmlReader.next();
-				
-			}
-		}
+		Event event = new Event(eventId, eventDescription, name, new Date(21),
+				timeLength, type, place, roomId, status, leader);
+		return event;
 	}
 
-	private static void insertRoomIntoDatabase(XMLStreamReader xmlReader) {
+	public static Room parseRoom(XMLStreamReader xmlReader) {
 		String roomId = xmlReader.getAttributeValue(null, "roomid");
 		int capacity = Integer.parseInt(xmlReader.getAttributeValue(null,
 				"capacity"));
+		Room room = new Room(roomId, capacity);
+		return room;
+	}
 
-		// Insert into Database
+	public static User parseUser(XMLStreamReader xmlReader) {
+		String username = xmlReader.getAttributeValue(null, "username");
+		String email = xmlReader.getAttributeValue(null, "email");
+		String name = xmlReader.getAttributeValue(null, "name");
+		int phone = xmlReader.getAttributeValue(null, "phone") != null ? Integer
+				.parseInt(xmlReader.getAttributeValue(null, "phone")) : 0;
+		User user = new User(username, name, email, phone);
+		return user;
 	}
 
 }
