@@ -34,8 +34,14 @@ public class EventRef {
 		}
 	}
 
+	public EventRef() {
+		evid = null;
+	}
+
 	@Override
 	public void finalize() {
+		if (evid == null)
+			return;
 		RefCounter<Event> r = instances.get(evid);
 		if (r != null) {
 			if (r.unref()) {
@@ -45,6 +51,8 @@ public class EventRef {
 	}
 
 	public Event get() {
+		if (evid == null)
+			return null;
 		Event user = instances.get(evid).get();
 		return user;
 	}

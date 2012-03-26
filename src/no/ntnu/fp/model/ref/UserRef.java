@@ -34,8 +34,14 @@ public class UserRef {
 		}
 	}
 
+	public UserRef() {
+		username = null;
+	}
+
 	@Override
 	public void finalize() {
+		if (username == null)
+			return;
 		RefCounter<User> r = instances.get(username);
 		if (r != null) {
 			if (r.unref()) {
@@ -45,6 +51,8 @@ public class UserRef {
 	}
 
 	public User get() {
+		if (username == null)
+			return null;
 		User user = instances.get(username).get();
 		return user;
 	}

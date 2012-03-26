@@ -6,14 +6,10 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-import javax.swing.event.ListDataListener;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
-
 import no.ntnu.fp.model.Room;
+import no.ntnu.fp.model.ref.RoomRef;
 
 /*
  * @author: Fredrik
@@ -50,7 +46,7 @@ public class PlaceRoomChooserPanel extends JPanel
 		// ------------------------------------------------------------------------------------
 		
 		// Radio place
-		place = new JRadioButton("Skriv sted:");
+		place = new JRadioButton("Place:");
 		place.setSelected(true);
 		place.addActionListener(new ActionListener() {
 			
@@ -71,7 +67,7 @@ public class PlaceRoomChooserPanel extends JPanel
 		// ------------------------------------------------------------------------------------
 		
 		// Radio room
-		room = new JRadioButton("Velg rom:");
+		room = new JRadioButton("Choose room:");
 		room.addActionListener(new ActionListener() {
 			
 			@Override
@@ -114,22 +110,22 @@ public class PlaceRoomChooserPanel extends JPanel
 		// ------------------------------------------------------------------------------------
 		
 		// Room List FOR DEBUGING
-		ArrayList<Room> roomList = new ArrayList<Room>();
-		Room r = new Room("Rom 23",  30);
+		ArrayList<RoomRef> roomList = new ArrayList<RoomRef>();
+		RoomRef r = new RoomRef("Rom 23");
 		roomList.add(r);
-		r = new Room("Rom 3", 50);
+		r = new RoomRef("Rom 3");
 		roomList.add(r);
-		r = new Room("Rom 23", 10);
+		r = new RoomRef("Rom 23");
 		roomList.add(r);
-		r = new Room("Rom A1", 30);
+		r = new RoomRef("Rom A1");
 		roomList.add(r);
-		r = new Room("Rom gul", 15);
+		r = new RoomRef("Rom gul");
 		roomList.add(r);
 		// END FOR DEBUGING
 		
 		// ComboBox
 		defModel = new DefaultComboBoxModel();
-		for(Room room : roomList){
+		for(RoomRef room : roomList){
 			defModel.addElement(room);
 		}
 		roomInput = new JComboBox(defModel);
@@ -162,7 +158,7 @@ public class PlaceRoomChooserPanel extends JPanel
 		this.selectPlaceRoomListener.add(listener);
 	}
 	
-	public void setPlaceRoom(String place, Room room) {
+	public void setPlaceRoom(String place, RoomRef room) {
 		if (room != null) {
 			this.room.setSelected(true);
 			roomInput.setSelectedItem(room);
