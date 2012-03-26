@@ -8,7 +8,6 @@ import java.util.List;
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-import no.ntnu.fp.model.Room;
 import no.ntnu.fp.model.ref.RoomRef;
 
 /*
@@ -175,7 +174,7 @@ public class PlaceRoomChooserPanel extends JPanel
 		
 		if(buttonGroup.getSelection() == room)
 		{
-			e = new PlaceRoomSelectEvent((Room)roomInput.getSelectedItem(), null, this);
+			e = new PlaceRoomSelectEvent((RoomRef)roomInput.getSelectedItem(), null, this);
 		}
 		else
 		{
