@@ -13,10 +13,12 @@ import java.util.Date;
 import javax.swing.*;
 
 import no.ntnu.fp.gui.cal.CalendarView;
+import no.ntnu.fp.model.AbstractCalendar;
 import no.ntnu.fp.model.Calendar;
 import no.ntnu.fp.model.CalendarChangeEvent;
 import no.ntnu.fp.model.CalendarChangeEventListener;
 import no.ntnu.fp.model.CalendarPerspective;
+import no.ntnu.fp.model.ClientSession;
 import no.ntnu.fp.model.Event;
 
 /**
@@ -26,7 +28,8 @@ import no.ntnu.fp.model.Event;
  * 
  */
 
-public class OverviewPanel extends JPanel implements CalendarChangeEventListener {
+public class OverviewPanel extends JPanel implements
+		CalendarChangeEventListener {
 
 	static int buttonVerticalPadding = 10;
 	static int buttonHorizontalPadding = 5;
@@ -44,9 +47,9 @@ public class OverviewPanel extends JPanel implements CalendarChangeEventListener
 	JPanel panTitle;
 
 	CalendarView calendarView;
-	
+
 	private CalendarPerspective perspective;
-	private Calendar calendar;
+	private AbstractCalendar calendar;
 
 	public OverviewPanel() {
 		btnNewAppointment = new JButton("New appointment");
@@ -54,34 +57,33 @@ public class OverviewPanel extends JPanel implements CalendarChangeEventListener
 		btnAddCalendar = new JButton("Add calendar");
 		btnInbox = new JButton("Inbox (?)");
 		btnLogOut = new JButton("Log out");
-		
+
 		// buttons Actionlistners
-		
+
 		btnNewAppointment.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				JFrame afFrame = new JFrame();
 				afFrame.add(new AppointmentForm());
 				afFrame.pack();
 				afFrame.setVisible(true);
-				
+
 			}
 		});
-		
+
 		btnNewMeeting.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				JFrame mfFrame = new JFrame();
 				mfFrame.add(new MeetingForm());
 				mfFrame.pack();
 				mfFrame.setVisible(true);
-				
+
 			}
 		});
-		
-		
+
 		// Left side button panel
 
 		SpringLayout spring = new SpringLayout();
@@ -200,28 +202,28 @@ public class OverviewPanel extends JPanel implements CalendarChangeEventListener
 
 	}
 
-	
-	public void setCalendar(Calendar calendar) {
-		this.calendar = calendar;
+	public void setCalendar(AbstractCalendar abstractCalendar) {
+		this.calendar = abstractCalendar;
 		if (perspective != null) {
 			perspective.removeCalendarChangeEventListener(this);
 			perspective.liberate();
 		}
-		perspective = new CalendarPerspective(calendar);
+		perspective = new CalendarPerspective(abstractCalendar);
 		perspective.addCalendarChangeEventListener(this);
 		calendarView.setPerspective(perspective);
 		perspective.update();
 	}
-	
-	public Calendar getCalendar() {
+
+	public AbstractCalendar getCalendar() {
 		return calendar;
 	}
 
 	@Override
 	public void calendarChanged(CalendarChangeEvent ev) {
-		lblWeekDisplay.setText("<html><h1>Week "+Integer.toString(perspective.getWeek())+"</h1></html>");
+		lblWeekDisplay.setText("<html><h1>Week "
+				+ Integer.toString(perspective.getWeek()) + "</h1></html>");
 	}
-	
+
 	/**
 	 * Changes the perspective to the current week
 	 */
@@ -231,50 +233,68 @@ public class OverviewPanel extends JPanel implements CalendarChangeEventListener
 		perspective.setYear(c.get(java.util.Calendar.YEAR));
 		perspective.setWeek(c.get(java.util.Calendar.WEEK_OF_YEAR));
 	}
-	
 
 	public static void main(String[] args) {
 		Calendar cal = new Calendar();
 		OverviewPanel op = new OverviewPanel();
-		
+
 		op.setCalendar(cal);
 		op.goToNow();
 
 		Event ev = new Event();
-		
+
 		ev.setTime("2012-03-22 13:00");
 		ev.setTimeLength(60);
 		ev.setEventname("Testevent");
 		ev.setEventdescription("This is a test event. everyone is invited.");
 		ev.setType(Event.Type.meeting);
-		
+
 		cal.addEvent(ev);
 
 		ev = new Event();
-		
+
 		ev.setTime("2012-03-23 14:00");
 		ev.setTimeLength(80);
 		ev.setEventname("Testevent 2");
 		ev.setEventdescription("Barbecue on roof.");
 		ev.setType(Event.Type.appointment);
-		
+
 		cal.addEvent(ev);
-		
 
 		ev = new Event();
-		
+
 		ev.setTime("2012-03-27 09:00");
 		ev.setTimeLength(90);
 		ev.setEventname("Testevent 3");
 		ev.setEventdescription("Woot woot!");
-		
+
 		cal.addEvent(ev);
-		
+
 		JFrame frame = new JFrame();
 		frame.add(op);
 		frame.setVisible(true);
 		frame.pack();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setSize(800, 600);
+	}
+
+	public static void openWindow(ClientSession session) {
+
+		OverviewPanel op = new OverviewPanel();
+		op.setCalendar(session.getCalendars());
+		op.goToNow();
+
+		JFrame frame = new JFrame("Kalendersystem");
+		frame.add(op);
+		frame.setVisible(true);
+		frame.pack();
+		frame.setSize(900, 700);
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
+		op.setUsername(session.getUser().getUsername());
+	}
+
+	public void setUsername(String uname) {
+		lblLoginInfo.setText("<html>Logged in as: " + uname + "</html>");
 	}
 }
