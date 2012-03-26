@@ -164,21 +164,14 @@ public class Event {
 		firePropertyChangeEvent(e);
 	}
 
-	public User getEventowner() {
-		return eventowner.get();
+	public UserRef getEventowner() {
+		return eventowner;
 	}
 
-	public void setEventowner(User eventowner) {
+	public void setEventowner(UserRef eventowner) {
 		PropertyChangeEvent e = new PropertyChangeEvent(this, "eventowner",
 				this.eventowner, eventowner);
-		this.eventowner = new UserRef(eventowner);
-		firePropertyChangeEvent(e);
-	}
-
-	public void setEventowner(String eventownerusername) {
-		PropertyChangeEvent e = new PropertyChangeEvent(this, "eventowner",
-				this.eventowner, eventowner);
-		this.eventowner = new UserRef(eventownerusername);
+		this.eventowner = eventowner;
 		firePropertyChangeEvent(e);
 	}
 
@@ -207,7 +200,10 @@ public class Event {
 	/**
 	 * Determines whether the event overlaps the given time interval
 	 * 
-	 * @param from
+	 * @param fromView() {
+		// Placeholder
+		btnPrevWeek = new JButton();
+		btnNextWeek = new JButton();
 	 *            the beginning of the time interval
 	 * @param to
 	 *            the end of the time interval
