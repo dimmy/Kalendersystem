@@ -3,6 +3,7 @@ package no.ntnu.fp.gui;
 import java.util.EventObject;
 
 import no.ntnu.fp.model.Room;
+import no.ntnu.fp.model.ref.RoomRef;
 
 /*
  * @author: Fredrik
@@ -14,9 +15,9 @@ public class PlaceRoomSelectEvent extends EventObject
 {
 
 	String place;
-	Room room;
+	RoomRef room;
 
-	public PlaceRoomSelectEvent(Room room, String place, Object source) {
+	public PlaceRoomSelectEvent(RoomRef room, String place, Object source) {
 		super(source);
 		this.place = place;
 		this.room = room;	
@@ -26,7 +27,7 @@ public class PlaceRoomSelectEvent extends EventObject
 		return place;
 	}
 
-	public Room getRoom() {
+	public RoomRef getRoom() {
 		return room;
 	}
 	

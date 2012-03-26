@@ -183,13 +183,13 @@ public class Event {
 	}
 
 	public RoomRef getRoom() {
-		return new RoomRef(room.getRoomid());
+		return room;
 	}
 
 	public void setRoom(RoomRef room) {
 		PropertyChangeEvent e = new PropertyChangeEvent(this,
 				"room", this.room, room);
-		this.room = new RoomRef(room.getRoomid());
+		this.room = room;
 		firePropertyChangeEvent(e);
 	}
 
