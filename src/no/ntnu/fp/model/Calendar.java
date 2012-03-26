@@ -24,6 +24,12 @@ public class Calendar implements AbstractCalendar {
 		events.remove(event);
 		calendarChanged(CalendarChangeEvent.Type.REMOVED);
 	}
+	
+	public void updateEvent(Event event) {
+		if (events.contains(event)) {
+			calendarChanged(CalendarChangeEvent.Type.CHANGED);
+		}
+	}
 
 	private void calendarChanged(CalendarChangeEvent.Type type) {
 		CalendarChangeEvent ev = new CalendarChangeEvent(this, type);

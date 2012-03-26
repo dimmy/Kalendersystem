@@ -20,6 +20,7 @@ import no.ntnu.fp.model.CalendarChangeEventListener;
 import no.ntnu.fp.model.CalendarPerspective;
 import no.ntnu.fp.model.ClientSession;
 import no.ntnu.fp.model.Event;
+import no.ntnu.fp.model.User;
 
 /**
  * Panel for main overview window
@@ -47,6 +48,8 @@ public class OverviewPanel extends JPanel implements
 	JPanel panTitle;
 
 	CalendarView calendarView;
+	
+	ClientSession session;
 
 	private CalendarPerspective perspective;
 	private AbstractCalendar calendar;
@@ -68,7 +71,7 @@ public class OverviewPanel extends JPanel implements
 				afFrame.add(new AppointmentForm());
 				afFrame.pack();
 				afFrame.setVisible(true);
-
+				//TODO: Fix this
 			}
 		});
 
@@ -76,11 +79,16 @@ public class OverviewPanel extends JPanel implements
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				JFrame mfFrame = new JFrame();
-				mfFrame.add(new MeetingForm());
-				mfFrame.pack();
-				mfFrame.setVisible(true);
-
+				if (session != null) {
+					Event newMeeting = new Event();
+					newMeeting.setFrom(new Date());
+					newMeeting.setFromText("08:00");
+					newMeeting.setToText("09:00");
+					newMeeting.setType(Event.Type.meeting);
+					newMeeting.setEventname("New meeting");
+					session.getCalendar().addEvent(newMeeting);
+					MeetingForm.editMeeting(newMeeting);
+				}
 			}
 		});
 
@@ -235,52 +243,14 @@ public class OverviewPanel extends JPanel implements
 	}
 
 	public static void main(String[] args) {
-		Calendar cal = new Calendar();
-		OverviewPanel op = new OverviewPanel();
-
-		op.setCalendar(cal);
-		op.goToNow();
-
-		Event ev = new Event();
-
-		ev.setTime("2012-03-22 13:00");
-		ev.setTimeLength(60);
-		ev.setEventname("Testevent");
-		ev.setEventdescription("This is a test event. everyone is invited.");
-		ev.setType(Event.Type.meeting);
-
-		cal.addEvent(ev);
-
-		ev = new Event();
-
-		ev.setTime("2012-03-23 14:00");
-		ev.setTimeLength(80);
-		ev.setEventname("Testevent 2");
-		ev.setEventdescription("Barbecue on roof.");
-		ev.setType(Event.Type.appointment);
-
-		cal.addEvent(ev);
-
-		ev = new Event();
-
-		ev.setTime("2012-03-27 09:00");
-		ev.setTimeLength(90);
-		ev.setEventname("Testevent 3");
-		ev.setEventdescription("Woot woot!");
-
-		cal.addEvent(ev);
-
-		JFrame frame = new JFrame();
-		frame.add(op);
-		frame.setVisible(true);
-		frame.pack();
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setSize(800, 600);
+		ClientSession testSession = new ClientSession(new User("test", "Test user", "email@what.com", 1234));
+		openWindow(testSession);
 	}
 
 	public static void openWindow(ClientSession session) {
 
 		OverviewPanel op = new OverviewPanel();
+		op.session = session;
 		op.setCalendar(session.getCalendars());
 		op.goToNow();
 

@@ -8,7 +8,6 @@ import java.util.Date;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-
 import no.ntnu.fp.model.ref.RoomRef;
 import no.ntnu.fp.model.ref.UserRef;
 
@@ -43,26 +42,27 @@ public class Event {
 	public Event() {
 		type = Type.appointment;
 		pclisteners = new ArrayList<PropertyChangeListener>();
-		
+
 		room = new RoomRef();
 		eventowner = new UserRef();
 	}
 
-	public Event(int eventId, String eventdescription, String eventname, Date startTime, int timelength, String type, String place, String room, String status, String eventOwner){
+	public Event(int eventId, String eventdescription, String eventname,
+			Date startTime, int timelength, String type, String place,
+			String room, String status, String eventOwner) {
 		this.eventdescription = eventdescription;
 		this.eventID = eventId;
 		this.eventname = eventname;
 		this.eventowner = new UserRef(eventOwner);
 		this.status = status;
 		this.timeLength = timelength;
-		this.type = (type == "appointment") ? Type.appointment : Type.meeting; 
+		this.type = (type == "appointment") ? Type.appointment : Type.meeting;
 		this.room = new RoomRef(room);
 		this.startTime = startTime;
 
 		pclisteners = new ArrayList<PropertyChangeListener>();
 	}
 
-	
 	public void changeEvent() {
 		type = Type.meeting;
 	}
@@ -183,8 +183,8 @@ public class Event {
 	}
 
 	public void setRoom(RoomRef room) {
-		PropertyChangeEvent e = new PropertyChangeEvent(this,
-				"room", this.room, room);
+		PropertyChangeEvent e = new PropertyChangeEvent(this, "room",
+				this.room, room);
 		this.room = room;
 		firePropertyChangeEvent(e);
 	}
@@ -192,11 +192,9 @@ public class Event {
 	/**
 	 * Determines whether the event overlaps the given time interval
 	 * 
-	 * @param fromView() {
-		// Placeholder
-		btnPrevWeek = new JButton();
-		btnNextWeek = new JButton();
-	 *            the beginning of the time interval
+	 * @param fromView
+	 *            () { // Placeholder btnPrevWeek = new JButton(); btnNextWeek =
+	 *            new JButton(); the beginning of the time interval
 	 * @param to
 	 *            the end of the time interval
 	 * @return true if it overlaps; false otherwise
@@ -245,8 +243,8 @@ public class Event {
 	public void setTo(Date to) {
 		int ms = (int) (to.getTime() - startTime.getTime());
 		if (ms <= 0)
-			ms = 60000;
-		setTimeLength(ms);
+			ms = 360000;
+		setTimeLength(ms / 60000);
 	}
 
 	public String getFromText() {
@@ -280,8 +278,7 @@ public class Event {
 			String fulldate = sdf_prefix.format(startTime) + " " + toText;
 			setTo(sdf_final.parse(fulldate));
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			// Ignore invalid inputs
 		}
 	}
 
@@ -298,8 +295,7 @@ public class Event {
 			String fulldate = dateText + " " + sdf_suffix.format(startTime);
 			setFrom(sdf_final.parse(fulldate));
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			// Ignore invalid inputs
 		}
 	}
 }

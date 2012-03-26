@@ -256,12 +256,6 @@ public class CalendarView extends JPanel implements CalendarChangeEventListener 
 
 	@Override
 	public void calendarChanged(CalendarChangeEvent ev) {
-		if (perspective != null) {
-			clear();
-			populate();
-			repaint();
-		}
-
 		java.util.Calendar c = java.util.Calendar.getInstance();
 
 		c.setTime(perspective.getFrom());
@@ -274,6 +268,13 @@ public class CalendarView extends JPanel implements CalendarChangeEventListener 
 			int month = c.get(java.util.Calendar.MONTH) + 1;
 			headerDayLabes[i].setText(dayNames[i] + " " + Integer.toString(day)
 					+ "/" + Integer.toString(month));
+		}
+
+		if (perspective != null) {
+			clear();
+			populate();
+			revalidate();
+			repaint();
 		}
 	}
 

@@ -9,7 +9,9 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -62,6 +64,8 @@ public class MeetingForm extends JPanel implements PropertyChangeListener,
 
 	private Event model;
 
+	private List<ActionListener> closeActionListeners;
+
 	boolean locked = false;
 
 	private void unlock() {
@@ -73,6 +77,8 @@ public class MeetingForm extends JPanel implements PropertyChangeListener,
 	}
 
 	public MeetingForm() {
+
+		closeActionListeners = new ArrayList<ActionListener>();
 
 		setBorder(new EmptyBorder(10, 10, 10, 10));
 
@@ -120,15 +126,20 @@ public class MeetingForm extends JPanel implements PropertyChangeListener,
 		});
 
 		saveMeeting = new JButton("Save");
+		saveMeeting.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO: "Save" the event
+				fireCloseAction();
+			}
+		});
 
 		cancel = new JButton("Cancel");
 		cancel.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				getParent().getParent().getParent().getParent()
-						.setVisible(false);
-
+				fireCloseAction();
 			}
 		});
 
@@ -299,23 +310,35 @@ public class MeetingForm extends JPanel implements PropertyChangeListener,
 		return model;
 	}
 
-	public static void main(String[] args) {
-		JFrame frame = new JFrame();
-		frame.add(new MeetingForm());
-		frame.setVisible(true);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.pack();
+	public void addCloseActionListener(ActionListener listener) {
+		closeActionListeners.add(listener);
+	}
 
+	private void fireCloseAction() {
+		for (ActionListener listener : closeActionListeners) {
+			listener.actionPerformed(new ActionEvent(this, 0, "close"));
+		}
+	}
+
+	public static void main(String[] args) {
+		System.out.print("Use OverviewPanel instead. (New meeting)");
 	}
 
 	public static void editMeeting(Event event) {
-		JFrame frame = new JFrame("Edit event");
+		final JFrame frame = new JFrame("Edit event");
 		MeetingForm mf = new MeetingForm();
 		mf.setModel(event);
 		frame.add(mf);
 		frame.pack();
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.setVisible(true);
+		mf.addCloseActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				frame.dispose();
+			}
+
+		});
 	}
 
 	@Override
@@ -330,6 +353,10 @@ public class MeetingForm extends JPanel implements PropertyChangeListener,
 				if (descriptionArea.getText() != evt.getNewValue()) {
 					descriptionArea.setText((String) evt.getNewValue());
 				}
+			}
+			if (evt.getPropertyName() == "startTime" || evt.getPropertyName() == "timeLength") {
+				fromField.setText(model.getFromText());
+				toField.setText(model.getToText());
 			}
 			// TODO: Add more
 		}
@@ -352,6 +379,7 @@ public class MeetingForm extends JPanel implements PropertyChangeListener,
 		}
 		if (e.getDocument() == fromField.getDocument()) {
 			model.setFromText(fromField.getText());
+			toField.setText(model.getToText());
 		}
 		if (e.getDocument() == toField.getDocument()) {
 			model.setToText(toField.getText());
