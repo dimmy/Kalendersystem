@@ -158,12 +158,23 @@ public class PlaceRoomChooserPanel extends JPanel
 	}
 	
 	public void setPlaceRoom(String place, RoomRef room) {
-		if (room != null) {
+		if (room != null && room.getRoomid() != null) {
+			int roomindex = 0;
+			for(int i = 0; i < roomInput.getItemCount(); i++){
+				if(room.getRoomid().equals(((RoomRef)roomInput.getItemAt(i)).getRoomid())){
+					roomindex = i;
+					break;
+				}
+			}
 			this.room.setSelected(true);
-			roomInput.setSelectedItem(room);
+			roomInput.setEnabled(true);
+			placeInput.setEditable(false);
+			roomInput.setSelectedIndex(roomindex);
 		}
 		else if (place != null) {
 			this.place.setSelected(true);
+			placeInput.setEditable(true);
+			roomInput.setEnabled(false);
 			placeInput.setText(place);
 		}
 	}
@@ -172,7 +183,7 @@ public class PlaceRoomChooserPanel extends JPanel
 		
 		PlaceRoomSelectEvent e;
 		
-		if(buttonGroup.getSelection() == room)
+		if(room.isSelected())
 		{
 			e = new PlaceRoomSelectEvent((RoomRef)roomInput.getSelectedItem(), null, this);
 		}
