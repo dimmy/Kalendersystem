@@ -36,6 +36,7 @@ public class MainServerConsole {
 			SQLException {
 
 		KalSysDBConnection conn = new KalSysDBConnection();
+		conn.initializeDB();
 		XMLInputFactory inputFactory = null;
 		XMLStreamReader xmlReader = null;
 		ServerSocket serverSocket = null;
@@ -84,7 +85,7 @@ public class MainServerConsole {
 				} else if (xmlReader.getName().toString() == "changeevent") {
 					Event event = parseEvent(xmlReader);
 					conn.changeEvent(event);
-				} else if (xmlReader.getName().toString() == "addparticipants") {
+				}else if (xmlReader.getName().toString() == "addparticipants") {
 					int eventid = Integer.parseInt(xmlReader.getAttributeValue(
 							null, "eventid"));
 					List<UserRef> participants = new ArrayList<UserRef>();
@@ -133,8 +134,8 @@ public class MainServerConsole {
 	public static Event parseEvent(XMLStreamReader xmlReader)
 			throws XMLStreamException, SQLException {
 
-		int eventId = xmlReader.getAttributeValue(null, "eventid") == null ? Integer
-				.parseInt(xmlReader.getAttributeValue(null, "eventid")) : null;
+		int eventId = xmlReader.getAttributeValue(null, "eventid") != null ? Integer
+				.parseInt(xmlReader.getAttributeValue(null, "eventid")) : 0;
 		String place = xmlReader.getAttributeValue(null, "place");
 		String status = (xmlReader.getAttributeValue(null, "status"));
 		String name = xmlReader.getAttributeValue(null, "name");
@@ -146,8 +147,14 @@ public class MainServerConsole {
 		String date = xmlReader.getAttributeValue(null, "date");
 		String eventDescription = xmlReader.getAttributeValue(null,
 				"eventdescription");
-		Event event = new Event(eventId, eventDescription, name, new Date(21),
-				timeLength, type, place, roomId, status, leader);
+		Event event;
+		if (eventId != 0) {
+			event = new Event(eventId, eventDescription, name, new Date(21),
+					timeLength, type, place, roomId, status, leader);
+		} else {
+			event = new Event(eventId, eventDescription, name, new Date(21),
+					timeLength, type, place, roomId, status, leader);
+		}
 		return event;
 	}
 
