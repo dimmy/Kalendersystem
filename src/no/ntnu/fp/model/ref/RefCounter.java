@@ -25,4 +25,8 @@ public class RefCounter<T> {
 	public T get() {
 		return obj;
 	}
+	
+	public void set(T object) {
+		obj = object;
+	}
 }

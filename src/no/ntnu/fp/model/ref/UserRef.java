@@ -8,55 +8,42 @@ import no.ntnu.fp.model.User;
 public class UserRef {
 
 	private String username;
-	private User user;
 
-	private static Map<String, RefCounter<User> > instances;
+	private static Map<String, RefCounter<User>> instances = new HashMap<String, RefCounter<User>>();
 
 	public UserRef(String username) {
 		this.username = username;
-		user = null;
-	}
-
-	private UserRef(User user) {
-		this.username = user.getUsername();
-		this.user = user;
-		ref();
-	}
-	
-	@Override
-	public void finalize() {
-		unref();
-	}
-	
-	public static UserRef getRef(String username) {
-		User u = instances.get(username).get();
-		if (u == null) {
-			u = new User();
-			u.setUsername(username);
-			UserRef r = new UserRef(u);
-			return r;
-		}
-		else {
-			return new UserRef(u);
-		}
-	}
-	
-	private void ref() {
-		RefCounter r = instances.get(username);
+		RefCounter<User> r = instances.get(this.username);
 		if (r == null) {
-			instances.put(username, new RefCounter<User>(user));
-		}
-		else {
+			r = new RefCounter<User>(null);
+		} else {
 			r.ref();
 		}
 	}
-	
-	private void unref() {
-		RefCounter r = instances.get(username);
+
+	public UserRef(User user) {
+		this.username = user.getUsername();
+		RefCounter<User> r = instances.get(this.username);
+		if (r == null) {
+			r = new RefCounter<User>(user);
+		} else {
+			r.set(user);
+			r.ref();
+		}
+	}
+
+	@Override
+	public void finalize() {
+		RefCounter<User> r = instances.get(username);
 		if (r != null) {
 			if (r.unref()) {
 				instances.remove(username);
 			}
 		}
+	}
+
+	public User get() {
+		User user = instances.get(username).get();
+		return user;
 	}
 }
