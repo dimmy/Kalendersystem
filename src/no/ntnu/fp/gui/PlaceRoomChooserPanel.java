@@ -50,7 +50,7 @@ public class PlaceRoomChooserPanel extends JPanel
 		// ------------------------------------------------------------------------------------
 		
 		// Radio place
-		place = new JRadioButton("Skriv sted:");
+		place = new JRadioButton("Place:");
 		place.setSelected(true);
 		place.addActionListener(new ActionListener() {
 			
@@ -71,7 +71,7 @@ public class PlaceRoomChooserPanel extends JPanel
 		// ------------------------------------------------------------------------------------
 		
 		// Radio room
-		room = new JRadioButton("Velg rom:");
+		room = new JRadioButton("Choose room:");
 		room.addActionListener(new ActionListener() {
 			
 			@Override
