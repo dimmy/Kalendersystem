@@ -48,4 +48,8 @@ public class RoomRef {
 		Room user = instances.get(roomid).get();
 		return user;
 	}
+
+	public String getRoomid() {
+		return roomid;
+	}
 }

@@ -48,4 +48,8 @@ public class EventRef {
 		Event user = instances.get(evid).get();
 		return user;
 	}
+	
+	public int getEvid() {
+		return evid;
+	}
 }

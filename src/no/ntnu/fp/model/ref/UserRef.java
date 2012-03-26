@@ -48,4 +48,8 @@ public class UserRef {
 		User user = instances.get(username).get();
 		return user;
 	}
+	
+	public String getUsername() {
+		return username;
+	}
 }
