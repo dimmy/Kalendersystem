@@ -94,6 +94,8 @@ public class MainServerConsole {
 						String username = xmlReader.getAttributeValue(null,
 								"username");
 						participants.add(new UserRef(username));
+						xmlReader.next();
+						xmlReader.next();
 					}
 					conn.addParticipants(participants, eventid);
 				} else if (xmlReader.getName().toString() == "deleteparticipants") {
@@ -105,12 +107,11 @@ public class MainServerConsole {
 						String username = xmlReader.getAttributeValue(null,
 								"username");
 						participants.add(new UserRef(username));
+						xmlReader.next();
+						xmlReader.next();
 					}
 					conn.deleteParticipants(participants, eventid);
-				} else if (xmlReader.getName().toString() == "deleteparicipants") {
-
 				}
-				break;
 			case XMLStreamConstants.END_ELEMENT:
 				if (xmlReader.getName().toString() == "oppskrift") {
 					System.out.println("end");

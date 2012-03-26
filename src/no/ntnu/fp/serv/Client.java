@@ -13,13 +13,13 @@ public class Client {
 		PrintWriter out = null;
 		BufferedReader in = null;
 		String en = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
-		String to = "<createevent eventdescription=\"Laangt\" place=\"Knuts kontor\" timelength = \"120\" name=\"personalmote\" leader=\"test\" type=\"appointment\">";
-		String tre = "<participants>";
+		String to = "<changeevent eventid=\"7\" eventdescription=\"Laangt\" place=\"Knuts kontor\" timelength = \"110\" name=\"personalfode\" leader=\"test\" type=\"appointment\">";
+		String tre = "<deleteparticipants eventid = \"7\">";
 		String fire = "<user username = \"perry\">";
 		String fem = "</user>";
 		String seks = "<user username = \"larsy\">";
 		String sju = "</user>";
-		String otte = "</participants>";
+		String otte = "</deleteparticipants>";
 		String ni = "</createevent>";
 
 		try {

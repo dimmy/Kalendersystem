@@ -130,7 +130,7 @@ public class KalSysDBConnection extends DatabaseConnection implements
 
 		PreparedStatement pst;
 		for (int i = 0; i < users.size(); i++) {
-			pst = conn.prepareStatement("insert into participant (?, ?, ?)");
+			pst = conn.prepareStatement("insert into participant values(?, ?, ?)");
 			pst.setString(1, users.get(i).getUsername());
 			pst.setInt(2, eventid);
 			pst.setString(3, "Waiting");
@@ -144,14 +144,15 @@ public class KalSysDBConnection extends DatabaseConnection implements
 		PreparedStatement pst = conn
 				.prepareStatement("update event set eventdescription = ?, leader = ?, name = ?, starttime = ?, timelength = ?, place = ?, roomid = ?, type = ?, status = ? where evid = ?");
 		pst.setString(1, event.getEventdescription());
-		pst.setString(2, event.getEventowner().getName());
+		pst.setString(2, event.getEventowner().getUsername());
 		pst.setString(3, event.getEventname());
-		//pst.setDate(4, event.getStartTime());
+		pst.setString(4, event.getDateText());
 		pst.setInt(5, event.getTimeLength());
 		pst.setString(6, event.getPlace());
-		pst.setString(7, event.getRoom().getRoomID());
-		pst.setString(8, event.getStatus());
-		pst.setInt(9, event.getEventID());
+		pst.setString(7, event.getRoom().getRoomid());
+		pst.setString(8, event.getType().toString());
+		pst.setString(9, event.getStatus());
+		pst.setInt(10, event.getEventID());
 		makeUpdate(pst);
 		// TODO Auto-generated method stub
 
@@ -160,6 +161,7 @@ public class KalSysDBConnection extends DatabaseConnection implements
 	public int getLatestEventId() throws SQLException{
 		PreparedStatement pst = conn.prepareStatement("select LAST_INSERT_ID()");
 		ResultSet rs = makeSingleQuery(pst);
+		rs.next();
 		return rs.getInt(1);
 	}
 	
@@ -172,7 +174,7 @@ public class KalSysDBConnection extends DatabaseConnection implements
 		pst.setString(4, event.getDateText());
 		pst.setInt(5, event.getTimeLength());
 		pst.setString(6, event.getPlace());
-		pst.setString(7, event.getRoom().getRoomID());
+		pst.setString(7, event.getRoom().getRoomid());
 		pst.setString(8, event.getType().toString());
 		pst.setString(9, event.getStatus());
 		makeUpdate(pst);

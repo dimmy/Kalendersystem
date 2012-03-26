@@ -61,17 +61,7 @@ public class Event {
 
 		pclisteners = new ArrayList<PropertyChangeListener>();
 	}
-	
-	public Event(String eventdescription, String eventname, Date startTime, int timelength, String type, String place, String room, String status, String eventOwner){
-		this.eventdescription = eventdescription;
-		this.eventname = eventname;
-		this.eventowner = new UserRef(eventOwner);
-		this.status = status;
-		this.timeLength = timelength;
-		this.type = (type == "appointment") ? Type.appointment : Type.meeting; 
-		this.room = new RoomRef(room);
-		this.startTime = startTime;
-	}
+
 	
 	public void changeEvent() {
 		type = Type.meeting;
