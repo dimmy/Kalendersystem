@@ -8,6 +8,9 @@ import java.util.Date;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
+import no.ntnu.fp.model.ref.RoomRef;
+import no.ntnu.fp.model.ref.UserRef;
+
 /**
  * 
  * @author Myklatun
@@ -28,9 +31,9 @@ public class Event {
 	private int timeLength;
 	private Type type;
 	private String place;
-	private Room room;
+	private RoomRef room;
 	private String status;
-	private User eventowner;
+	private UserRef eventowner;
 
 	// Event listeners
 
@@ -135,13 +138,20 @@ public class Event {
 	}
 
 	public User getEventowner() {
-		return eventowner;
+		return eventowner.get();
 	}
 
 	public void setEventowner(User eventowner) {
 		PropertyChangeEvent e = new PropertyChangeEvent(this, "eventowner",
 				this.eventowner, eventowner);
-		this.eventowner = eventowner;
+		this.eventowner = new UserRef(eventowner);
+		firePropertyChangeEvent(e);
+	}
+
+	public void setEventowner(String eventownerusername) {
+		PropertyChangeEvent e = new PropertyChangeEvent(this, "eventowner",
+				this.eventowner, eventowner);
+		this.eventowner = new UserRef(eventownerusername);
 		firePropertyChangeEvent(e);
 	}
 
@@ -157,13 +167,20 @@ public class Event {
 	}
 
 	public Room getRoom() {
-		return room;
+		return room.get();
 	}
 
 	public void setRoom(Room room) {
 		PropertyChangeEvent e = new PropertyChangeEvent(this,
 				"room", this.room, room);
-		this.room = room;
+		this.room = new RoomRef(room);
+		firePropertyChangeEvent(e);
+	}
+
+	public void setRoom(String roomid) {
+		PropertyChangeEvent e = new PropertyChangeEvent(this,
+				"room", this.room, room);
+		this.room = new RoomRef(roomid);
 		firePropertyChangeEvent(e);
 	}
 
