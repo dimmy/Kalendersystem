@@ -42,7 +42,6 @@ public class MainServerConsole {
 		XMLInputFactory inputFactory = null;
 		XMLStreamReader xmlReader = null;
 		ServerSocket serverSocket = null;
-		PrintWriter out = null;
 
 		/**
 		 * Try to open connection
@@ -61,7 +60,6 @@ public class MainServerConsole {
 		 */
 		try {
 			clientSocket = serverSocket.accept();
-			out = new PrintWriter(clientSocket.getOutputStream(), true);
 		} catch (IOException e) {
 			System.err.println("Accept failed.");
 			System.exit(1);
@@ -121,7 +119,6 @@ public class MainServerConsole {
 					List<Event> events = conn.getEvents(xmlReader.getAttributeValue(null,"username"));
 					List<String> event = ClassToXMLConverter.EventFromClassToXML(events.get(1));
 					for (int i = 0; i < events.size(); i++) {
-						out.print(event.get(i));
 					}
 				}
 			case XMLStreamConstants.END_ELEMENT:

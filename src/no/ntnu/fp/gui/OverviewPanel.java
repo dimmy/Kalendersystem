@@ -92,6 +92,15 @@ public class OverviewPanel extends JPanel implements
 			}
 		});
 
+		btnLogOut.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.exit(0);
+				
+			}
+		});
+		
 		// Left side button panel
 
 		SpringLayout spring = new SpringLayout();
