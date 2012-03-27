@@ -28,10 +28,11 @@ public class Client {
 		XMLInputFactory inputFactory = null;
 		XMLStreamReader xmlReader = null;
 		
-		Event event = new Event(0,"fdsfds", "fdsfds", new Date(22), 2, "appointment", "dfsfds", "dfsadsa", "dsadsa", "test");
-		List<User> users = new ArrayList<User>();
-		users.add(new User("per", "per", "", 9));
-		users.add(new User("per", "per", "", 9));
+		Event event = new Event(0,"fdsfddss", "fdsfds", new Date(22), 2, "appointment", "dfsfds", "dfsadsa", "dsadsa", "test");
+		List<UserRef> users = new ArrayList<UserRef>();
+		users.add(new UserRef("test"));
+		users.add(new UserRef("knut"));
+//		String en = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
 //		String to = "<changeevent eventid=\"7\" eventdescription=\"Laangt\" place=\"Knuts kontor\" timelength = \"110\" name=\"personalfode\" leader=\"test\" type=\"appointment\">";
 //		String tre = "<addparticipants eventid = \"7\">";
 //		String fire = "<user username = \"perry\">";
@@ -57,24 +58,17 @@ public class Client {
 		for (int i = 0; i < meeting.size(); i++) {
 			out.println(meeting.get(i));
 		}
+//		out.print(en);
+//		out.print(to);
+//		out.print(tre);
+//		out.print(fire);
+//		out.print(fem);
+//		out.print(seks);
+//		out.print(sju);
+//		out.print(otte);
+//		out.print(ni);
 		
-//		XMLInputFactory factory = XMLInputFactory.newInstance();
-//		xmlReader = factory.createXMLStreamReader(kkSocket.getInputStream());
-//		while(xmlReader.hasNext()){
-//			switch (xmlReader.getEventType()) {
-//			case XMLStreamConstants.END_DOCUMENT:
-//				break;
-//			case XMLStreamConstants.START_ELEMENT:
-//				if(xmlReader.getName().toString() == "login"){
-//					
-//				}
-//				
-//				break;
-//			case XMLStreamConstants.START_DOCUMENT:
-//				break;
-//
-//			}
-//			xmlReader.next();
-//		}
+		out.close();
+
 	}
 }
