@@ -130,6 +130,7 @@ public class MeetingForm extends JPanel implements PropertyChangeListener,
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO: "Save" the event
+				save();
 				fireCloseAction();
 			}
 		});
@@ -282,13 +283,23 @@ public class MeetingForm extends JPanel implements PropertyChangeListener,
 		c.anchor = GridBagConstraints.EAST;
 		add(cancel, c);
 
+		/*
+		 * // Change listeners
+		 * fromField.getDocument().addDocumentListener(this);
+		 * toField.getDocument().addDocumentListener(this);
+		 * dateField.getDocument().addDocumentListener(this);
+		 * nameField.getDocument().addDocumentListener(this);
+		 * descriptionArea.getDocument().addDocumentListener(this);
+		 * place.addPlaceRoomSelectListener(this);
+		 */
+
 	}
 
 	public void setModel(Event model) {
-		if (model != null)
-			model.removePropertyChangedListener(this);
+		// if (model != null)
+		// model.removePropertyChangedListener(this);
 		this.model = model;
-		model.addPropertyChangedListener(this);
+		// model.addPropertyChangedListener(this);
 
 		fromField.setText(model.getFromText());
 		toField.setText(model.getToText());
@@ -296,14 +307,6 @@ public class MeetingForm extends JPanel implements PropertyChangeListener,
 		nameField.setText(model.getEventname());
 		descriptionArea.setText(model.getEventdescription());
 		place.setPlaceRoom(model.getPlace(), model.getRoom());
-
-		// Change listeners
-		fromField.getDocument().addDocumentListener(this);
-		toField.getDocument().addDocumentListener(this);
-		dateField.getDocument().addDocumentListener(this);
-		nameField.getDocument().addDocumentListener(this);
-		descriptionArea.getDocument().addDocumentListener(this);
-		place.addPlaceRoomSelectListener(this);
 	}
 
 	public Event getModel() {
@@ -343,23 +346,17 @@ public class MeetingForm extends JPanel implements PropertyChangeListener,
 
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
-		if (!locked) {
-			if (evt.getPropertyName() == "eventname") {
-				if (nameField.getText() != evt.getNewValue()) {
-					nameField.setText((String) evt.getNewValue());
-				}
-			}
-			if (evt.getPropertyName() == "eventdescription") {
-				if (descriptionArea.getText() != evt.getNewValue()) {
-					descriptionArea.setText((String) evt.getNewValue());
-				}
-			}
-			if (evt.getPropertyName() == "startTime" || evt.getPropertyName() == "timeLength") {
-				fromField.setText(model.getFromText());
-				toField.setText(model.getToText());
-			}
-			// TODO: Add more
-		}
+		/*
+		 * if (!locked) { if (evt.getPropertyName() == "eventname") { if
+		 * (nameField.getText() != evt.getNewValue()) {
+		 * nameField.setText((String) evt.getNewValue()); } } if
+		 * (evt.getPropertyName() == "eventdescription") { if
+		 * (descriptionArea.getText() != evt.getNewValue()) {
+		 * descriptionArea.setText((String) evt.getNewValue()); } } if
+		 * (evt.getPropertyName() == "startTime" || evt.getPropertyName() ==
+		 * "timeLength") { //fromField.setText(model.getFromText());
+		 * //toField.setText(model.getToText()); } // TODO: Add more }
+		 */
 	}
 
 	@Override
@@ -370,25 +367,18 @@ public class MeetingForm extends JPanel implements PropertyChangeListener,
 
 	@Override
 	public void changedUpdate(DocumentEvent e) {
-		lock();
-		if (e.getDocument() == nameField.getDocument()) {
-			model.setEventname(nameField.getText());
-		}
-		if (e.getDocument() == descriptionArea.getDocument()) {
-			model.setEventdescription(descriptionArea.getText());
-		}
-		if (e.getDocument() == fromField.getDocument()) {
-			model.setFromText(fromField.getText());
-			toField.setText(model.getToText());
-		}
-		if (e.getDocument() == toField.getDocument()) {
-			model.setToText(toField.getText());
-		}
-		if (e.getDocument() == dateField.getDocument()) {
-			model.setDateText(dateField.getText());
-		}
-		// TODO: Add more
-		unlock();
+		/*
+		 * lock(); if (e.getDocument() == nameField.getDocument()) {
+		 * model.setEventname(nameField.getText()); } if (e.getDocument() ==
+		 * descriptionArea.getDocument()) {
+		 * model.setEventdescription(descriptionArea.getText()); } if
+		 * (e.getDocument() == fromField.getDocument()) {
+		 * model.setFromText(fromField.getText());
+		 * toField.setText(model.getToText()); } if (e.getDocument() ==
+		 * toField.getDocument()) { model.setToText(toField.getText()); } if
+		 * (e.getDocument() == dateField.getDocument()) {
+		 * model.setDateText(dateField.getText()); } // TODO: Add more unlock();
+		 */
 	}
 
 	@Override
@@ -401,4 +391,17 @@ public class MeetingForm extends JPanel implements PropertyChangeListener,
 		changedUpdate(arg0);
 	}
 
+	public void save() {
+		if (model != null) {
+			Event tempmodel = new Event();
+			tempmodel.copyDataFrom(model);
+			tempmodel.setEventname(nameField.getText());
+			tempmodel.setEventdescription(descriptionArea.getText());
+			tempmodel.setFromText(fromField.getText());
+			tempmodel.setToText(toField.getText());
+			tempmodel.setPlace(place.getPlace());
+			tempmodel.setRoom(place.getRoom());
+			model.copyDataFrom(tempmodel);
+		}
+	}
 }

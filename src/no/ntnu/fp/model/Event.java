@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -263,10 +264,10 @@ public class Event {
 			SimpleDateFormat sdf_final = new SimpleDateFormat(
 					"yyyy-MM-dd HH:mm");
 			String fulldate = sdf_prefix.format(startTime) + " " + fromText;
-			setFrom(sdf_final.parse(fulldate));
+			Date time = sdf_final.parse(fulldate);
+			setFrom(time);
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			// Ignore invalid inputs
 		}
 	}
 
@@ -296,6 +297,39 @@ public class Event {
 			setFrom(sdf_final.parse(fulldate));
 		} catch (ParseException e) {
 			// Ignore invalid inputs
+		}
+	}
+
+	public void copyDataFrom(Event e) {
+		List<PropertyChangeEvent> evs = new ArrayList<PropertyChangeEvent>();
+
+		evs.add(new PropertyChangeEvent(this, "eventdescription",
+				e.eventdescription, eventdescription));
+		evs.add(new PropertyChangeEvent(this, "eventname", e.eventname,
+				eventname));
+		evs.add(new PropertyChangeEvent(this, "startTime", e.startTime,
+				startTime));
+		evs.add(new PropertyChangeEvent(this, "timeLength", e.timeLength,
+				timeLength));
+		evs.add(new PropertyChangeEvent(this, "type", e.type, type));
+		evs.add(new PropertyChangeEvent(this, "place", e.place, place));
+		evs.add(new PropertyChangeEvent(this, "room", e.room, room));
+		evs.add(new PropertyChangeEvent(this, "status", e.status, status));
+		evs.add(new PropertyChangeEvent(this, "eventowner", e.eventowner,
+				eventowner));
+
+		eventdescription = e.eventdescription;
+		eventname = e.eventname;
+		startTime = e.startTime;
+		timeLength = e.timeLength;
+		type = e.type;
+		place = e.place;
+		room = e.room;
+		status = e.status;
+		eventowner = e.eventowner;
+
+		for (PropertyChangeEvent ev : evs) {
+			firePropertyChangeEvent(ev);
 		}
 	}
 }

@@ -1,10 +1,14 @@
 package no.ntnu.fp.model;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class Calendar implements AbstractCalendar {
+import no.ntnu.fp.model.CalendarChangeEvent.Type;
+
+public class Calendar implements AbstractCalendar, PropertyChangeListener {
 	private ArrayList<Event> events;
 
 	private ArrayList<CalendarChangeEventListener> listeners;
@@ -17,14 +21,16 @@ public class Calendar implements AbstractCalendar {
 	public void addEvent(Event event) {
 		// TODO: check for duplicate before adding
 		events.add(event);
+		event.addPropertyChangedListener(this);
 		calendarChanged(CalendarChangeEvent.Type.ADDED);
 	}
 
 	public void removeEvent(Event event) {
 		events.remove(event);
+		event.removePropertyChangedListener(this);
 		calendarChanged(CalendarChangeEvent.Type.REMOVED);
 	}
-	
+
 	public void updateEvent(Event event) {
 		if (events.contains(event)) {
 			calendarChanged(CalendarChangeEvent.Type.CHANGED);
@@ -71,6 +77,11 @@ public class Calendar implements AbstractCalendar {
 			CalendarChangeEventListener listener) {
 		listeners.remove(listener);
 
+	}
+
+	@Override
+	public void propertyChange(PropertyChangeEvent evt) {
+		calendarChanged(CalendarChangeEvent.Type.CHANGED);
 	}
 
 }

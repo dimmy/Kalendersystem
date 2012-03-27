@@ -48,7 +48,7 @@ public class OverviewPanel extends JPanel implements
 	JPanel panTitle;
 
 	CalendarView calendarView;
-	
+
 	ClientSession session;
 
 	private CalendarPerspective perspective;
@@ -71,7 +71,7 @@ public class OverviewPanel extends JPanel implements
 				afFrame.add(new AppointmentForm());
 				afFrame.pack();
 				afFrame.setVisible(true);
-				//TODO: Fix this
+				// TODO: Fix this
 			}
 		});
 
@@ -243,7 +243,8 @@ public class OverviewPanel extends JPanel implements
 	}
 
 	public static void main(String[] args) {
-		ClientSession testSession = new ClientSession(new User("test", "Test user", "email@what.com", 1234));
+		ClientSession testSession = new ClientSession(new User("test",
+				"Test user", "email@what.com", 1234));
 		openWindow(testSession);
 	}
 
