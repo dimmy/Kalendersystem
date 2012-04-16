@@ -108,7 +108,7 @@ public class ConnectionImpl extends AbstractConnection {
      */
     public void send(String msg) throws ConnectException, IOException {
     	KtnDatagram packet = new KtnDatagram();
-    	packet.setSrc_addr("127.0.0.1");
+    	packet.setSrc_addr(getIPv4Address());
     	packet.setSrc_port(port);
     	packet.setDest_addr(rAddr.getHostAddress());
     	packet.setDest_port(rPort);
