@@ -39,6 +39,8 @@ public class ConnectionImpl extends AbstractConnection {
 	/** Keeps track of the used ports for each server port. */
 	private static Map<Integer, Boolean> usedPorts = Collections
 			.synchronizedMap(new HashMap<Integer, Boolean>());
+			
+	boolean isSending = false;
 
 	/**
 	 * Initialise initial sequence number and setup state machine.
@@ -96,6 +98,8 @@ public class ConnectionImpl extends AbstractConnection {
 				try {
 					new ClSocket().send(SYN);
 					sent = true;
+					
+					// TODO: håndter ClException?
 				} catch (ConnectException e) {
 					try {
 						Thread.sleep(100);
@@ -115,15 +119,23 @@ public class ConnectionImpl extends AbstractConnection {
 			do {
 				SYNACK = receiveAck();
 			} while (SYNACK == null);
+			
+			//TODO: check validity of synack packet
 
 			this.remoteAddress = SYNACK.getSrc_addr();
 			this.remotePort = SYNACK.getSrc_port();
+			
+			lastValidPacketReceived = SYNACK;
+			
 			sendAck(SYNACK, false);
+			
+			//TODO: review 1000ms wait in lf
+			
+			state = State.ESTABLISHED;
 
 		} catch (Exception e) {
 			throw new ConnectException("Could not connect");
 		}
-		state = State.ESTABLISHED;
 	}
 
 	/**
@@ -136,7 +148,7 @@ public class ConnectionImpl extends AbstractConnection {
 		state = State.LISTEN;
 		KtnDatagram SYN = null;
 
-		while (!isValid(SYN) || SYN.getFlag() != Flag.SYN) {
+		while (SYN == null || SYN.getFlag() != Flag.SYN) {
 			SYN = receivePacket(true);
 		}
 		ConnectionImpl connection = new ConnectionImpl(findUnusedPort());
@@ -144,19 +156,22 @@ public class ConnectionImpl extends AbstractConnection {
 		connection.remoteAddress = SYN.getSrc_addr();
 		connection.remotePort = SYN.getSrc_port();
 		connection.state = State.SYN_RCVD;
-
+		
+		//TODO: review 1000ms wait
 		connection.sendAck(SYN, true);
-		while (connection.receiveAck() == null)
-			;
+		
+		KtnDatagram ACK = connection.receiveAck();
+		if (!isValid(ACK)) throw new IOException("Invalid ACK");
+		connection.lastValidPacketReceived = ACK;
 		connection.state = State.ESTABLISHED;
 		return connection;
 	}
 
 	private int findUnusedPort() {
-		int port;
-		do {
-			port = 10000 + (int) (Math.random() * 10000);
-		} while (usedPorts.containsKey(port));
+		int port = 10000;
+		while (usedPorts.containsKey(port)) {
+			port++;
+		}
 		return port;
 	}
 
@@ -176,15 +191,36 @@ public class ConnectionImpl extends AbstractConnection {
 		if (state != State.ESTABLISHED) {
 			throw new ConnectException("Connection is not established");
 		}
+		
+		while (isSending) {
+			try { Thread.sleep(10); } catch (InterruptedException e) {}
+		}
+		isSending = true;
+		
 		boolean sent = false;
+		int tries = 3;
 		while (!sent) {
 			try {
-				sendDataPacketWithRetransmit(constructDataPacket(msg));
+				KtnDatagram ACK = null;
+				KtnDatagram packet = constructDataPacket(msg);
+				while ((ACK == null || !isValid(ACK) || ACK.getFlag() != Flag.ACK || ACK.getAck() < packet.getSeq_nr()) && tries > 0) {
+					tries--;
+					ACK = sendDataPacketWithRetransmit(packet);
+				}
+				
+				if (ACK == null) {
+					return;
+				}
+				
+				if (ACK.getSeq_nr() > lastValidPacketReceived.getSeq_nr()) lastValidPacketReceived = ACK;
+				
 				sent = true;
 			} catch (Exception e) {
 
 			}
 		}
+		
+		isSending = false;
 	}
 
 	/**
@@ -199,20 +235,41 @@ public class ConnectionImpl extends AbstractConnection {
 		if (state != State.ESTABLISHED) {
 			throw new ConnectException("connection is not established");
 		}
-		boolean received = false;
+		
+		int tries = 3;
 		KtnDatagram dataPacket = null;
 
-		while (!received || !isValid(dataPacket)) {
-			try {
-				dataPacket = receivePacket(false);
-				lastValidPacketReceived = dataPacket;
-				received = true;
-				sendAck(dataPacket, false);
-			} catch (Exception e) {
-
+		while (tries > 0) {
+			tries--;
+			try { dataPacket = receivePacket(false); }
+			catch (EOFException e) {
+				if (disconnectRequest != null) {
+					sendAck(disconnectRequest, false);
+					state = State.CLOSE_WAIT;
+					throw e;
+				}
+				else {
+					sendAck(lastValidPacketReceived, false);
+					continue;
+				}
 			}
+			if (dataPacket.getFlag() == Flag.NONE
+				&& isValid(dataPacket)
+				&& lastValidPacketReceived.getSeq_nr() 
+					< dataPacket.getSeq_nr()
+				&& lastValidPacketReceived.getSeq_nr()+2 
+					>= dataPacket.getSeq_nr()) {
+				
+				lastValidPacketReceived = dataPacket;
+				sendAck(dataPacket, false);
+				return dataPacket.toString();	
+			}
+			sendAck(lastValidPacketReceived, false);
+			
 		}
-		return (String) lastValidPacketReceived.getPayload();
+		if (dataPacket != null) lastValidPacketReceived = dataPacket;
+
+		return receive();	
 	}
 
 	/**
@@ -221,39 +278,45 @@ public class ConnectionImpl extends AbstractConnection {
 	 * @see Connection#close()
 	 */
 	public void close() throws IOException {
-		if (state != State.ESTABLISHED) {
-			throw new ConnectException("connection is not established");
+		if (state != State.ESTABLISHED && state != State.CLOSE_WAIT) {
+			throw new ConnectException("connection is not established (State="+state+")");
 		}
 		KtnDatagram finPacket = constructInternalPacket(Flag.FIN);
-		sendDataPacketWithRetransmit(finPacket);
-		state = State.FIN_WAIT_1;
-
-		lastValidPacketReceived = receiveAck();
-		if (lastValidPacketReceived == null) {
-			throw new ConnectException(
-					"Unexpected response received while disconnecting");
-		}
-		state = State.FIN_WAIT_2;
-
-		lastValidPacketReceived = receivePacket(true);
-		if (lastValidPacketReceived.getFlag() != Flag.FIN) {
-			throw new ConnectException(
-					"Unexpected response received while disconnecting") {
-
-			};
-		} else {
-			lastValidPacketReceived = receiveAck();
-			if (lastValidPacketReceived == null) {
-				throw new ConnectException(
-						"Unexpected response received while disconnecting") {
-
-				};
+		KtnDatagram ACK = null;
+		
+		State initstate = state;
+		
+		while (ACK == null || !isValid(ACK) || ACK.getFlag() != Flag.ACK) {
+			state = initstate;
+		
+			try { simplySendPacket(finPacket); }
+			catch (Exception e) {}
+			
+			if (disconnectRequest != null) {
+				state = State.LAST_ACK;
+			} else {
+				state = State.FIN_WAIT_1;
 			}
+			
+			ACK = receiveAck();
 		}
-		state = State.TIME_WAIT;
-		try {
-			Thread.sleep(30000);
-		} catch (InterruptedException e) {
+		
+		if (ACK.getSeq_nr() > lastValidPacketReceived.getSeq_nr()) {
+			lastValidPacketReceived = ACK;
+		}
+
+		if (disconnectRequest == null) {
+			state = State.FIN_WAIT_2;
+			finPacket = null;
+			while (!isValid(finPacket)) {
+				finPacket = receivePacket(true);
+			}
+			sendAck(finPacket, false);
+
+			state = State.TIME_WAIT;
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {}
 		}
 		state = State.CLOSED;
 	}
